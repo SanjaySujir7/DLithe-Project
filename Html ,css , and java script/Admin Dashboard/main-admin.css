@@ -1,0 +1,323 @@
+body{
+    background-color: #1b203d;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+html{
+    box-sizing: border-box;
+}
+
+.Head{
+    display: flex;
+    background-color: #1b203d;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.Main-sec{
+   
+    box-sizing: border-box;
+
+}
+
+.Header{
+    flex-grow: 1;
+    height: 70px;
+}
+
+h1{
+    text-align: center;
+    font-family: "Trebuchet MS", Helvetica, sans-serif ;
+    color: beige;
+}
+
+.Header header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+
+
+.imformation-dv{
+    display: grid;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-height: 150px;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 30px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.Total-Students{
+    min-height: 180px;
+    background-color: #30365c;
+    /* margin-left: 50px; */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    /* border-bottom: 7px solid rgb(19, 20, 85); */
+}
+
+.Total-Students h2 {
+    font-size: 15px;
+    text-align: center;
+    color: rgb(163, 159, 159);
+}
+
+.Total-Students-Header{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.Total-Students-content{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Total-Students-content h2{
+   
+    text-align: center;
+    font-size: 40px;
+    color: rgb(194, 199, 202);
+}
+
+.Institution-imformation{
+    background-color:#30365c ;
+    height: 300px;
+    /* width: 800px; */
+    border-radius: 10px;
+  
+}
+
+.Institution-header{
+    margin-left: 50px;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    color: rgb(160, 43, 43);
+    
+}
+
+.Institution-div-header{
+    display: flex;
+    margin-top: 30px;
+    border-bottom: 1px solid white;
+    padding-bottom: 20px;
+    padding-left: 10px;
+}
+
+.Ins-Name-div{
+    flex-grow: 1;
+ 
+}
+
+.Ins-Name-div h3{
+    margin-left: 10px;
+    color: rgb(250, 248, 245);
+    font-size: 15px;
+}
+
+.Ins-city-div{
+    flex-grow: 1;
+    max-width: 180px;
+    color: white;
+}
+
+.Ins-city-div h3{
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.Institution-main-sec{
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 180px;
+}
+
+.Institution-main-imf-div{
+    display: flex;
+    padding-left: 20px;
+    padding-top: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+    padding-bottom: 10px;
+}
+
+.Inst-city-imf-div {
+    max-width: 180px;
+    margin-left: 10px;
+    flex-grow: 1;
+}
+
+.Inst-Name{
+    flex-grow: 1;
+ 
+}
+
+h4 {
+    font-size: 13px;
+    color: rgb(184, 174, 174);
+}
+
+.Profile-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 55px;
+    border-radius: 50px;
+}
+
+.Profile-div:hover {
+    background-color: #30365c5b;
+    cursor: pointer;
+}
+
+.Profile-Piture{
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: purple;
+    text-align: center;
+    display: flex;
+    justify-content:center ;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.Profile-Piture h3{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 3px;
+}
+
+
+.Account h3{
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.imformation-div-sec{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding-left: 30px;
+    padding-right: 30px;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.container{
+    box-sizing: border-box;
+}
+
+.right-side-sec{
+    background-color:#30365c ;
+    height: 300px;
+    /* width: 800px; */
+    border-radius: 10px;
+}
+
+@media screen and (max-width:700px){
+    .imformation-div-sec{
+        grid-template-columns: 1fr;
+    }
+}
+
+.right-side-sec-button{
+    background-color: rgb(23, 23, 87);
+    border: none;
+    color: rgb(173, 169, 169);
+    font-weight: bold;
+    width: 100px;
+    height: 30px;
+    
+}
+
+.right-side-sec-button:hover{
+    background-color: rgb(53, 53, 173);
+    cursor: pointer;
+}
+
+.right-side-sec-button:active{
+    opacity: 0.5;
+}
+
+
+#Dialog{
+    height: 400px;
+    width: 500px;
+}
+
+h2{
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 30px;
+}
+
+.Dialog-main{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+   
+}
+
+#csv-file{
+    margin-left: 100px;
+    
+}
+
+.Button-dialog-div{
+    margin-top: 150px;
+    display: flex;
+    justify-content: end;
+}
+
+#Button-Dialog-ok{
+    background-color: rgb(66, 66, 184);
+    color: white;
+    border: 0;
+    margin-right: 30px;
+    height: 40px;
+    width: 100px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#Button-Dialog-ok:hover{
+    background-color: blue;
+    cursor: pointer;
+}
+
+#Button-Dialog-ok:active{
+    opacity: 0.5;
+}
+
+#Button-Dialog-cancel{
+    color: black;
+    border: 2px solid black;
+    margin-right: 30px;
+    height: 40px;
+    width: 100px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#Button-Dialog-cancel:hover{
+    background-color: gray;
+    cursor: pointer;
+    color: aliceblue;
+}
+
+#Button-Dialog-cancel:active{
+        opacity: 0.5;
+}

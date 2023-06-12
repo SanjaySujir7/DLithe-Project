@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href={{url_for('static',filename='css/style.css')}}>
+    <title>Admin | Login</title>
+</head>
+<body>
+    <section>
+        <main>
+            <form id='form' action="/login-data" method='post'>
+                <div class="imgcontainer">
+                    <img src="{{url_for('static',filename='/img/Login_icon.png')}}" alt="Avatar" class="avatar">
+                </div>
+        
+                <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Email or User Name" name="uname" id='user_field' required>
+        
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Password" name="psw" id="Password_field" required>
+        
+                    <button type="submit" id="Submit_Button">Login</button>
+                    <label>
+                    <input type="checkbox" id="checkbox" onchange="Toggle_Password()"> Show Password
+                    </label>
+                </div>
+        
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </main>
+    </section>
+    <script>
+        error = '{{error}}'
+    </script>
+    <script src={{url_for('static',filename="/js/index.js")}}></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Dash Board</title>
+    <link rel="stylesheet" href="navdrawer.css">
+    <link rel="stylesheet" href="main-admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="container">
+        <section class="Head">
+            <div class="span-div" id="span-div" title="Navigation Menu"> 
+                <span class="nav-span-d" style="margin-bottom: 3px;"></span>
+                <span class="nav-span-d" style="margin-bottom: 3px;"></span>
+                <span class="nav-span-d" style="margin-bottom: 3px;"></span>
+            </div>
+            <div class="Header">
+                <header>
+                    <h1>
+                        Admin
+                    </h1>
+                </header>
+            </div>
+            <div class="Profile-div" title="Profile">
+                <div class="Profile-Piture" onclick="Dialog_Popup()"><h3>s</h3></div>  
+            </div>
+        </section>
+        <div class="Side-Bar" id="Side-Bar">
+            <div class="Side-Bar-Span" id="Side-Bar-Span" title="Navigation menu close">
+                <span class="nav-span" style="margin-bottom: 3px;"></span>
+                <span class="nav-span" style="margin-bottom: 3px;"></span>
+                <span class="nav-span" style="margin-bottom: 3px;"></span>
+            </div>
+            <div class="Content">
+                <div class="Nav-Drawer-list"><i class='bx bxs-home'></i>Home&nbsp; &nbsp; &nbsp;</div>
+                <div class="Nav-Drawer-list" style="margin-top: 0px;"><i class='bx bxs-group'></i>Students</div>
+
+            </div>
+        </div>
+        <main class="Main-sec">
+            <div class="imformation-dv"> 
+                <div class="Total-Students">
+                    <div class="Total-Students-Header">
+                        <h2>Current Training Students</h2>
+                    </div>
+                    <div class="Total-Students-content">
+                        <h2 class="h2-70" value="70">70</h2>
+                    </div>
+                </div>
+                <div class="Total-Students">
+                    <div class="Total-Students-Header">
+                        <h2>Total Number of Teachers</h2>
+                    </div>
+                    <div class="Total-Students-content">
+                        <h2 class="h2-70" value="50">50</h2>
+                    </div>
+                </div>
+                <div class="Total-Students">
+                    <div class="Total-Students-Header">
+                        <h2>Total Number of Students Trained</h2>
+                    </div>
+                    <div class="Total-Students-content">
+                        <h2 class="h2-70" value="2000">2000</h2>
+                    </div>
+                </div>
+            </div>
+            <section class="imformation-div-sec">
+                <div class="Institution-imformation">
+                    <div class="Institution-header">
+                        <h3>Institutions </h3>
+                    </div>
+                    <div class="Institution-div-header">
+                        <div class="Ins-Name-div">
+                            <h3>Name</h3>
+                        </div>
+                        <div class="Ins-city-div">
+                            <h3>city</h3>
+                        </div>
+                        <div class="Ins-city-div">
+                            <h3>District</h3>
+                        </div>
+                    </div>
+                    <div class="Institution-main-sec">
+                         <div class="Institution-main-imf-div">
+                            <div class="Inst-Name">
+                                <h4>MITE</h4>
+                            </div>
+                            <div class="Inst-city-imf-div">
+                                <h4>Moodubidri</h4>
+                            </div>
+                            <div class="Inst-city-imf-div">
+                                <h4>Dakshina Kannada</h4>
+                            </div>
+                         </div>                  
+                    </div>
+                </div>
+                <div class="right-side-sec">
+                    <div style="display: flex; justify-content :center ; margin-top : 10px ; ">
+                        <Button class="right-side-sec-button" id="right-side-sec-button">
+                            Import
+                        </Button>
+                        <dialog id="Dialog">
+                            <div class="Dialog-main-div">
+                                <div>
+                                    <h2>Import External File</h2>
+                                </div>
+                                <div class="Dialog-main">
+                                    <input type="file" name="csv_file" id="csv-file">
+                                </div>
+                                <div class="Button-dialog-div">
+                                    <button id="Button-Dialog-ok">
+                                        ok
+                                    </button>
+                                    <button id="Button-Dialog-cancel">
+                                        cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </dialog>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="nav_drawer.js"></script>
+    <script src="main-admin.js"></script>
+</body>
+</html>

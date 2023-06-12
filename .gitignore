@@ -1,0 +1,15 @@
+# Python Files
+__pycache__/
+
+#virtual Enviroment 
+venv/
+
+
+#Files
+random_data.csv
+Students_info.csv
+Students.csv
+
+
+
+

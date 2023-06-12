@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Dash Board</title>
+    <link rel="stylesheet" href={{url_for('static',filename='css/navdrawer.css')}}>
+    <link rel="stylesheet" href={{url_for('static',filename='css/main-admin.css')}}>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="container">
+        <section class="Head">
+            <div class="span-div" id="span-div" title="Navigation Menu"> 
+                <span class="nav-span-d" style="margin-bottom: 3px;"></span>
+                <span class="nav-span-d" style="margin-bottom: 3px;"></span>
+                <span class="nav-span-d" style="margin-bottom: 3px;"></span>
+            </div>
+            <div class="Header">
+                <header>
+                    <h1>
+                        Admin
+                    </h1>
+                </header>
+            </div>
+            <div class="Profile-div" title="Profile">
+                <div class="Profile-Piture" onclick="Dialog_Popup()"><h3>s</h3></div>  
+            </div>
+        </section>
+        <div class="Side-Bar" id="Side-Bar">
+            <div class="Side-Bar-Span" id="Side-Bar-Span" title="Navigation menu close">
+                <span class="nav-span" style="margin-bottom: 3px;"></span>
+                <span class="nav-span" style="margin-bottom: 3px;"></span>
+                <span class="nav-span" style="margin-bottom: 3px;"></span>
+            </div>
+            <div class="Content">
+                <div class="Nav-Drawer-list"><i class='bx bxs-home'></i>Home&nbsp; &nbsp; &nbsp;</div>
+                <a href={{url_for('Students_DashBoard')}}><div class="Nav-Drawer-list" style="margin-top: 0px;"><i class='bx bxs-group'></i>Students</div></a>
+                <form class="Nav-Drawer-list logout-button" method='post' action='/log-out'  id='logout-form'>
+                    <span class="material-symbols-outlined">
+                        logout
+                    </span>
+                    Log out
+                </form>
+            </div>
+        </div>
+        <main class="Main-sec">
+            <div class="imformation-dv"> 
+                <div class="Total-Students">
+                    <div class="Total-Students-Header">
+                        <h2>Current Training Students</h2>
+                    </div>
+                    <div class="Total-Students-content">
+                        <h2 class="h2-70" value="70">70</h2>
+                    </div>
+                </div>
+                <div class="Total-Students">
+                    <div class="Total-Students-Header">
+                        <h2>Total Number of Teachers</h2>
+                    </div>
+                    <div class="Total-Students-content">
+                        <h2 class="h2-70" value="50">50</h2>
+                    </div>
+                </div>
+                <div class="Total-Students">
+                    <div class="Total-Students-Header">
+                        <h2>Total Number of Students Trained</h2>
+                    </div>
+                    <div class="Total-Students-content">
+                        <h2 class="h2-70" value="2000">2000</h2>
+                    </div>
+                </div>
+            </div>
+            <section class="imformation-div-sec">
+                <div class="Institution-imformation">
+                    <div class="Institution-header">
+                        <h3>Institutions</h3>
+                    </div>
+                    <div class="Institution-div-header">
+                        <div class="Ins-Name-div">
+                            <h3>Name</h3>
+                        </div>
+                        <div class="Ins-city-div">
+                            <h3>city</h3>
+                        </div>
+                        <div class="Ins-city-div">
+                            <h3>District</h3>
+                        </div>
+                    </div>
+                    <div class="Institution-main-sec">
+                         <div class="Institution-main-imf-div">
+                            <div class="Inst-Name">
+                                <h4>MITE</h4>
+                            </div>
+                            <div class="Inst-city-imf-div">
+                                <h4>Moodubidri</h4>
+                            </div>
+                            <div class="Inst-city-imf-div">
+                                <h4>Dakshina Kannada</h4>
+                            </div>
+                         </div>                  
+                    </div>
+                </div>
+                <div class="right-side-sec">
+                    <div style="display: flex; justify-content :center ; margin-top : 10px ; ">
+                        
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src={{url_for('static',filename='js/nav_drawer.js')}}></script>
+    <script src={{url_for('static',filename='js/main-admin.js')}}></script>
+</body>
+</html>
