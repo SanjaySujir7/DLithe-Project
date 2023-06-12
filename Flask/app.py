@@ -8,7 +8,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-
+@app.route('/')
+def Students_Info_Dashboard ():
+    return render_template('students_imf_DashBoard.html')
 
 @app.route('/student-login')
 def Studets_Login ():
