@@ -10,7 +10,66 @@ app = Flask(__name__)
 
 @app.route('/')
 def Students_Info_Dashboard ():
-    return render_template('students_imf_DashBoard.html')
+    
+    if 'Student_First_Name' in session and "Student_Last_Name" in session:
+    
+        return render_template('students_imf_DashBoard.html')
+    
+    else:
+        return redirect('/student-login')
+    
+    
+    
+@app.route('/student-login-data',methods=['POST'])
+def Student_Login_Data_Handle ():
+    Name_Email = request.form['Name_Email']
+    Password = request.form['Password']
+    
+    if Name_Email and Password :
+        
+        Name_Email_Password_Found = False
+        
+        Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            Password = "admin",
+            database = 'sis'
+        )
+        
+        cursor = Mydb.cursor()
+        
+        if "@" in Name_Email and ".com" in Name_Email :
+            
+            cursor.execute("SELECT * FROM sis.students WHERE Email = %s AND Password = %s",(Name_Email,Password,))
+            
+            data = cursor.fetchall()
+            
+            if data:
+                if Name_Email == data[0][0] and Password == data[0][1]:
+                    Name_Email_Password_Found = True
+            
+            else:
+                Name_Email_Password_Found = False
+        
+        else:
+            cursor.execute("SELECT * FROM sis.students WHERE First_Name = %s AND Password = %s",(Name_Email,Password,))
+            
+            data = cursor.fetchall()
+            
+            if data:
+                if Name_Email == data[0][0] and Password == data[0][1]:
+                    Name_Email_Password_Found = True
+            
+            else:
+                Name_Email_Password_Found = False
+                
+        if Name_Email_Password_Found :
+            session.clear()
+            
+        
+    else:
+        return redirect('/student-login')
+
 
 @app.route('/student-login')
 def Studets_Login ():
@@ -463,7 +522,8 @@ def Login_process():
                 Pass = data[0][3]
                 
                 if Name == Name_Email.lower() and Pass == Password:
-            
+                    session.clear()
+                    
                     session['Name'] = data[0][0]
                     session['Last'] = data[0][1]
                     session['Email'] = data[0][2]
@@ -473,6 +533,7 @@ def Login_process():
         mydb.close()
              
         if Name_Email_found:
+
             try:
                 session['login_error'] = 'none'
             

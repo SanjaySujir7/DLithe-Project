@@ -13,7 +13,7 @@
 </head>
 <body>
     <main class="Main-Container">
-        <form class="Login-Page-Form" id="Login-Page-Form">
+        <form class="Login-Page-Form" id="Login-Page-Form" action="/student-login-data" method = "post">
             <header>
                 <div>
                     <img src="{{url_for('static',filename = 'img/Dlithe_logo.png')}}">
@@ -21,11 +21,11 @@
                 <h1>Login</h1>
             </header>
             <div class="Login-From-DIvs">
-                <input type="text" placeholder="Name or Email" class="Login-form-Input" id="Name-Input" required>
+                <input type="text" placeholder="Name or Email" class="Login-form-Input" id="Name-Input" name= "Name_Emai" required>
                 <p  class="Error-Label">First Name or Email required</p>
             </div>
             <div class="Login-From-DIvs">
-                <input type="password" placeholder="Password" class="Login-form-Input" id="Password-Input" required>
+                <input type="password" placeholder="Password" class="Login-form-Input" id="Password-Input" name= "Password" required>
                 <span class="material-symbols-outlined" id="Span-Eye">
                     visibility
                 </span>
