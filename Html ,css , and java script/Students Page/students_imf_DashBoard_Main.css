@@ -41,3 +41,46 @@
     margin-top: 5px;
 
 }
+
+.Main-Icon-Course-Div i{
+    font-size: 4rem;
+    color: brown;
+}
+
+#Profile-Dialog{
+    height: 500px;
+    width: 400px;
+    transform: translateY(-150%);
+    transition: transform 0.3s;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    border-radius: 20px;
+    box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.349);
+}
+
+#Profile-Dialog.pop{
+    transform: translateY(0%);
+}
+
+#Profile-Dialog.go {
+    transform: translateY(-150%);
+}
+
+.dialog-profile-header{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#close-Dialog-profile{
+    position: absolute;
+    top:5px;
+    right:5px;
+}
+
+#close-Dialog-profile:hover{
+    color: rgb(99, 94, 94);
+    cursor: pointer;
+}

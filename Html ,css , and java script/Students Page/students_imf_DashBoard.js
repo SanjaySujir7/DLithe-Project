@@ -8,6 +8,9 @@ Nav_Mobile_CLose = document.getElementById('Close-Nav-MObile');
 let Course_Sub_Menu = document.getElementById('COurse-Side-Nav-DropDown'),
 Course_Sub_Menu_Div = document.getElementById('Progrmes-side-nav-dropdown');
 
+let Profile_Popup_Button = document.getElementById("Profile-Popup-see-Profile"),
+Profile_Dialog = document.getElementById('Profile-Dialog'),
+Profile_Dialog_CLose = document.getElementById('Dialog-Profile-CLose-id');;
 
 
 
@@ -72,4 +75,19 @@ Course_Sub_Menu.addEventListener('click',function(){
         Course_Sub_Menu_State = false;
         Course_Sub_Menu_Div.classList.remove('hide');
     }
+})
+
+
+Profile_Popup_Button.addEventListener("click",function(){
+    Profile_Dialog.showModal();
+    Profile_Dialog.classList.add('pop');
+})
+
+Profile_Dialog_CLose.addEventListener('click',function(){
+    Profile_Dialog.classList.remove('pop');
+    Profile_Dialog.classList.add('go');
+    Profile_Dialog.classList.remove('go');
+    setTimeout(function(){
+        Profile_Dialog.close();
+    },200)
 })

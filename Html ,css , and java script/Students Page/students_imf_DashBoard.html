@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script src="https://kit.fontawesome.com/89dab0141f.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="Header-Page" id="Header-Page">
@@ -33,7 +34,7 @@
         </div>
     </header>
     <div class="Profile-Hover-Aside" id="Profile-Hover-Aside" onmouseleave="Hide_Hover_Div()">
-        <div>
+        <div id="Profile-Popup-see-Profile">
             <h5>Profile</h5>
         </div>
         <div>
@@ -62,48 +63,36 @@
                         school
                     </span>
                     Programs
-                    <span class="material-symbols-outlined">
-                        expand_more
-                    </span>
                 </ul>
             </li>
         </div>   
-        <div class="Progrmes-side-nav-dropdown" id="Progrmes-side-nav-dropdown">
-            <li>
-                <ul>Internship</ul>
-                <ul>Certification Programs</ul>
-                <ul>Bootcamp</ul>
-            </li>
-        </div> 
     </section>
     <Main class="Main-Page" id="Main-Page">
         <div class="imformation-main-section">
             <div class="Main-Course-Details-Div">
                 <div>
                     <h4>
-                        Course
+                        Program
                     </h4>
                 </div>
                 <div class="Main-Icon-Course-Div">
-                    <span class="material-symbols-outlined" style="color: rgb(27, 103, 126);">
-                        precision_manufacturing
+                    <span class="material-symbols-outlined">
+                        school
                     </span>
                 </div>
                 <div class="Main-Course-Text">
-                    <h5>Machine Learning</h5>
+                    <h5>Internship</h5>
                 </div>
             </div>
             <div class="Main-Course-Details-Div">
                 <div>
-                    <h4>Mode</h4>
+                    <h4>Course</h4>
                 </div>
                 <div class="Main-Icon-Course-Div">
-                    <span class="material-symbols-outlined" style="color: rgb(148, 106, 28);">
-                        public
-                    </span>
+                    <i class="fa-solid fa-microchip" style="color:rgb(82, 82, 212); margin-bottom:10px;"></i>
                 </div>
                 <div class="Main-Course-Text">
-                    <h5>Online</h5>
+                    <h5>Iot</h5>
                 </div>
             </div>
             <div class="Main-Course-Details-Div">
@@ -121,6 +110,24 @@
             </div>
         </div>
     </Main>
+    <section>
+        <dialog id="Profile-Dialog">
+            <div class="dialog-profile-header">
+                <div style="display: flex; justify-content:center; align-items:center; height:100%;">
+                    <i class="fa-regular fa-user" style="font-size: 5rem; margin-top:50px;"></i>
+                </div>
+                <div id="close-Dialog-profile">
+                    <i class="fa-solid fa-circle-xmark" style="font-size: 2rem;" id="Dialog-Profile-CLose-id"></i>
+                </div>
+            </div>
+            <div class="dialog-profile-body">
+
+            </div>
+            <div class="dialog-profile-footer">
+
+            </div>
+        </dialog>
+    </section>
     <script>
         let Profile_Hover_Div = document.getElementById('Profile-Hover-Aside');
 
