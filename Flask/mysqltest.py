@@ -12,7 +12,7 @@ c = mydb.cursor()
 
 # c.execute("""CREATE TABLE students (First_Name varchar(50), Last_Name varchar(50), Phone char(20),
 #           Email varchar(100) , Register_Number char(50) , Institution_Name varchar(300),Mode char(30), Course_Name varchar(200),
-#           Total char(50), Entry_Date DATETIME,Payment_Status char(20), Inst_Key varchar(200));
+#           Total char(50), Entry_Date DATETIME,Payment_Status char(20), Inst_Key varchar(200), Password varchar(50));
 #           """)
 
 
@@ -29,7 +29,8 @@ c = mydb.cursor()
 
 # c.execute("DROP TABLE students;")
 
-mydb.commit()
+
+# mydb.commit()
 
 
 c.execute("SELECT * FROM students;")

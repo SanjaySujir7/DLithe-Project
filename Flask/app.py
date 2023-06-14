@@ -1,8 +1,8 @@
 
-from flask import Flask, jsonify,render_template,request, send_file,session,redirect
+from flask import Flask, jsonify,render_template,request, send_file,session,redirect,flash
 import mysql.connector
 import csv
-from Process import DateTimeProcess,Inst_Process
+from Process import DateTimeProcess,Inst_Process,Random_Password
 from time import time
 from datetime import datetime
 
@@ -32,7 +32,7 @@ def Student_Login_Data_Handle ():
         Mydb = mysql.connector.connect(
             host = "localhost",
             user = "root",
-            Password = "admin",
+            password = "admin",
             database = 'sis'
         )
         
@@ -45,7 +45,7 @@ def Student_Login_Data_Handle ():
             data = cursor.fetchall()
             
             if data:
-                if Name_Email == data[0][0] and Password == data[0][1]:
+                if Name_Email == data[0][3] and Password == data[0][-1]:
                     Name_Email_Password_Found = True
             
             else:
@@ -55,9 +55,9 @@ def Student_Login_Data_Handle ():
             cursor.execute("SELECT * FROM sis.students WHERE First_Name = %s AND Password = %s",(Name_Email,Password,))
             
             data = cursor.fetchall()
-            
+            print(data)
             if data:
-                if Name_Email == data[0][0] and Password == data[0][1]:
+                if Name_Email == data[0][0] and Password == data[0][-1]:
                     Name_Email_Password_Found = True
             
             else:
@@ -66,8 +66,19 @@ def Student_Login_Data_Handle ():
         if Name_Email_Password_Found :
             session.clear()
             
+            session.permanent = True
+            session["Student_First_Name"] = data[0][0]
+            session["Student_Last_Name"] = data[0][1]
+            
+            return redirect('/')
+            
+        else:
+            flash("Account Does not Exists!",'error')
+            
+            return redirect('/student-login')
         
     else:
+        flash("Data is Not valid!. seems like javascript is manuplated !",'error')
         return redirect('/student-login')
 
 
@@ -126,11 +137,12 @@ def Add_Student ():
                     pass
                 
             else:
-            
+                Password = Random_Password(10).Generate()
+                
                 cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                             Email , Register_Number, Institution_Name, Mode,Course_Name,
-                            Total, Entry_Date,Payment_Status,Inst_Key) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key))
+                            Total, Entry_Date,Payment_Status,Inst_Key,Password) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password))
             
                 
                 Mydb.commit()
@@ -435,11 +447,12 @@ def Import_File ():
                     
                     Entry_Date = DateTimeProcess(Entry_Date).Get()
                     Inst_Key = Inst_Process(Register_Number,Institution_Name).Process()
+                    Password = Random_Password(10).Generate()
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
-                        Total, Entry_Date,Payment_Status,Inst_Key) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key))
+                        Total, Entry_Date,Payment_Status,Inst_Key,Password) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password))
             
             Mydb.commit()
             cursor.close()

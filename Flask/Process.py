@@ -1,4 +1,5 @@
-import inst_Name
+import inst_Name 
+from random import choice
 
 class DateTimeProcess:
     def __init__(self,Date_Time):
@@ -54,5 +55,27 @@ class Inst_Process:
         
         else:
             return inst_Name.Students_Inst_Names[New_reg]
+        
+
+class Random_Password:
+    
+    def __init__ (self,length):
+        self.length = int(length)
+        
+        assert  str(length).isdigit(),"length must be intiger not string"
+        
+        
+    def Generate(self):
+        if self.length <= 0:
             
+            raise Exception("length must be greater than 0")
+        
+        else:
+            Random_Strings = "abcdefghijklmnopqrstuvwxyz1234567890"
+            
+            Password_List = [choice(Random_Strings) for _ in range(self.length)]
+            Password_List = "".join(Password_List)
+            
+            return Password_List
+        
         

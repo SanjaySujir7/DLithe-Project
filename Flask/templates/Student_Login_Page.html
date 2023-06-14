@@ -21,7 +21,7 @@
                 <h1>Login</h1>
             </header>
             <div class="Login-From-DIvs">
-                <input type="text" placeholder="Name or Email" class="Login-form-Input" id="Name-Input" name= "Name_Emai" required>
+                <input type="text" placeholder="Name or Email" class="Login-form-Input" id="Name-Input" name="Name_Email" required>
                 <p  class="Error-Label">First Name or Email required</p>
             </div>
             <div class="Login-From-DIvs">
@@ -35,6 +35,16 @@
                 <Button id="Login-Button">Login</Button>
             </div>
         </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <script>
+                    {% for message in messages %}
+                        alert("{{ message }}");
+                    {% endfor %}
+                </script>
+            {% endif %}
+        {% endwith %}
+
     </main>
     <script src={{url_for('static',filename = 'js/Students_Login.js')}}></script>
 </body>
