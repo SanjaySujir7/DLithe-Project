@@ -3,8 +3,8 @@ body{
     padding: 0;
     font-family: 'Poppins', sans-serif;
     margin-top: 70px;
-    overflow: hidden;
-    /* box-sizing: border-box; */
+    /* overflow: hidden; */
+    box-sizing: border-box;
     margin-left: 200px;
 }
 
@@ -21,7 +21,8 @@ body{
     right: 0px;
     height: 60px;
     display: flex;
-    background-color:#F4F5FA;
+    background-color: #eceef1;
+    z-index:2;
 }
 
 .Side-Navigation img{
@@ -80,17 +81,19 @@ body{
     bottom: 0px;
     width: 200px;
     transition: 0.2s;
+    z-index: 3;
     background-color: rgb(27, 22, 22);
 }
 
 .Main-Page{
-    height: 100%;
+    height: 90%;
     left: 200px;
     top: 60px;
     position: absolute;
     right: 0px;
     color: var(--Font_Color);
     background-color: var(--Background_Color);
+    /* overflow: auto; */
 }
 
 .head-img-nav {
@@ -189,7 +192,7 @@ body{
 }
 
 .Header-Profile-Div {
-    min-width: 200px;
+    width: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -310,11 +313,33 @@ body{
         display: block;
     }
 
+    
+
     @media screen and (max-width:500px){
 
         .Header-Title h1 {
             margin-top: 10px;
             font-size: 1rem;
+        }
+
+        .Header-Profile-Div{
+            width: 120px;
+        }
+
+        /* .Main-Course-Details-Div:last-child{
+            margin-bottom: 30px;
+        } */
+    }
+
+    @media screen and (max-width:300px){
+
+        .Header-Title h1 {
+            margin-top: 10px;
+            font-size: 0.7rem;
+        }
+
+        .Header-Profile-Div{
+            width: 80px;
         }
     }
 

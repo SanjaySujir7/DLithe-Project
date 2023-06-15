@@ -10,13 +10,14 @@ Course_Sub_Menu_Div = document.getElementById('Progrmes-side-nav-dropdown');
 
 let Profile_Popup_Button = document.getElementById("Profile-Popup-see-Profile"),
 Profile_Dialog = document.getElementById('Profile-Dialog'),
-Profile_Dialog_CLose = document.getElementById('Dialog-Profile-CLose-id');;
+Profile_Dialog_CLose = document.getElementById('Dialog-Profile-CLose-id');
 
-
+let View_Course_Button = document.getElementById('View-Programm-Details-Button');
 
 let is_Nav_On = true;
 
 const mobileQuery = window.matchMedia('(max-width: 1000px)');
+
 
 Toggle_Button.addEventListener('click',function(){
 
@@ -50,7 +51,6 @@ Toggle_Button.addEventListener('click',function(){
         Side_Navigation.style.left= '0px';
         Main_Page.style.filter = 'blur(2px)';
         Header_Section.style.filter = 'blur(2px)';
-
     }
 })
    
@@ -90,4 +90,5 @@ Profile_Dialog_CLose.addEventListener('click',function(){
     setTimeout(function(){
         Profile_Dialog.close();
     },200)
-})
+});
+

@@ -12,7 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <script src="https://kit.fontawesome.com/89dab0141f.js" crossorigin="anonymous"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
+    
 </head>
 <body>
     <header class="Header-Page" id="Header-Page">
@@ -71,14 +73,15 @@
         <div class="imformation-main-section">
             <div class="Main-Course-Details-Div">
                 <div>
+                    <button id="View-Programm-Details-Button">View</button>
+                </div>
+                <div>
                     <h4>
                         Program
                     </h4>
                 </div>
                 <div class="Main-Icon-Course-Div">
-                    <span class="material-symbols-outlined">
-                        school
-                    </span>
+                    <i class="fi fi-sr-graduation-cap" style="font-size: 3.8rem;"></i>
                 </div>
                 <div class="Main-Course-Text">
                     <h5>Internship</h5>
@@ -89,7 +92,7 @@
                     <h4>Course</h4>
                 </div>
                 <div class="Main-Icon-Course-Div">
-                    <i class="fa-solid fa-microchip" style="color:rgb(82, 82, 212); margin-bottom:10px;"></i>
+                    <i class="fi fi-sr-microchip" style="color:rgb(82, 82, 212); font-size:3.8rem;"></i>
                 </div>
                 <div class="Main-Course-Text">
                     <h5>Iot</h5>
@@ -100,9 +103,7 @@
                     <h4>Payment Status</h4>
                 </div>
                 <div class="Main-Icon-Course-Div">
-                    <span class="material-symbols-outlined" style="color:green;">
-                        check_circle
-                    </span>
+                    <i class="fi fi-sr-badge-check" style="color: green; font-size:3.8rem;"></i>
                 </div>
                 <div class="Main-Course-Text">
                     <h5>Paid</h5>
@@ -110,18 +111,42 @@
             </div>
         </div>
     </Main>
+    <!-- Dialog Section -->
     <section>
         <dialog id="Profile-Dialog">
             <div class="dialog-profile-header">
                 <div style="display: flex; justify-content:center; align-items:center; height:100%;">
-                    <i class="fa-regular fa-user" style="font-size: 5rem; margin-top:50px;"></i>
+                    <i class="fi fi-sr-portrait" style="font-size: 6rem; margin-top:50px; color:rgb(63, 63, 66);"></i>
                 </div>
                 <div id="close-Dialog-profile">
-                    <i class="fa-solid fa-circle-xmark" style="font-size: 2rem;" id="Dialog-Profile-CLose-id"></i>
+                    <i class="fi fi-sr-circle-xmark" style="font-size: 2rem;" id="Dialog-Profile-CLose-id"></i>
                 </div>
             </div>
             <div class="dialog-profile-body">
-
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>User Name :</h5>
+                    <h4>Test Test</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Email:</h5>
+                    <h4>TestT@mail.com</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Program:</h5>
+                    <h4>Internship</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Course :</h5>
+                    <h4>Iot</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Mode :</h5>
+                    <h4>Online</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Payment Status :</h5>
+                    <h4>Paid</h4>
+                </div>
             </div>
             <div class="dialog-profile-footer">
 
