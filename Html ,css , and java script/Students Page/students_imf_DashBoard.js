@@ -15,8 +15,12 @@ Profile_Dialog_CLose = document.getElementById('Dialog-Profile-CLose-id');
 let View_Course_Button = document.getElementById('View-Programm-Details-Button');
 
 let is_Nav_On = true;
+const Duration_Dailog_For_Small_Screen = document.getElementById('Dialog-Duaration-For-Small-Screens');
+
+let Dialog_Duartion_close = document.getElementById('Duartion-Dialog-Close-Button');
 
 const mobileQuery = window.matchMedia('(max-width: 1000px)');
+
 
 
 Toggle_Button.addEventListener('click',function(){
@@ -92,3 +96,21 @@ Profile_Dialog_CLose.addEventListener('click',function(){
     },200)
 });
 
+
+View_Course_Button.addEventListener('click',function(){
+    Duration_Dailog_For_Small_Screen.showModal();
+    Duration_Dailog_For_Small_Screen.classList.add('show_dur');
+    Duration_Dailog_For_Small_Screen.classList.remove('close_dur');
+});
+
+
+Dialog_Duartion_close.addEventListener('click',function(){
+    Duration_Dailog_For_Small_Screen.classList.remove('show_dur');
+
+    setTimeout(function(){
+        Duration_Dailog_For_Small_Screen.close();
+    },100)
+    
+    Duration_Dailog_For_Small_Screen.classList.add('close_dur');
+
+})
