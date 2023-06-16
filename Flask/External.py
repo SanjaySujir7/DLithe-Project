@@ -10,7 +10,7 @@ class Pdf_Certificate :
         self.text = Name
         
     def Print (self):
-        Input_Pdf = "test.pdf"
+        Input_Pdf = "Certificate_Input.pdf"
         Out_Put_File = "output.pdf"
         
         X_pos = 525

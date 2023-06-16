@@ -106,6 +106,7 @@
 }
 
 #View-Programm-Details-Button{
+    display: none;
     position: absolute;
     margin-left: 10px;
     margin-top: 5px;
@@ -127,3 +128,83 @@
     opacity: 0.6;
 }
 
+.Course_Multiple_Option{
+    display: grid;
+    grid-template-columns: 1fr ;
+}
+
+.Duration-imf-for-large-screen-section{
+    display: flex;
+    justify-content: center;
+    height: 110px;
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.Duaration-imf-for-large-screen-content-grid{
+    height: 110px;
+    background-color: white;
+    box-shadow: 1px 1px 70px rgba(0, 0, 0, 0.144);
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+}
+
+.Duaration-imf-for-large-screen-content-grid:hover{
+    box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.438);
+}
+
+.Duartion-Large-Screen-content-divs h4{
+    margin: 0;
+    text-align: center;
+    margin-top: 10px;
+    color: rgba(0, 0, 0, 0.589);
+}
+
+
+.Sub-div-of-Duration-Large-Screen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.Sub-div-of-Duration-Large-Screen h5{
+    margin: 0;
+    margin-left: 20px;
+    /* margin-top: 5px; */
+    font-size: 1.4rem;
+}
+
+.Sub-div-of-Duration-Large-Screen i{
+    /* margin-left: 50px; */
+    margin-top: 8px;
+}
+
+.Duartion-Large-Screen-Visual-Duarion-Graph{
+    width: 35px;
+    height: 35px;
+    border: 10px solid blue;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Duartion-Graph-H6{
+    margin: 0;
+    margin-top: 0;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+
+@media (max-width:700px){
+    .Duration-imf-for-large-screen-section{
+        display: none;
+    }
+
+    #View-Programm-Details-Button{
+        display: block;
+    }
+}
