@@ -6,7 +6,9 @@ from Process import DateTimeProcess,Inst_Process,Random_Password
 from time import time
 from datetime import datetime
 
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def Students_Info_Dashboard ():
@@ -19,7 +21,7 @@ def Students_Info_Dashboard ():
         return redirect('/student-login')
     
     
-    
+
 @app.route('/student-login-data',methods=['POST'])
 def Student_Login_Data_Handle ():
     Name_Email = request.form['Name_Email']

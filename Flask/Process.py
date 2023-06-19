@@ -1,5 +1,6 @@
 import inst_Name 
-from random import choice
+from random import choice,randint
+
 
 class DateTimeProcess:
     def __init__(self,Date_Time):
@@ -78,4 +79,32 @@ class Random_Password:
             
             return Password_List
         
+class Random_Cirtificate_Number:
+    
+    def Generate (self):
+        Strings = "abcdefghijklmnopqrstuvwxyz"
+        Number_Range = [0,9]
+        str_int = [1,0,1,1,0]
+        
+        Serial_Number = None
+        
+        for _ in range(7):
+            if choice(str_int) == 0:
+                if Serial_Number == None:
+                    Serial_Number = choice(Strings)
+                    
+                else:
+                    Serial_Number = f"{Serial_Number}{choice(Strings)}"
+                    
+            else:
+                if Serial_Number == None:
+                    Serial_Number = randint(Number_Range[0],Number_Range[1])
+                    
+                else:
+                    Serial_Number = f"{Serial_Number}{randint(Number_Range[0],Number_Range[1])}" 
+                    
+        return Serial_Number
+
+
+    
         

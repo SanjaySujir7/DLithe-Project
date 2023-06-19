@@ -2,6 +2,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader,PdfWriter
 import io
+import hashlib
+from Process import Random_Cirtificate_Number
 
 
 class Pdf_Certificate :
@@ -39,12 +41,13 @@ class Pdf_Certificate :
             
             Can = canvas.Canvas(Packet,pagesize=(1200,864))
             
+            Id = Random_Cirtificate_Number().Generate()
             
             Can.setFont("Helvetica-Bold", 32)
             Can.drawString(X_pos,Y_pos, self.text)
+            Can.drawString(550,80,Id)
             Can.save()
     
-            
             Packet.seek(0)
             
             New_Pdf = PdfReader(Packet)
@@ -58,8 +61,21 @@ class Pdf_Certificate :
                 Out_Put.write(Out_Put_File_Write)
                 
                 
-if __name__ == '__main__' :
-    test_ = Pdf_Certificate(Name="Test")
-    
-    test_.Print() 
+                
+    def Pdf_Hash(self):
+        File_Name = "output.pdf"
+        
+        with open(File_Name,'rb') as file:
+            hash = hashlib.sha256()
             
+            for chunk in iter(lambda: file.read(4096), b''):
+
+                hash.update(chunk)
+                
+        file_hash = hash.hexdigest()
+        
+        return file_hash
+    
+
+if __name__ == '__main__':
+    pass
