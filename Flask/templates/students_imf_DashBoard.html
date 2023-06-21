@@ -5,13 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dlithe | students-Dashboard</title>
-    <link rel="shortcut icon" href="{{url_for('static',filename='img/Dlithe_logo.png')}}" type="image/x-icon">
-    <link rel="stylesheet" href={{url_for('static',filename='css/students_imf_DashBoard.css')}}>
-    <link rel="stylesheet" href={{url_for('static',filename='css/students_imf_DashBoard_Main.css')}}>
+    <link rel="shortcut icon" href="Dlithe logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="students_imf_DashBoard.css">
+    <link rel="stylesheet" href="students_imf_DashBoard_Main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
 <body>
     <header class="Header-Page" id="Header-Page">
@@ -33,7 +36,7 @@
         </div>
     </header>
     <div class="Profile-Hover-Aside" id="Profile-Hover-Aside" onmouseleave="Hide_Hover_Div()">
-        <div>
+        <div id="Profile-Popup-see-Profile">
             <h5>Profile</h5>
         </div>
         <div>
@@ -48,7 +51,7 @@
             <span class="material-symbols-outlined" id="Close-Nav-MObile">
                 tab_move
             </span>
-            <img src="{{url_for('static',filename='img/Dlithe_logo.png')}}" alt="Dlithe">
+            <img src="Dlithe logo.png" alt="Dlithe">
         </div>
         <div class="Nav-list-div">
             <li>
@@ -62,48 +65,39 @@
                         school
                     </span>
                     Programs
-                    <span class="material-symbols-outlined">
-                        expand_more
-                    </span>
                 </ul>
             </li>
         </div>   
-        <div class="Progrmes-side-nav-dropdown" id="Progrmes-side-nav-dropdown">
-            <li>
-                <ul>Internship</ul>
-                <ul>Certification Programs</ul>
-                <ul>Bootcamp</ul>
-            </li>
-        </div> 
     </section>
     <Main class="Main-Page" id="Main-Page">
         <div class="imformation-main-section">
             <div class="Main-Course-Details-Div">
                 <div>
+                    <button id="View-Programm-Details-Button">View</button>
+                </div>
+                <div>
                     <h4>
-                        Course
+                        Program
                     </h4>
                 </div>
                 <div class="Main-Icon-Course-Div">
-                    <span class="material-symbols-outlined" style="color: rgb(27, 103, 126);">
-                        precision_manufacturing
-                    </span>
+                    <i class="fi fi-sr-graduation-cap" style="font-size: 3.8rem;"></i>
                 </div>
                 <div class="Main-Course-Text">
-                    <h5>Machine Learning</h5>
+                    <h5>Internship</h5>
                 </div>
             </div>
-            <div class="Main-Course-Details-Div">
+            <div class="Main-Course-Details-Div Course_Multiple_Option">
                 <div>
-                    <h4>Mode</h4>
-                </div>
-                <div class="Main-Icon-Course-Div">
-                    <span class="material-symbols-outlined" style="color: rgb(148, 106, 28);">
-                        public
-                    </span>
-                </div>
-                <div class="Main-Course-Text">
-                    <h5>Online</h5>
+                    <div>
+                        <h4>Course</h4>
+                    </div>
+                    <div class="Main-Icon-Course-Div">
+                        <i class="fi fi-sr-microchip" style="color:rgb(82, 82, 212); font-size:3.8rem;"></i>
+                    </div>
+                    <div class="Main-Course-Text">
+                        <h5>Iot</h5>
+                    </div>
                 </div>
             </div>
             <div class="Main-Course-Details-Div">
@@ -111,16 +105,124 @@
                     <h4>Payment Status</h4>
                 </div>
                 <div class="Main-Icon-Course-Div">
-                    <span class="material-symbols-outlined" style="color:green;">
-                        check_circle
-                    </span>
+                    <i class="fi fi-sr-badge-check" style="color: green; font-size:3.8rem;"></i>
                 </div>
                 <div class="Main-Course-Text">
                     <h5>Paid</h5>
                 </div>
             </div>
         </div>
+        <div class="Duration-imf-for-large-screen-section">
+            <div class="Duaration-imf-for-large-screen-content-grid">
+                <div class="Duartion-Large-Screen-content-divs">
+                    <div>
+                        <h4>Entry Date</h4>
+                    </div>
+                    <div class="Sub-div-of-Duration-Large-Screen">
+                        <i class="fi fi-ss-calendar" style="color: green; font-size:2rem;"></i>
+                        <h5>16-06-2023</h5>
+                    </div>
+                </div>
+                <div class="Duartion-Large-Screen-content-divs">
+                    <div>
+                        <h4>End Date</h4>
+                    </div>
+                    <div class="Sub-div-of-Duration-Large-Screen">
+                        <i class="fi fi-ss-calendar-clock" style="color: green; font-size:2rem;"></i>
+                        <h5>10-08-2023</h5>
+                    </div>
+                </div>
+                <div class="Duartion-Large-Screen-content-divs">
+                    <div>
+                        <h4>Duration</h4>
+                    </div>
+                    <div class="Sub-div-of-Duration-Large-Screen">
+                        <div class="Duartion-Large-Screen-Visual-Duarion-Graph" id="Duartion-Large-Screen-Visual-Duarion-Graph">
+                            <div class="Duration-Large-Screen-Visual-Graph-Sub-Div">
+                                <h6 id="Duration-circle-graph-value">40%</h6>
+                            </div>
+                        </div>
+                        <h6 class="Duartion-Graph-H6">3 Months</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
     </Main>
+    <!-- Dialog Section -->
+    <section>
+        <dialog id="Profile-Dialog">
+            <div class="dialog-profile-header">
+                <div style="display: flex; justify-content:center; align-items:center; height:100%;">
+                    <i class="fi fi-sr-portrait" style="font-size: 6rem; margin-top:50px; color:rgb(63, 63, 66);"></i>
+                </div>
+                <div id="close-Dialog-profile">
+                    <i class="fi fi-sr-circle-xmark" style="font-size: 2rem;" id="Dialog-Profile-CLose-id"></i>
+                </div>
+            </div>
+            <div class="dialog-profile-body">
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>User Name :</h5>
+                    <h4>Test Test</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Email:</h5>
+                    <h4>TestT@mail.com</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Program:</h5>
+                    <h4>Internship</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Course :</h5>
+                    <h4>Iot</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Mode :</h5>
+                    <h4>Online</h4>
+                </div>
+                <div class="Dialog-Profile-Detiales-Sec">
+                    <h5>Payment Status :</h5>
+                    <h4>Paid</h4>
+                </div>
+            </div>
+        </dialog>
+        <dialog id="Dialog-Duaration-For-Small-Screens">
+            <div style="position: absolute; right:5px; top:5px;">
+                <i class="fi fi-sr-circle-xmark" style="font-size: 1.5rem;" id="Duartion-Dialog-Close-Button"></i>
+            </div>
+            <div class="Dialog-Duartion-Body">
+                <div>
+                    <h4>Entry Date</h4>
+                </div>
+                <div class="Duratation-Dailog-content">
+                    <i class="fi fi-ss-calendar" style="color: green; font-size:2rem;"></i>
+                    <h5>16-06-2023</h5>
+                </div>
+            </div> 
+            <div class="Dialog-Duartion-Body" style="margin-top: 30px;">
+                <div>
+                    <h4>End Date</h4>
+                </div>
+                <div class="Duratation-Dailog-content">
+                    <i class="fi fi-ss-calendar-clock" style="color: green; font-size:2rem;"></i>
+                    <h5>10-08-2023</h5>
+                </div>
+            </div>
+            <div class="Dialog-Duartion-Body" style="margin-top: 30px;">
+                <div>
+                    <h4>Duration</h4>
+                </div>
+                <div class="Sub-div-of-Duration-Large-Screen" style="margin-top: 20px;  margin-right:20px;">
+                    <div class="Duartion-Large-Screen-Visual-Duarion-Graph" id="Duartion-Large-Screen-Visual-Duarion-Graph-dialog">
+                        <div class="Duration-Large-Screen-Visual-Graph-Sub-Div">
+                            <h6 id="Duration-circle-graph-value-dialog">40%</h6>
+                        </div>
+                    </div>
+                    <h6 class="Duartion-Graph-H6">3 Months</h6>
+                </div>
+            </div>
+        </dialog>
+    </section>
     <script>
         let Profile_Hover_Div = document.getElementById('Profile-Hover-Aside');
 
@@ -134,6 +236,6 @@
         }
 
     </script>
-    <script src="{{url_for('static',filename='js/students_imf_DashBoard.js')}}"></script>
+    <script src="students_imf_DashBoard.js"></script>
 </body>
 </html>

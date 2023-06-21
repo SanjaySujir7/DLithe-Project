@@ -184,14 +184,25 @@
 }
 
 .Duartion-Large-Screen-Visual-Duarion-Graph{
-    width: 35px;
-    height: 35px;
-    border: 10px solid blue;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: conic-gradient(rgb(40, 57, 212) 40deg,white 0deg);
 }
+
+.Duration-Large-Screen-Visual-Graph-Sub-Div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
 
 .Duartion-Graph-H6{
     margin: 0;

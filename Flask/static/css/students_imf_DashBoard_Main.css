@@ -7,6 +7,7 @@
     margin-top: 20px;
 }
 
+
 .Main-Course-Details-Div{
     height: 200px;
     background-color: white;
@@ -29,7 +30,7 @@
     align-items: center;
 }
 
-.Main-Icon-Course-Div span {
+.Main-Icon-Course-Div span{
     font-size: 5rem;
     color: brown;
 }
@@ -38,6 +39,235 @@
     display: flex;
     justify-content: center;
     font-size: 1.3rem;
-    margin-top: 5px;
+    margin-top: 0px;
 
 }
+
+.Main-Icon-Course-Div i{
+    font-size: 4rem;
+    color: brown;
+}
+
+#Profile-Dialog{
+    height: 500px;
+    width: 400px;
+    transform: translateY(-150%);
+    transition: transform 0.3s;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    border-radius: 20px;
+    box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.349);
+}
+
+#Profile-Dialog.pop{
+    transform: translateY(0%);
+}
+
+#Profile-Dialog.go {
+    transform: translateY(-150%);
+}
+
+.dialog-profile-header{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 40px;
+}
+
+#close-Dialog-profile{
+    position: absolute;
+    top:5px;
+    right:5px;
+}
+
+#close-Dialog-profile:hover{
+    color: rgb(99, 94, 94);
+    cursor: pointer;
+}
+
+.Dialog-Profile-Detiales-Sec{
+    border-bottom: 2px solid rgba(128, 128, 128, 0.253);
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    height: 50px;
+}
+
+.Dialog-Profile-Detiales-Sec h5{
+    opacity: 0.7;
+    margin: 0;
+    margin-left: 10px;
+}
+
+.Dialog-Profile-Detiales-Sec h4{
+    margin: 0;
+    margin-left: 20px;
+}
+
+#View-Programm-Details-Button{
+    display: none;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 5px;
+    width: 60px;
+    border: 0;
+    height: 30px;
+    color: white;
+    background-color: rgb(97, 97, 219);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#View-Programm-Details-Button:hover{
+    background-color: blue;
+}
+
+#View-Programm-Details-Button:active{
+    opacity: 0.6;
+}
+
+.Course_Multiple_Option{
+    display: grid;
+    grid-template-columns: 1fr ;
+}
+
+.Duration-imf-for-large-screen-section{
+    display: flex;
+    justify-content: center;
+    height: 110px;
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.Duaration-imf-for-large-screen-content-grid{
+    height: 110px;
+    background-color: white;
+    box-shadow: 1px 1px 70px rgba(0, 0, 0, 0.144);
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+}
+
+.Duaration-imf-for-large-screen-content-grid:hover{
+    box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.438);
+}
+
+.Duartion-Large-Screen-content-divs h4{
+    margin: 0;
+    text-align: center;
+    margin-top: 10px;
+    color: rgba(0, 0, 0, 0.589);
+}
+
+
+.Sub-div-of-Duration-Large-Screen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.Sub-div-of-Duration-Large-Screen h5{
+    margin: 0;
+    margin-left: 20px;
+    /* margin-top: 5px; */
+    font-size: 1.2rem;
+}
+
+.Sub-div-of-Duration-Large-Screen i{
+    /* margin-left: 50px; */
+    margin-top: 8px;
+}
+
+.Duartion-Large-Screen-Visual-Duarion-Graph{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: conic-gradient(rgb(40, 57, 212) 40deg,white 0deg);
+}
+
+.Duration-Large-Screen-Visual-Graph-Sub-Div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+
+.Duartion-Graph-H6{
+    margin: 0;
+    margin-top: 0;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+
+#Dialog-Duaration-For-Small-Screens{
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border: 0;
+    outline: 0;
+    box-shadow: 1px 1px 50px rgba(0, 0, 0, 0.425);
+    transform: scale(10%);
+    transition: transform 0.3s;
+}
+
+#Dialog-Duaration-For-Small-Screens h4{
+    text-align: center;
+    margin: 0;
+    margin-top: 7px;
+    color: rgba(0, 0, 0, 0.568);
+}
+
+.Duratation-Dailog-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.Duratation-Dailog-content h5{
+    font-size: 1.5rem;
+    margin: 0;
+    margin-left: 10px;
+}
+
+.Duratation-Dailog-content i{
+    margin-top: 10px;
+}
+
+#Duartion-Dialog-Close-Button:hover{
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.596);
+}
+
+#Dialog-Duaration-For-Small-Screens.show_dur{
+    transform: scale(100%);
+}
+
+#Dialog-Duaration-For-Small-Screens.close_dur{
+    transform: scale(10%);
+}
+
+
+@media (max-width:700px){
+    .Duration-imf-for-large-screen-section{
+        display: none;
+    }
+
+    #View-Programm-Details-Button{
+        display: block;
+    }
+}
+ 

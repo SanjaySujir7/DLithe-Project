@@ -8,12 +8,25 @@ Nav_Mobile_CLose = document.getElementById('Close-Nav-MObile');
 let Course_Sub_Menu = document.getElementById('COurse-Side-Nav-DropDown'),
 Course_Sub_Menu_Div = document.getElementById('Progrmes-side-nav-dropdown');
 
+let Profile_Popup_Button = document.getElementById("Profile-Popup-see-Profile"),
+Profile_Dialog = document.getElementById('Profile-Dialog'),
+Profile_Dialog_CLose = document.getElementById('Dialog-Profile-CLose-id');
 
-
+let View_Course_Button = document.getElementById('View-Programm-Details-Button');
 
 let is_Nav_On = true;
+const Duration_Dailog_For_Small_Screen = document.getElementById('Dialog-Duaration-For-Small-Screens');
+
+let Dialog_Duartion_close = document.getElementById('Duartion-Dialog-Close-Button');
 
 const mobileQuery = window.matchMedia('(max-width: 1000px)');
+
+let Circle_Progress = document.getElementById('Duartion-Large-Screen-Visual-Duarion-Graph'),
+    Circle_Progress_Value = document.getElementById('Duration-circle-graph-value');
+
+let Circle_Progress_dialog = document.getElementById('Duartion-Large-Screen-Visual-Duarion-Graph-dialog'),
+    Circle_Progress_dialog_value= document.getElementById('Duration-circle-graph-value-dialog');
+
 
 Toggle_Button.addEventListener('click',function(){
 
@@ -47,7 +60,6 @@ Toggle_Button.addEventListener('click',function(){
         Side_Navigation.style.left= '0px';
         Main_Page.style.filter = 'blur(2px)';
         Header_Section.style.filter = 'blur(2px)';
-
     }
 })
    
@@ -73,3 +85,83 @@ Course_Sub_Menu.addEventListener('click',function(){
         Course_Sub_Menu_Div.classList.remove('hide');
     }
 })
+
+
+Profile_Popup_Button.addEventListener("click",function(){
+    Profile_Dialog.showModal();
+    Profile_Dialog.classList.add('pop');
+})
+
+Profile_Dialog_CLose.addEventListener('click',function(){
+    Profile_Dialog.classList.remove('pop');
+    Profile_Dialog.classList.add('go');
+    Profile_Dialog.classList.remove('go');
+    setTimeout(function(){
+        Profile_Dialog.close();
+    },200)
+});
+
+
+View_Course_Button.addEventListener('click',function(){
+    Duration_Dailog_For_Small_Screen.showModal();
+    Duration_Dailog_For_Small_Screen.classList.add('show_dur');
+    Duration_Dailog_For_Small_Screen.classList.remove('close_dur');
+    Dialog_Progress_Togle();
+});
+
+
+Dialog_Duartion_close.addEventListener('click',function(){
+    Duration_Dailog_For_Small_Screen.classList.remove('show_dur');
+
+    setTimeout(function(){
+        Duration_Dailog_For_Small_Screen.close();
+    },100)
+    
+    Duration_Dailog_For_Small_Screen.classList.add('close_dur');
+
+})
+
+
+let Start_Value = 0,
+    End_Value = 70,
+    speed = 30;
+
+let Progress = setInterval(() => {
+    Start_Value++;
+    
+    if(Start_Value == End_Value){
+        clearInterval(Progress);
+
+    }
+
+        Circle_Progress_Value.innerText = Start_Value + "%";
+        Circle_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + Start_Value * 3.6 + "deg, white 0deg)";   
+
+
+},speed);
+
+
+function Dialog_Progress_Togle (){
+    let Start_Value_d = 0,
+        End_Value_d = 70,
+        speed_d = 30;
+
+    let Progress_d = setInterval(() => {
+        
+        if(Start_Value_d == End_Value_d){
+            Start_Value_d++;
+            clearInterval(Progress_d);
+
+        }
+        else{
+
+            Circle_Progress_dialog_value.innerText = Start_Value_d + "%";
+            Circle_Progress_dialog.style.background = "conic-gradient(rgb(40, 57, 212)" + Start_Value_d * 3.6 + "deg, white 0deg)";
+
+            Start_Value_d++;
+
+        }
+
+},speed_d);
+}
+

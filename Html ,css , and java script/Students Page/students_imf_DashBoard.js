@@ -21,6 +21,11 @@ let Dialog_Duartion_close = document.getElementById('Duartion-Dialog-Close-Butto
 
 const mobileQuery = window.matchMedia('(max-width: 1000px)');
 
+let Circle_Progress = document.getElementById('Duartion-Large-Screen-Visual-Duarion-Graph'),
+    Circle_Progress_Value = document.getElementById('Duration-circle-graph-value');
+
+let Circle_Progress_dialog = document.getElementById('Duartion-Large-Screen-Visual-Duarion-Graph-dialog'),
+    Circle_Progress_dialog_value= document.getElementById('Duration-circle-graph-value-dialog');
 
 
 Toggle_Button.addEventListener('click',function(){
@@ -101,6 +106,7 @@ View_Course_Button.addEventListener('click',function(){
     Duration_Dailog_For_Small_Screen.showModal();
     Duration_Dailog_For_Small_Screen.classList.add('show_dur');
     Duration_Dailog_For_Small_Screen.classList.remove('close_dur');
+    Dialog_Progress_Togle();
 });
 
 
@@ -114,3 +120,48 @@ Dialog_Duartion_close.addEventListener('click',function(){
     Duration_Dailog_For_Small_Screen.classList.add('close_dur');
 
 })
+
+
+let Start_Value = 0,
+    End_Value = 70,
+    speed = 30;
+
+let Progress = setInterval(() => {
+    Start_Value++;
+    
+    if(Start_Value == End_Value){
+        clearInterval(Progress);
+
+    }
+
+        Circle_Progress_Value.innerText = Start_Value + "%";
+        Circle_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + Start_Value * 3.6 + "deg, white 0deg)";   
+
+
+},speed);
+
+
+function Dialog_Progress_Togle (){
+    let Start_Value_d = 0,
+        End_Value_d = 70,
+        speed_d = 30;
+
+    let Progress_d = setInterval(() => {
+        
+        if(Start_Value_d == End_Value_d){
+            Start_Value_d++;
+            clearInterval(Progress_d);
+
+        }
+        else{
+
+            Circle_Progress_dialog_value.innerText = Start_Value_d + "%";
+            Circle_Progress_dialog.style.background = "conic-gradient(rgb(40, 57, 212)" + Start_Value_d * 3.6 + "deg, white 0deg)";
+
+            Start_Value_d++;
+
+        }
+
+},speed_d);
+}
+
