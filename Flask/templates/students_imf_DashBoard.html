@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dlithe | students-Dashboard</title>
-    <link rel="shortcut icon" href="Dlithe logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="students_imf_DashBoard.css">
-    <link rel="stylesheet" href="students_imf_DashBoard_Main.css">
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/Dlithe_logo.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href={{url_for('static',filename='css/students_imf_DashBoard.css')}}>
+    <link rel="stylesheet" href={{url_for('static',filename='css/students_imf_DashBoard_Main.css')}}>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
@@ -39,19 +39,19 @@
         <div id="Profile-Popup-see-Profile">
             <h5>Profile</h5>
         </div>
-        <div>
-            <span class="material-symbols-outlined">
+        <form action="/student-page-logout" method="post" id="Log-Out-Form">
+            <span class="material-symbols-outlined" >
                 move_item
             </span>
             <h5>Log Out</h5>
-        </div>
+        </form>
     </div>
     <section class="Side-Navigation" id="Side-Navigation">
         <div class="head-img-nav">
             <span class="material-symbols-outlined" id="Close-Nav-MObile">
                 tab_move
             </span>
-            <img src="Dlithe logo.png" alt="Dlithe">
+            <img src="{{url_for('static',filename='img/Dlithe_logo.png')}}" alt="Dlithe">
         </div>
         <div class="Nav-list-div">
             <li>
@@ -236,6 +236,6 @@
         }
 
     </script>
-    <script src="students_imf_DashBoard.js"></script>
+    <script src="{{url_for('static',filename='js/students_imf_DashBoard.js')}}"></script>
 </body>
 </html>

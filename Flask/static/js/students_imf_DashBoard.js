@@ -27,6 +27,7 @@ let Circle_Progress = document.getElementById('Duartion-Large-Screen-Visual-Duar
 let Circle_Progress_dialog = document.getElementById('Duartion-Large-Screen-Visual-Duarion-Graph-dialog'),
     Circle_Progress_dialog_value= document.getElementById('Duration-circle-graph-value-dialog');
 
+let LogOut_Form = document.getElementById('Log-Out-Form');
 
 Toggle_Button.addEventListener('click',function(){
 
@@ -165,3 +166,12 @@ function Dialog_Progress_Togle (){
 },speed_d);
 }
 
+LogOut_Form.addEventListener('click',function(){
+    let text = "Do you want to Log out From This Page ?";
+
+    if(confirm(text) == true){
+        LogOut_Form.submit();
+    
+    }
+
+});

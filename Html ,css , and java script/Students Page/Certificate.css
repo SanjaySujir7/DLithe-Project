@@ -56,7 +56,6 @@ body{
     margin-top: 3px;
 }
 
-
 .side-Nav-toggle-head {
     margin-left: 20px;
     display: flex;
@@ -94,6 +93,9 @@ body{
     color: var(--Font_Color);
     background-color: var(--Background_Color);
     /* overflow: auto; */
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .head-img-nav {
@@ -104,6 +106,7 @@ body{
     padding-top: 10px;
     height: 100px;
 }
+
 
 .Nav-list-div{
     /* height: 100%; */
@@ -151,29 +154,6 @@ body{
     cursor: pointer;
 }
 
-
-
-.header-right-profile img{
-    height: 40px;
-    width: 40px;
-    border-radius: 100% 100%;
-}
-
-.header-right-profile {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
-}
-
-.header-right-text{
-    color: red;
-}
-
-
 #Close-Nav-MObile {
     position: absolute;
     color: whitesmoke;
@@ -191,115 +171,41 @@ body{
     opacity: 0.5;
 }
 
-.Header-Profile-Div {
-    width: 200px;
+.Certificate-Main-Sec{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: white;
+    box-shadow:  1px 1px 70px rgba(0, 0, 0, 0.144);
+    display: grid;
+    grid-template-columns: 1fr 0.7fr;
+}
+
+.certificate-co-topic-div{
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.certificate-co-topic-div div{
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-right: 10px;
+    /* align-items: center;  */
+    flex-direction: column;
 }
 
-.Header-Profile-Div:hover{
-    cursor: pointer;
-    background-color: #d0d0d3;
+.certificate-co-topic-div img{
+    height: 150px;
 }
 
-.Header-Profile {
-    width: 35px;
-    height: 35px;
-    background-color: blueviolet;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.Header-Profile h6{
-    color: white;
+.certificate-co-topic-div p{
     font-size: 1rem;
+    font-weight: bold;
+    margin-left: 20px;
+    /* margin-left: 10px; */
 }
 
-.Header-Profile-Student-Name {
-    margin-left: 10px;
-}
-
-.Profile-Hover-Aside {
-    width: 200px;
-    height: 100px;
-    background-color: rgb(236, 231, 231);
-    position: absolute;
-    right: 10px;
-    display: none;
-    /* place-items: center; */
-    z-index: 2;
-    margin: 0;
-    padding: 0;
-    box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.322);
-    gap: 0;
-    transition: visible 0.2s ;
-    /* transform: translateY(-40%); */
-    opacity: 0;
-}
-
-.Profile-Hover-Aside.visible {
-    /* transform: translateY(0); */
-    opacity: 1;
-    animation: slideDown 0.2s ease forwards;
-}
-
-@keyframes slideDown {
-    0% {
-      opacity: 0;
-      transform: translatex(40%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-}
-
-.Profile-Hover-Aside div {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-}
-
-.Profile-Hover-Aside form {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-}
-
-.Profile-Hover-Aside  div:hover{
-    background-color: #f4f5fac2;
-    cursor: pointer;
-}
-
-.Profile-Hover-Aside  form:hover{
-    background-color: #f4f5fac2;
-    cursor: pointer;
-}
-
-.Profile-Hover-Aside h5{
-    margin: 0;
-    margin-bottom: 10px;
-}
-
-.Profile-Hover-Aside span {
-    margin: 0;
-    margin-bottom: 5px;
-    margin-right: 10px;
-}
-
-
-.Profile-Hover-Aside  div:active {
-    opacity: 0.5;
-}
 
 
 @media screen and (max-width:1000px){
@@ -326,39 +232,24 @@ body{
         display: block;
     }
 
-    
-
-    @media screen and (max-width:500px){
-
-        .Header-Title h1 {
-            margin-top: 10px;
-            font-size: 1rem;
-        }
-
-        .Header-Profile-Div{
-            width: 120px;
-        }
-
-        /* .Main-Course-Details-Div:last-child{
-            margin-bottom: 30px;
-        } */
-    }
-
-    @media screen and (max-width:300px){
-
-        .Header-Title h1 {
-            margin-top: 10px;
-            font-size: 0.7rem;
-        }
-
-        .Header-Profile-Div{
-            width: 80px;
-        }
-    }
 
 }
 
+@media (max-width:500px){
+    .Certificate-Main-Sec{
+        grid-template-columns: 1fr;
+    }
 
+    .certificate-co-topic-div{
+        grid-template-columns: 1fr;
+    }
 
+    .certificate-co-topic-div h4{
+        margin-top: 30px;
+        margin-left: 0px;
+    }
 
-
+    .certificate-co-topic-div p{
+        margin-left: 0;
+    }
+}

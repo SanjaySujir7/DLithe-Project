@@ -9,6 +9,12 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+@app.route('/student-page-logout',methods=['POST'])
+def Students_Page_Log_out():
+    session.clear()
+    
+    return redirect('student-login')
+    
 
 @app.route('/')
 def Students_Info_Dashboard ():
