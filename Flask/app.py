@@ -9,6 +9,17 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+
+@app.route('/certificate')
+def Certificate ():
+    if 'Student_First_Name' in session and "Student_Last_Name" in session:
+    
+        return render_template('Certificate.html')
+    
+    else:
+        return redirect('/student-login')
+    
+
 @app.route('/student-page-logout',methods=['POST'])
 def Students_Page_Log_out():
     session.clear()

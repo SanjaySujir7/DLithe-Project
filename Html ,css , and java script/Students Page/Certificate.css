@@ -129,6 +129,12 @@ body{
     font-size: 1.3 rem;
 }
 
+.Nav-list-div i {
+    margin-right: 10px;
+    font-size: 1.4rem;
+    margin-top: 5px;
+}
+
 
 .Progrmes-side-nav-dropdown ul{
     color: white;
@@ -148,7 +154,7 @@ body{
     background-color: rgba(128, 128, 128, 0.432);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    width: 150px;
+    width: 180px;
     justify-content: center;
     transform: translate(3%,0%);
     cursor: pointer;
@@ -195,7 +201,7 @@ body{
 }
 
 .certificate-co-topic-div img{
-    height: 150px;
+    width: 300px;
 }
 
 
@@ -207,6 +213,42 @@ body{
 }
 
 
+.certificate-co-topic-div h4 {
+    margin-left: 20px;
+}
+
+
+.certificate-main-content-div i {
+    font-size: 3rem;
+    margin-right: 10px;
+    color: brown;
+}
+
+.certificate-main-content-header-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.certificate-main-content-header-div h3{
+    margin-bottom: 17px;
+    font-size: 1.5rem;
+    color:brown;
+}
+
+.certificate-main-content-body-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+
+#Loading-generate-button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: none;
+}
 
 @media screen and (max-width:1000px){
     body {
@@ -235,7 +277,7 @@ body{
 
 }
 
-@media (max-width:500px){
+@media (max-width:700px){
     .Certificate-Main-Sec{
         grid-template-columns: 1fr;
     }
@@ -252,4 +294,17 @@ body{
     .certificate-co-topic-div p{
         margin-left: 0;
     }
+
+    .certificate-co-topic-div div{
+        align-items: center;
+    }
+
+    .certificate-main-content-div{
+        margin-top: 30px;
+    }
+
+    .Certificate-Main-Sec {
+        padding-bottom: 60px;
+    }
+    
 }

@@ -15,6 +15,7 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css'>
 </head>
 <body>
     <header class="Header-Page" id="Header-Page">
@@ -55,17 +56,17 @@
         </div>
         <div class="Nav-list-div">
             <li>
-                <ul><span class="material-symbols-outlined">
+                <ul style="border-left: 5px solid rgba(246, 246, 252, 0.37);background-color:rgba(119, 136, 153, 0.089);"><span class="material-symbols-outlined" >
                     home
                     </span>
                     Home
                 </ul>
-                <ul style="margin-top: 0px;" id="COurse-Side-Nav-DropDown">
-                    <span class="material-symbols-outlined">
-                        school
-                    </span>
-                    Programs
-                </ul>
+                <a href="{{url_for('Certificate')}}">
+                    <ul>
+                        <i class="fi fi-bs-diploma"></i>
+                        Certificate
+                    </ul>
+                </a>
             </li>
         </div>   
     </section>

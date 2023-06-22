@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dlithe | Certificate</title>
-    <link rel="stylesheet" href="Certificate.css">
-    <link rel="shortcut icon" href="Dlithe logo.png" type="image/x-icon">
+    <link rel="stylesheet" href={{url_for('static',filename='css/Certificate.css')}}>
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/Dlithe logo.png')}}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
@@ -29,15 +29,17 @@
             <span class="material-symbols-outlined" id="Close-Nav-MObile">
                 tab_move
             </span>
-            <img src="Dlithe logo.png" alt="Dlithe">
+            <img src="{{url_for('static',filename='img/Dlithe logo.png')}}" alt="Dlithe">
         </div>
         <div class="Nav-list-div">
             <li>
-                <ul><span class="material-symbols-outlined">
-                    home
-                    </span>
-                    Home
-                </ul>
+                <a href="{{url_for('Students_Info_Dashboard')}}" style="color: white; text-decoration:none;">
+                    <ul><span class="material-symbols-outlined">
+                        home
+                        </span>
+                        Home
+                    </ul>
+                </a>
                 <ul style="border-left: 5px solid rgba(246, 246, 252, 0.37);background-color:rgba(119, 136, 153, 0.089);">
                     <i class="fi fi-bs-diploma"></i>
                     Certificate
@@ -50,7 +52,7 @@
         <section class="Certificate-Main-Sec">
             <div class="certificate-co-topic-div">
                 <div>
-                    <img src="certificate_temp.png">
+                    <img src="{{url_for('static',filename='img/certificate_temp.png')}}">
                 </div>
                 <div>
                     <h4><u>Note</u></h4>
@@ -73,6 +75,6 @@
         </section>
     </Main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="Certificate.js"></script>
+    <script src="{{url_for('static',filename='js/Certificate.js')}}"></script>
 </body>
 </html>

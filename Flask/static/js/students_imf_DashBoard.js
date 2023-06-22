@@ -5,9 +5,6 @@ Main_Page = document.getElementById('Main-Page'),
 Header_Section = document.getElementById('Header-Page'),
 Nav_Mobile_CLose = document.getElementById('Close-Nav-MObile');
 
-let Course_Sub_Menu = document.getElementById('COurse-Side-Nav-DropDown'),
-Course_Sub_Menu_Div = document.getElementById('Progrmes-side-nav-dropdown');
-
 let Profile_Popup_Button = document.getElementById("Profile-Popup-see-Profile"),
 Profile_Dialog = document.getElementById('Profile-Dialog'),
 Profile_Dialog_CLose = document.getElementById('Dialog-Profile-CLose-id');
@@ -72,20 +69,7 @@ Nav_Mobile_CLose.addEventListener('click',function(){
 
 let Course_Sub_Menu_State = false;
 
-Course_Sub_Menu.addEventListener('click',function(){
-    
-    if (Course_Sub_Menu_State == false){
-        Course_Sub_Menu_Div.classList.add('visible');
-        Course_Sub_Menu_State = true;
-    }
 
-    else{
-        Course_Sub_Menu_Div.classList.remove('visible');
-        Course_Sub_Menu_Div.classList.add('hide');
-        Course_Sub_Menu_State = false;
-        Course_Sub_Menu_Div.classList.remove('hide');
-    }
-})
 
 
 Profile_Popup_Button.addEventListener("click",function(){
