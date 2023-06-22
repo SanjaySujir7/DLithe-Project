@@ -26,7 +26,6 @@ class Pdf_Certificate :
             if not pixle_move <= 0:
                 X_pos = X_pos - pixle_move
                 
-                print(X_pos)
                 
         else :
             X_pos = 550
@@ -76,6 +75,3 @@ class Pdf_Certificate :
         
         return file_hash
     
-
-if __name__ == '__main__':
-    pass

@@ -3,11 +3,35 @@ from flask import Flask, jsonify,render_template,request, send_file,session,redi
 import mysql.connector
 import csv
 from Process import DateTimeProcess,Inst_Process,Random_Password
+from External import Pdf_Certificate
 from time import time
 from datetime import datetime
 
 
 app = Flask(__name__)
+
+@app.route('/certificate-generate',methods=['POST'])
+def Generate_Certificate ():
+
+    Pass = request.get_json('pass')
+    
+    if 'Student_First_Name' in session and "Student_Last_Name" in session:
+        
+        if Pass == "q#5qJKkaq*%@:+=771":
+            
+            Name =  session["Student_First_Name"]
+            Last = session["Student_Last_Name"]
+            
+            Certificate = Pdf_Certificate(Name + Last)
+            Certificate.Print()
+            
+            Output_File = "output.pdf"
+
+            return send_file(Output_File,as_attachment=True)
+        
+    
+    else:
+        return redirect('/student-login')
 
 
 @app.route('/certificate')
@@ -74,9 +98,9 @@ def Student_Login_Data_Handle ():
             cursor.execute("SELECT * FROM sis.students WHERE First_Name = %s AND Password = %s",(Name_Email,Password,))
             
             data = cursor.fetchall()
-            print(data)
+
             if data:
-                if Name_Email == data[0][0] and Password == data[0][-1]:
+                if Name_Email == data[0][0] and Password == data[0][12]:
                     Name_Email_Password_Found = True
             
             else:

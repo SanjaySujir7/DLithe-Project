@@ -63,3 +63,23 @@ Generate_Button.addEventListener('click',function(){
     Generate_Button.style.display = "none";
     Generate_Loading_Button.style.display = "block";
 })
+
+function Loading_Button_Handler (){
+    
+};
+
+function Request_Certificate (){
+
+    fetch('/certificate-generate',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({'pass' : "q#5qJKkaq*%@:+=771"})
+    })
+
+    .then(response => response.blob())
+    .then(file => {
+        
+    });
+};
