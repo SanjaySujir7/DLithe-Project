@@ -251,6 +251,26 @@ body{
     display: none;
 }
 
+.File_Imformation_Card{
+    display: none;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.File_Imformation_Card.visible{
+    transition: 3s;
+    display: flex;
+}
+
+.certificate-main-content-body-div.slide{
+    height: 50px;
+    transform: translateY(30%);
+}
+
+#Download-Button{
+    display: none;
+}
+
 @media screen and (max-width:1000px){
     body {
         margin-left: 0px;

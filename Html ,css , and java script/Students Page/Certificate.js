@@ -62,4 +62,11 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 Generate_Button.addEventListener('click',function(){
     Generate_Button.style.display = "none";
     Generate_Loading_Button.style.display = "block";
+    Button_Div.classList.add('slide')
+    File_Card.classList.add('visible');
 })
+
+// file
+
+let File_Card = document.querySelector('.File_Imformation_Card'),
+Button_Div = document.querySelector('.certificate-main-content-body-div');

@@ -2,7 +2,7 @@
 from flask import Flask, jsonify,render_template,request, send_file,session,redirect,flash
 import mysql.connector
 import csv
-from Process import DateTimeProcess,Inst_Process,Random_Password
+from Process import DateTimeProcess,Inst_Process,Random_Password,Random_Cirtificate_Number
 from External import Pdf_Certificate
 from time import time
 from datetime import datetime
@@ -13,24 +13,60 @@ app = Flask(__name__)
 @app.route('/certificate-generate',methods=['POST'])
 def Generate_Certificate ():
 
-    Pass = request.get_json('pass')
+    Pass = request.get_json()
     
     if 'Student_First_Name' in session and "Student_Last_Name" in session:
         
-        if Pass == "q#5qJKkaq*%@:+=771":
+        if Pass['pass']== "q#5qJKkaq*%@:+=771":
+            
+            mydb = mysql.connector.connect(
+                host = "localhost",
+                user = "root",
+                password = "admin",
+                database = "sis"
+            )
             
             Name =  session["Student_First_Name"]
             Last = session["Student_Last_Name"]
+            Email = session['Student_Email']
+            Phone =  session['Student_Phone']
             
-            Certificate = Pdf_Certificate(Name + Last)
-            Certificate.Print()
+            cursor = mydb.cursor()
             
-            Output_File = "output.pdf"
+            cursor.execute("SELECT Certificate_Number FROM Students WHERE First_Name = %s AND Email = %s AND Phone = %s;",(Name,Email,Phone,))
+            
+            data = cursor.fetchall()
+           
+            if data :
+                Certificate_Number = data[0][0]
+                print(Certificate_Number)
+                if Certificate_Number == None:
+                    print("helllo")
+                    Certificate_Number = Random_Cirtificate_Number().Generate()
+                    
+                    cursor.execute("UPDATE students SET Certificate_Number = %s WHERE First_Name = %s AND Email = %s AND Phone = %s;",
+                                   (Certificate_Number,Name,Email,Phone))
+                    
+                    mydb.commit()
+                    
+                else:
+                    pass
+                
+                cursor.close()
+                mydb.close()
+            
+                Certificate = Pdf_Certificate(f"{Name} {Last}",Certificate_Number)
+                Certificate.Print()
+                
+                Output_File = "output.pdf"
 
-            return send_file(Output_File,as_attachment=True)
-        
+                return send_file(Output_File,as_attachment=True)
+            
+            else:
+                return "something went wrong",400
     
     else:
+
         return redirect('/student-login')
 
 
@@ -112,6 +148,10 @@ def Student_Login_Data_Handle ():
             session.permanent = True
             session["Student_First_Name"] = data[0][0]
             session["Student_Last_Name"] = data[0][1]
+            session['Student_Email'] = data[0][3]
+            session['Student_Phone'] = data[0][2]
+            
+            print(session)
             
             return redirect('/')
             

@@ -8,8 +8,10 @@ from Process import Random_Cirtificate_Number
 
 class Pdf_Certificate :
     
-    def __init__(self,Name):
+    def __init__(self,Name,Id):
+        print(f"name : {Name}, :id : {Id}")
         self.text = Name
+        self.Id = Id
         
     def Print (self):
         Input_Pdf = "Certificate_Input.pdf"
@@ -40,11 +42,9 @@ class Pdf_Certificate :
             
             Can = canvas.Canvas(Packet,pagesize=(1200,864))
             
-            Id = Random_Cirtificate_Number().Generate()
-            
             Can.setFont("Helvetica-Bold", 32)
             Can.drawString(X_pos,Y_pos, self.text)
-            Can.drawString(550,80,Id)
+            Can.drawString(550,80,self.Id)
             Can.save()
     
             Packet.seek(0)
