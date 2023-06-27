@@ -29,10 +29,10 @@
         </div>
         <div class="Header-Profile-Div" onmouseover="Show_Profile_Div()">
             <div class="Header-Profile">
-                <h6>T</h6>
+                <h6>{{data['Name'][0].upper()}}</h6>
             </div>
             <div class="Header-Profile-Student-Name">
-                <h6>Test Test</h6>
+                <h6>{{data['Name'].capitalize()}} {{data['Last']}}</h6>
             </div>
         </div>
     </header>
@@ -97,7 +97,7 @@
                         <i class="fi fi-sr-microchip" style="color:rgb(82, 82, 212); font-size:3.8rem;"></i>
                     </div>
                     <div class="Main-Course-Text">
-                        <h5>Iot</h5>
+                        <h5>{{data['Course']}}</h5>
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                     <i class="fi fi-sr-badge-check" style="color: green; font-size:3.8rem;"></i>
                 </div>
                 <div class="Main-Course-Text">
-                    <h5>Paid</h5>
+                    <h5>{{data['Payment']}}</h5>
                 </div>
             </div>
         </div>
@@ -121,7 +121,7 @@
                     </div>
                     <div class="Sub-div-of-Duration-Large-Screen">
                         <i class="fi fi-ss-calendar" style="color: green; font-size:2rem;"></i>
-                        <h5>16-06-2023</h5>
+                        <h5>{{data['Entry']}}</h5>
                     </div>
                 </div>
                 <div class="Duartion-Large-Screen-content-divs">

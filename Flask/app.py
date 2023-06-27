@@ -11,7 +11,6 @@ from datetime import datetime
 app = Flask(__name__)
 
 
-
 @app.route('/certificate-verify',methods=['POST'])
 def Verify_Certificate ():
     Data = request.get_json()
@@ -61,7 +60,12 @@ def Verify_Certificate ():
 
 @app.route('/')
 def Landing_Page ():
-    return render_template('Landing_Page.html')
+    
+    if 'Student_First_Name' in session and "Student_Last_Name" in session:
+        return redirect('/student')
+    
+    else:
+        return render_template('Landing_Page.html')
 
 
 
@@ -145,13 +149,27 @@ def Students_Page_Log_out():
 @app.route('/student')
 def Students_Info_Dashboard ():
     
-    if 'Student_First_Name' in session and "Student_Last_Name" in session:
+    if not 'Student_First_Name' in session and "Student_Last_Name" in session:
     
-        return render_template('students_imf_DashBoard.html')
-    
-    else:
         return redirect('/student-login')
     
+    else:
+        data = {
+            'Name' : session["Student_First_Name"],
+            'Last' : session["Student_Last_Name"],
+            'Phone' : session['Student_Phone'],
+            'Email' : session['Student_Email'],
+            'Reg' : session['Student_Register_Number'],
+            'Inst' : session['Student_Register_Number'],
+            'Mode' :  session['Student_Mode'],
+            'Course' : session['Student_Course_Name'],
+            'Total' : session['Student_Total'],
+            'Entry' : str(session['Student_Entry_Date']).split()[0],
+            'Payment' : session['Student_Payment_Status']
+        }
+        
+        
+        return render_template('students_imf_DashBoard.html',data = data)
     
 
 @app.route('/student-login-data',methods=['POST'])
@@ -205,8 +223,14 @@ def Student_Login_Data_Handle ():
             session["Student_Last_Name"] = data[0][1]
             session['Student_Email'] = data[0][3]
             session['Student_Phone'] = data[0][2]
-            
-            print(session)
+            session['Student_Register_Number'] = data[0][4]
+            session['Student_Institution_Name'] = data[0][5]
+            session['Student_Mode'] = data[0][6]
+            session['Student_Course_Name'] = data[0][7]
+            session['Student_Total'] = data[0][8]
+            session['Student_Entry_Date'] = data[0][9]
+            session['Student_Payment_Status'] = data[0][10]
+
             
             return redirect('/student')
             
