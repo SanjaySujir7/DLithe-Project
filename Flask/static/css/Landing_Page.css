@@ -1,0 +1,184 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #37517e;
+    margin-top: 70px;
+    overflow: auto;
+}
+
+.page-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 5;
+}
+
+.page-header .header-logo img {
+    height: 50px;
+}
+
+.header-logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+}
+
+.verify-button-div {
+    margin-right: 60px;
+}
+
+#verify-certificate-btn{
+    background-color: transparent;
+    border: 0;
+    color: whitesmoke;
+    font-size: 1rem;
+
+}
+
+
+.page-main{
+    padding-top: 50px;
+    display: grid;
+    grid-template-columns: 0.8fr 1fr;
+    padding-bottom: 100px;
+}
+
+.landing-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing-icon img{
+    width: 80%;
+    animation: img-animation infinite 3s;
+}
+
+
+.Dlithe-heading h1{
+    color: white;
+    font-weight: 700;
+    font-family: "Jost", sans-serif;
+    line-height: 50px;
+}
+
+.Dlithe-heading{
+    height: 40%;
+}
+
+.div-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-button-div{
+    margin-top: 40px;
+}
+
+.login-button{
+    background-color: green;
+    cursor: pointer;
+    color: white;
+    padding-left: 60px;
+    padding-right: 60px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.login-button:hover{
+    background-color: rgb(23, 177, 23);
+    color: white;
+}
+
+.login-button:active{
+    background-color: rgb(23, 177, 23);
+    color: white;
+}
+
+.modal-body input{
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(146, 138, 138);
+}
+
+.mobile-verify{
+    display: none;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#verify-modal-info{
+    font-size: 2rem;
+    color: maroon;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#Loading_Spinner{
+    display: none;
+}
+
+@media (max-width:800px){
+    .page-main{
+        grid-template-columns: 1fr;
+
+    }
+
+    body{
+        padding-bottom: 100px;
+    }
+
+    .Dlithe-heading{
+        margin-top: 30px;
+    }
+
+    .Dlithe-heading h1 {
+        font-size: 1.7rem;
+        text-align: center;
+    }
+    
+
+    @media (max-width:540px){
+        .header-button{
+            display: none;
+        }
+
+        .verify-button-div{
+            display: none;
+        }
+
+        .mobile-verify{
+            display: flex;
+        
+        }
+
+        .mobile-verify-button{
+            display: block;
+        }
+
+    }
+}
+
+@keyframes img-animation {
+    0%{
+        transform : translateY(0%);
+    }
+
+    50% {
+        transform : translateY(-5%);
+    }
+
+    100%{
+        transform: translateY(0%);
+    }
+}

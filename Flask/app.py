@@ -10,6 +10,61 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+
+
+@app.route('/certificate-verify',methods=['POST'])
+def Verify_Certificate ():
+    Data = request.get_json()
+    
+    Certificate_Id = Data['id']
+    Name = Data['Name'].lower()
+    Email = Data['Email']
+    
+    is_valid = True
+    if Certificate_Id and Name and Email:
+        if len(Certificate_Id == 7):
+            if "@" in Email and ".com" in Email:
+                pass
+        
+            else:
+                is_valid = False
+        
+        else:
+            is_valid = False
+            
+            
+        if is_valid:
+            mydb = mysql.connector.connect(
+                host = 'localhost',
+                user = 'root',
+                password = 'admin',
+                database = 'sis'
+            )
+            
+            cursor = mydb.cursor()
+            
+            cursor.execute("SELECT First_Name,Email FROM students WHERE Certificate_Number = %s AND First_Name = %s AND Email = %s",
+                            (Certificate_Id,Name,Email))
+            
+            data = cursor.fetchall()
+            
+            if data:
+                
+                return jsonify({'result':True,'content' : "Certificate Exists."})
+            
+            else:
+                return jsonify({'result':False,'content' : "Certificate Does not Exists!"})
+            
+        else:
+            return jsonify({'result':False,'content' : "Invalid Input!"})
+
+
+@app.route('/')
+def Landing_Page ():
+    return render_template('Landing_Page.html')
+
+
+
 @app.route('/certificate-generate',methods=['POST'])
 def Generate_Certificate ():
 
@@ -87,7 +142,7 @@ def Students_Page_Log_out():
     return redirect('student-login')
     
 
-@app.route('/')
+@app.route('/student')
 def Students_Info_Dashboard ():
     
     if 'Student_First_Name' in session and "Student_Last_Name" in session:
@@ -131,7 +186,7 @@ def Student_Login_Data_Handle ():
                 Name_Email_Password_Found = False
         
         else:
-            cursor.execute("SELECT * FROM sis.students WHERE First_Name = %s AND Password = %s",(Name_Email,Password,))
+            cursor.execute("SELECT * FROM sis.students WHERE First_Name = %s AND Password = %s",(Name_Email.lower(),Password,))
             
             data = cursor.fetchall()
 
@@ -153,7 +208,7 @@ def Student_Login_Data_Handle ():
             
             print(session)
             
-            return redirect('/')
+            return redirect('/student')
             
         else:
             flash("Account Does not Exists!",'error')
@@ -177,7 +232,7 @@ def Add_Student ():
     
     if data :
     
-        Name = data['Name']
+        Name = data['Name'].lower()
         Last = data['Last']
         Phone = data['Phone']
         Email = data['Email']
@@ -508,7 +563,7 @@ def Import_File ():
             
             for each_user in data:
                 
-                Name = each_user['First_Name']
+                Name = each_user['First_Name'].lower()
                 Last = each_user['Last_Name']
                 Phone = each_user['Phone']
                 Email = each_user['Email']
