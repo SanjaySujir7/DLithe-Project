@@ -5,6 +5,10 @@ const Input_id = document.getElementById('certificate-id'),
       Input_Email = document.getElementById('floatingInputEmail'),
       verify_Button = document.getElementById('verify-button-dialog');
 
+const Result_Modal = document.getElementById('result-modal'),
+      Result_Modal_Icon = document.getElementById('result-modal-icon'),
+      Result_Modal_title = document.getElementById('staticBackdropLabel');
+
 
 let Id_valid = false , Name_Valid = false , Email_valid = false;
 
@@ -13,7 +17,7 @@ function Spinner_Toggle (mode){
             Spinner.style.display = "block";
         }
         else{
-            Spinner_Dialog.style.display = "none";
+            Spinner.style.display = "none";
         }
     }
 
@@ -42,6 +46,7 @@ function Final_Process(){
                 Email : Input_Email.value
             }
 
+
             fetch('/certificate-verify',{
                 method : 'POST',
                 headers : {
@@ -54,8 +59,22 @@ function Final_Process(){
             .then(data => {
                 Spinner_Toggle(false);
 
-                if(!data['result']){
-                    alert(data['content'])
+                $('#verifyModal').modal('hide')
+
+                if(data['result']){
+                    $('#result-modal').modal('show')
+
+                    Result_Modal_Icon.className = "fi fi-ss-check-circle";
+                    Result_Modal_Icon.style.color = 'green';
+                    Result_Modal_title.innerText = data['title'];
+                }
+
+                else{
+                    $('#result-modal').modal('show')
+
+                    Result_Modal_Icon.className = "fi fi-sr-circle-xmark"
+                    Result_Modal_Icon.style.color = 'red';
+                    Result_Modal_title.innerText = data['title'];
                 }
 
             })

@@ -22,7 +22,7 @@ def Verify_Certificate ():
     
     is_valid = True
     if Certificate_Id and Name and Email:
-        if len(Certificate_Id == 7):
+        if len(Certificate_Id) == 7:
             if "@" in Email and ".com" in Email:
                 pass
         
@@ -43,20 +43,20 @@ def Verify_Certificate ():
             
             cursor = mydb.cursor()
             
-            cursor.execute("SELECT First_Name,Email FROM students WHERE Certificate_Number = %s AND First_Name = %s AND Email = %s",
+            cursor.execute("SELECT  First_Name,Email FROM students WHERE Certificate_Number = %s AND First_Name = %s AND Email = %s",
                             (Certificate_Id,Name,Email))
             
             data = cursor.fetchall()
             
             if data:
                 
-                return jsonify({'result':True,'content' : "Certificate Exists."})
+                return jsonify({'result':True,'title' : "Certificate is Authorized"})
             
             else:
-                return jsonify({'result':False,'content' : "Certificate Does not Exists!"})
+                return jsonify({'result':False,'title' : "Certificate is Unauthorized"})
             
         else:
-            return jsonify({'result':False,'content' : "Invalid Input!"})
+            return jsonify({'result':False,'title' : "Invalid Input!"})
 
 
 @app.route('/')

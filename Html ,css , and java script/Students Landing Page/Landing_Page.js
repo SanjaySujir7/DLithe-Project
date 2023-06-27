@@ -97,4 +97,3 @@ Input_Email.addEventListener('input',function(){
 
 Input_id.addEventListener('input',Input_Id_Process);
 verify_Button.addEventListener('click',Final_Process);
-
