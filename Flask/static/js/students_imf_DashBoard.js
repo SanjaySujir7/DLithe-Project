@@ -108,7 +108,7 @@ Dialog_Duartion_close.addEventListener('click',function(){
 
 
 let Start_Value = 0,
-    End_Value = 70,
+    End_Value = Days_Left,
     speed = 30;
 
 let Progress = setInterval(() => {
@@ -128,24 +128,21 @@ let Progress = setInterval(() => {
 
 function Dialog_Progress_Togle (){
     let Start_Value_d = 0,
-        End_Value_d = 70,
+        End_Value_d = Days_Left,
         speed_d = 30;
 
     let Progress_d = setInterval(() => {
-        
+        Start_Value_d++;
+
         if(Start_Value_d == End_Value_d){
-            Start_Value_d++;
+            
             clearInterval(Progress_d);
 
         }
-        else{
 
-            Circle_Progress_dialog_value.innerText = Start_Value_d + "%";
-            Circle_Progress_dialog.style.background = "conic-gradient(rgb(40, 57, 212)" + Start_Value_d * 3.6 + "deg, white 0deg)";
+        Circle_Progress_dialog_value.innerText = Start_Value_d + "%";
+        Circle_Progress_dialog.style.background = "conic-gradient(rgb(40, 57, 212)" + Start_Value_d * 3.6 + "deg, white 0deg)";
 
-            Start_Value_d++;
-
-        }
 
 },speed_d);
 }

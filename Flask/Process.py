@@ -106,5 +106,35 @@ class Random_Cirtificate_Number:
         return Serial_Number
 
 
+
+class Icon_Process :
     
+    course_icon = {
+        'iot' : "fi fi-sr-microchip",
+        'web development' : 'fi fi-sr-globe',
+        'machine learning' : 'fi fi-ss-brain-circuit',
+        'cyber security' : 'fi fi-sr-shield-virus'
+    }
+    
+    Payment_icon = {
+        'paid' : [
+            'fi fi-sr-badge-check',
+            'green'
+        ],
+        'not paid': [
+            'fi fi-sr-circle-xmark',
+            'red'
+        ]
+    }
+    
+    def Process(self,course : str,Payment_status : str):
         
+        Payment_status = Payment_status.lower()
+        course = course.lower()
+        
+        Course_Icon = self.course_icon[course]
+        Payment_Icon = self.Payment_icon[Payment_status]
+        
+        return {'course' : Course_Icon , 'pay' : Payment_Icon}
+    
+    

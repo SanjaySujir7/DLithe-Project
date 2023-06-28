@@ -2,10 +2,10 @@
 from flask import Flask, jsonify,render_template,request, send_file,session,redirect,flash
 import mysql.connector
 import csv
-from Process import DateTimeProcess,Inst_Process,Random_Password,Random_Cirtificate_Number
+from Process import DateTimeProcess,Inst_Process,Random_Password,Random_Cirtificate_Number,Icon_Process
 from External import Pdf_Certificate
 from time import time
-from datetime import datetime
+from datetime import datetime,date
 
 
 app = Flask(__name__)
@@ -98,9 +98,9 @@ def Generate_Certificate ():
            
             if data :
                 Certificate_Number = data[0][0]
-                print(Certificate_Number)
+
                 if Certificate_Number == None:
-                    print("helllo")
+    
                     Certificate_Number = Random_Cirtificate_Number().Generate()
                     
                     cursor.execute("UPDATE students SET Certificate_Number = %s WHERE First_Name = %s AND Email = %s AND Phone = %s;",
@@ -114,7 +114,7 @@ def Generate_Certificate ():
                 cursor.close()
                 mydb.close()
             
-                Certificate = Pdf_Certificate(f"{Name} {Last}",Certificate_Number)
+                Certificate = Pdf_Certificate(f"{Name.capitalize()} {Last}",Certificate_Number)
                 Certificate.Print()
                 
                 Output_File = "output.pdf"
@@ -165,11 +165,41 @@ def Students_Info_Dashboard ():
             'Course' : session['Student_Course_Name'],
             'Total' : session['Student_Total'],
             'Entry' : str(session['Student_Entry_Date']).split()[0],
-            'Payment' : session['Student_Payment_Status']
+            'End' : "2023-8-20",
+            'Payment' : session['Student_Payment_Status'],
+            'Days' : None,
+            'Days_Left' : None
         }
         
+        start = str(data['Entry']).split('-')
+        end = data['End'].split('-')
         
-        return render_template('students_imf_DashBoard.html',data = data)
+        start = [int(i) for i in start]
+        end = [int(i) for i in end]
+        
+        start = date(start[0],start[1],start[2])
+        end = date(end[0],end[1],end[2])
+        
+        Days = end - start
+        
+        data["Days"] = Days.days
+        
+        Today = str(datetime.now()).split()[0]
+        Today = Today.split('-')
+        Today = [int(i) for i in Today]
+        Today = date(Today[0],Today[1],Today[2])
+        
+        Days = end - Today
+        
+        percentage = data['Days'] - Days.days 
+        percentage = percentage / data['Days'] * 100
+        
+        data['Days_Left'] = round(percentage)
+        
+        Icon = Icon_Process().Process(data['Course'],data['Payment'])
+        
+        
+        return render_template('students_imf_DashBoard.html',data = data,Icon = Icon)
     
 
 @app.route('/student-login-data',methods=['POST'])

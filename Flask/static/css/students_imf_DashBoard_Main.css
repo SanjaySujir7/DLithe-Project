@@ -269,5 +269,14 @@
     #View-Programm-Details-Button{
         display: block;
     }
+
+    .imformation-main-section{
+        padding-bottom: 50px;
+        margin-bottom: 50px;
+    }
+    
+    body{
+        padding-bottom: 10px;
+    }
 }
  
