@@ -2,6 +2,8 @@ const Header = document.querySelector('.header'),
     Side_Nav = document.querySelector('.side-nav'),
     Side_Nav_Button = document.getElementById('Side-Nav-Button');
 
+const Export_Modal_button = document.getElementById('Export-Dialog-button'),
+      Export_Dialog_Spinner = document.getElementById('Loading-button-Export');
 
 const Import_btn = document.getElementById('import-modal-button');
 
@@ -27,3 +29,13 @@ Import_btn.addEventListener('click',function(){
     $('#ImportModal').modal('hide');
     $('#SpinnerModal').modal('show');
 })
+
+Export_Modal_button.addEventListener('click',function(){
+    Export_Modal_button.style.display = 'none';
+    Export_Dialog_Spinner.style.display = 'block';
+});
+
+
+function Create_Table (){
+
+};
