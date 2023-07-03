@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="imformation-table container-fluid">
-                <table class="table table-hover">
+                <table class="table" id="Table">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
@@ -79,15 +79,15 @@
                         <th scope="col">Phone</th>
                         <th scope="col">Email</th>
                         <th scope="col">Register</th>
+                        <th scope="col">Institution</th>
                         <th scope="col">Course</th>
-                        <th scope="col">Insttitution</th>
                         <th scope="col">Mode</th>
                         <th scope="col">Entry Date</th>
                         <th scope="col">Total</th>
                         <th scope="col">Payment</th>
                       </tr>
                     </thead>
-                    <tbody class="table-group-divider">
+                    <tbody class="table-group-divider" id="Table-Body">
                       <tr>
                         <th scope="row">1</th>
                         <td>test</td>
@@ -95,8 +95,8 @@
                         <td>1234567890</td>
                         <td>testtest@gmail.com</td>
                         <td>1a2452626</td>
-                        <td>Web Development</td>
                         <td>test test</td>
+                        <td>Web Development</td>
                         <td>Online</td>
                         <td>30-06-2023</td>
                         <td>5000</td>
@@ -109,8 +109,8 @@
                         <td>1234567890</td>
                         <td>testtest@gmail.com</td>
                         <td>1a2452626</td>
-                        <td>Web Development</td>
                         <td>test test</td>
+                        <td>Web Development</td>
                         <td>Online</td>
                         <td>30-06-2023</td>
                         <td>5000</td>
@@ -164,7 +164,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-floating">
-                                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                                <select class="form-select" id="Collage-filter" aria-label="Floating label select example">
                                   <option selected>All</option>
                                 </select>
                                 <label for="floatingSelect">Collage</label>
@@ -172,22 +172,27 @@
                         </div>
                         <div class="col">
                             <div class="form-floating">
-                                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                                <select class="form-select" id="Course-filter" aria-label="Floating label select example">
                                   <option selected>All</option>
                                 </select>
                                 <label for="floatingSelect">Course</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 20px;">
-                        <div class="col">
-                            <div>
-                                <input type="date" id="Filter-Date">
-                            </div>
+                    <div style="margin-top: 20px;display:flex;">
+                        <div class="col" style="margin-right: 20px;">
+                            <h6>From</h6>
+                            <input type="date" class="Filter-Date" id="Date-filter-From">
                         </div>
                         <div class="col">
+                            <h6>To</h6>
+                            <input type="date" class="Filter-Date" id="Date-filter-To">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col">
                             <div class="form-floating">
-                                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                                <select class="form-select" id="Payment_Filter" aria-label="Floating label select example">
                                   <option selected>All</option>
                                   <option>Paid</option>
                                   <option>Not Paid</option>
@@ -195,12 +200,22 @@
                                 <label for="floatingSelect">Payment Status</label>
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <select class="form-select" id="Mode_Filter" aria-label="Floating label select example">
+                                  <option selected>All</option>
+                                  <option>Offline</option>
+                                  <option>Online</option>
+                                </select>
+                                <label for="floatingSelect">Mode</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" id="import-modal-button">Apply Filter</button>
-              <button type="button" class="btn btn-secondary">Remove all Filter</button>
+              <button type="button" class="btn btn-primary" id="Apply-Filter-btn">Apply Filter</button>
+              <button type="button" class="btn btn-secondary" id="Remove-Filter-btn">Remove all Filter</button>
             </div>
           </div>
         </div>
@@ -322,7 +337,7 @@
                     <div class="row">
                         <div class="col input-group has-validation">
                             <div class="form-check mb3">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" checked>
                                 <label class="form-check-label" for="flexRadioDefault1">
                                   Not Paid
                                 </label>
@@ -354,7 +369,7 @@
             <div class="modal-body">
                 <div class="container-fluid d-fex justify-content-center align-items-center">
                     <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                        <select class="form-select" id="Export-File-Format" aria-label="Floating label select example">
                           <option selected>Csv</option>
                         </select>
                         <label for="floatingSelect">File Format</label>
@@ -363,24 +378,24 @@
                 <div class="row container-fluid" style="margin-top: 20px;">
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="f-check">
+                            <label class="form-check-label" for="f-check" >
                               First Name
                             </label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="l-check">
+                            <label class="form-check-label" for="l-check">
                               Last Name
                             </label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="ph-check">
+                            <label class="form-check-label" for="ph-check">
                               Phone
                             </label>
                         </div>
@@ -388,25 +403,25 @@
                 </div>
                 <div class="row container-fluid" style="margin-top: 20px;">
                     <div class="col">
-                        <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                        <div class="form-check mb3"> 
+                            <input class="form-check-input export-check" type="checkbox" id="em-check">
+                            <label class="form-check-label" for="em-check">
                               Email
                             </label>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                        <div class="form-check mb3">  
+                            <input class="form-check-input export-check" type="checkbox" id="r-check">
+                            <label class="form-check-label" for="r-check">
                               Register
                             </label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="i-check">
+                            <label class="form-check-label" for="i-check">
                              Institution 
                             </label>
                         </div>
@@ -415,24 +430,24 @@
                 <div class="row container-fluid" style="margin-top: 20px;">
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="m-check">
+                            <label class="form-check-label" for="m-check" >
                               Mode
                             </label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="c-check">
+                            <label class="form-check-label" for="c-check">
                               Course
                             </label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="t-check">
+                            <label class="form-check-label" for="t-check">
                                 Total
                             </label>
                         </div>
@@ -441,24 +456,24 @@
                 <div class="row container-fluid" style="margin-top: 20px;">
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="e-check">
+                            <label class="form-check-label" for="e-check">
                               Entry Date
                             </label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input export-check" type="checkbox" id="p-check">
+                            <label class="form-check-label" for="p-check">
                             Payment Status
                             </label>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
-                            <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox" id="All-checkbox">
+                            <label class="form-check-label" for="All-checkbox">
                              All
                             </label>
                         </div>
@@ -496,7 +511,7 @@
                         </div>
                         <div class="col d-flex justify-content-end">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" style="width: 50px; height : 20px;">
+                                <input class="form-check-input" type="checkbox" role="switch" style="width: 50px; height : 20px;" id="striped-rows">
                             </div>
                         </div>
                     </div>
@@ -506,7 +521,7 @@
                         </div>
                         <div class="col d-flex justify-content-end">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" style="width: 50px; height : 20px;">
+                                <input class="form-check-input" type="checkbox" role="switch" style="width: 50px; height : 20px;" id="hover-rows">
                             </div>
                         </div>
                     </div>
@@ -515,7 +530,8 @@
                             <h6 style="margin-top:5px;">Table Border</h6>
                         </div>
                         <div class="col d-flex justify-content-end">
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select" aria-label="Default select example" id="table-border">
+                                <option>Default</option>
                                 <option>Borderd</option>
                                 <option>No Border</option>
                             </select>
@@ -525,7 +541,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="import-modal-button">Apply</button>
+              <button type="button" class="btn btn-primary" id="Apply-settings-btn" >Apply</button>
             </div>
           </div>
         </div>
@@ -540,6 +556,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+      </div>
+
+      <!-- Result Modal -->
+      <div class="modal fade" tabindex="-1" id="ResultModal" role="none">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body d-flex ">
+              <i class="fi fi-rr-check-circle" style="font-size: 35px;color:green; margin-right:20px;" id="Result-modal-i"></i>
+              <p style="margin-top: 9px;" id="Result-modal-text">Settings Applied</p>
+            </div>
+          </div>
         </div>
       </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

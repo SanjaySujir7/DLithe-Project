@@ -21,10 +21,10 @@
     height: 100%;
 }
 
-#Filter-Date{
+.Filter-Date{
     height: 58px;
     text-align: center;
-    width: 215px;
+    width: 210px;
     border-radius: 5px;
     border: 1px solid rgb(168, 165, 165);
 }
