@@ -34,7 +34,7 @@ c = mydb.cursor()
 
 
 c.execute("SELECT * FROM students;")
-
+# c.execute("SELECT * FROM sis.admin")
 data = c.fetchall()
 
 print(data)

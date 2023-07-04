@@ -322,12 +322,12 @@ def Add_Student ():
             
             cursor = Mydb.cursor()
             
-            cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s ;",(Phone,Register_Number,))
+            cursor.execute("SELECT Entry_Date , Inst_Key FROM students WHERE Phone = %s AND Register_Number = %s ;",(Phone,Register_Number,))
             if_data_exist = cursor.fetchall()
                 
             if if_data_exist :
-                    pass
-                
+                return jsonify({'res' : True,'date' : data[0][0],'Inst' : data[0][1]})
+            
             else:
                 Password = Random_Password(10).Generate()
                 
@@ -339,14 +339,14 @@ def Add_Student ():
                 
                 Mydb.commit()
                 
-                cursor.execute('SELECT Entry_Date FROM students WHERE Phone = %s AND Register_Number = %s ;',(Phone,Register_Number,))
+                cursor.execute('SELECT Entry_Date, Inst_Key FROM students WHERE Phone = %s AND Register_Number = %s ;',(Phone,Register_Number,))
                 data = cursor.fetchall()
                 
                 cursor.close()
                 Mydb.close()
                 
             
-                return jsonify({'res' : True,'date' : data[0][0]})
+                return jsonify({'res' : True,'date' : data[0][0],'Inst' : data[0][1]})
         
         else:
             
@@ -561,7 +561,7 @@ def Get_Csv_Data ():
                     'Course_Name' :  Course_Name,
                     'Total' :  Total,
                     'Entry_Date' : Entry_Date,
-                    'Payment_Status' : Payment_Status,
+                    'Payment_Status' : Payment_Status.capitalize(),
                     'Inst_Key' : Inst_Key
                 }
                 
@@ -577,11 +577,34 @@ def Get_Csv_Data ():
 
 
 
-@app.route('/students')
+@app.route('/admin-students')
 def Students_DashBoard():
-    
-    if 'Name' in session and 'Last' in session: 
-             return render_template('Students.html')
+
+    if 'Name' in session and 'Email' in session:
+
+        Name = session['Name']
+        Email = session['Email']
+        Password = session['Password']
+        
+        Mydb = mysql.connector.connect(
+        host = "localhost",
+        user = "root",
+        password = "admin",
+        database = 'sis'
+        
+        )
+        
+        cursor = Mydb.cursor()
+        
+        cursor.execute('SELECT First_Name FROM admin WHERE First_Name = %s AND Email = %s AND Password = %s',(Name,Email,Password))
+        data = cursor.fetchall()
+        
+        if data:
+            
+            return render_template("Admin_Students_Page.html")
+        
+        else:
+            return redirect('/login')
          
     else:
         return redirect('/login')
@@ -654,11 +677,11 @@ def Import_File ():
             return redirect('/students')
         
         else:
-            return redirect("/students")
+            return redirect("/admin-students")
         
     else:
         
-        return redirect('/students')
+        return redirect('/admin-students')
 
 
 @app.route('/admin')
@@ -714,6 +737,7 @@ def Login_process():
                 session['Name'] = data[0][0]
                 session['Last'] = data[0][1]
                 session['Email'] = data[0][2]
+                session['Password'] = data[0][3]
                 Name_Email_found = True
                 
         else:
@@ -732,6 +756,7 @@ def Login_process():
                     session['Name'] = data[0][0]
                     session['Last'] = data[0][1]
                     session['Email'] = data[0][2]
+                    session['Password'] = data[0][3]
                     Name_Email_found = True
         
         c.close()

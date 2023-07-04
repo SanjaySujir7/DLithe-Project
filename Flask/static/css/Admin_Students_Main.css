@@ -1,0 +1,39 @@
+.main-page{
+    height: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.imformation-card{
+    background-color:var(--Card_Background);
+    height: 90%;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.185);
+    padding-top: 10px;
+}
+
+.imformation-card-header{
+    height: 80px;
+}
+
+.filter-button-div{
+    height: 100%;
+}
+
+.Filter-Date{
+    height: 58px;
+    text-align: center;
+    width: 210px;
+    border-radius: 5px;
+    border: 1px solid rgb(168, 165, 165);
+}
+
+.imformation-table{
+    overflow-y: auto;
+    height: 84%;
+}
+
+#Loading-button-Export{
+    display: none;
+}

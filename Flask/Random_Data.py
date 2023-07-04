@@ -35,7 +35,7 @@ max = 4
 
 st = 0
 
-while  st <= 5:
+while  st <= 10:
     
     Name = ''
     Last = ''
