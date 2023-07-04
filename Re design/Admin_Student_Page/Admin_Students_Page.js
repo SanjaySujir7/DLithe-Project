@@ -77,7 +77,7 @@ function Create_Filter (collage , course){
 };
 
 
-function Result_Popup(text , condition){
+function Result_Popup(text , condition , Time){
     Result_Modal_Text.innerText = text;
 
     if(condition){
@@ -90,10 +90,13 @@ function Result_Popup(text , condition){
         Result_Modal_Icon.style.color = "red";
     }
 
-    $("#ResultModal").modal("show");
+    setTimeout(function(){
+        $("#ResultModal").modal("show");
+    },200)
+
     setTimeout(function(){
         $('#ResultModal').modal('hide');
-    },1500)
+    },Time)
 
 };
 
@@ -111,6 +114,7 @@ for(let i = 0;i < Export_Check_Box.length ; i++){
         for(let i = 0;i < Export_Check_Box.length ; i++){
             if(Export_Check_Box[i].checked == false){
                 Non_Checked = true;
+                break;
             }
 
             if(Non_Checked){
@@ -164,13 +168,12 @@ Export_Modal_button.addEventListener('click',function(){
 
     // << == Fetch == >> 
 
-    console.log(Export_Limit_List);
     Export_Dialog_Spinner.style.display = 'none';
     Export_Modal_button.style.display = 'block';
 });
 
-
-function Create_Table ( RN, First , Last , Phone , Email ,Register , Inst , Course , Mode , Entry, Total, Payment ){
+let RN = 1;
+function Create_Table (First , Last , Phone , Email ,Register , Inst , Course , Mode , Entry, Total, Payment ){
     let Table_row = document.createElement('tr');
 
     let Row_no = document.createElement('th');
@@ -234,8 +237,8 @@ function Create_Table ( RN, First , Last , Phone , Email ,Register , Inst , Cour
     Table_row.appendChild(Tr11);
 
     Table_Body.appendChild(Table_row);
+    RN++;
 };
-
 
 function Table_Settings (){ 
     localStorage.clear();
@@ -283,7 +286,7 @@ function Table_Settings (){
     }
 
     $("#SettingsModal").modal('hide');
-    Result_Popup('New Settings Applied',true);
+    Result_Popup('New Settings Applied',true,1700);
 }
 
 function Default_Settings (){
