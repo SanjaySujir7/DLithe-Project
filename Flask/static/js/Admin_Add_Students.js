@@ -25,7 +25,29 @@ function Account_Check(){
     }
 
     if(Move_Process){
-        // <== Fetch ==> 
+        Check_Things = {
+            Phone : Phone_Add.value,
+            Name : First_Name_Add.value,
+            Email : Email_Add.value,
+            Last : Last_Name_Add.value
+        }
+
+        fetch('/Student-Account-check',{
+            method : 'POST',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+    
+            body : JSON.stringify(Check_Things)
+    
+        })
+
+        .then(response => response.json())
+        .then(data => {
+            if(data['res']){
+                alert('Account Already Exists!')
+            }
+        })
     }
 };
 
@@ -81,13 +103,14 @@ function Phone_Process (){
             Add_Validation[2][0].classList.add('is-invalid');
             Add_Validation[2][0].classList.remove('is-valid');
             Add_Validation[2][1] = false;
+            Account_Check();
         }
         else{
             if(Phone_Add.value.length >= 10){
                 Add_Validation[2][0].classList.add('is-valid');
                 Add_Validation[2][0].classList.remove('is-invalid');
                 Add_Validation[2][1] = true;
-                Account_Check();
+
             }
             else{
                 Add_Validation[2][0].classList.add('is-invalid');
@@ -258,7 +281,7 @@ function Final_Process (){
                     ,Send_Obj.Mode,data['date'],Send_Obj.Total,Send_Obj.Payment);
 
                 Create_Filter(data['Inst'],Send_Obj.Course);
-                $("#Add-Student-modal").modal()
+                $("#Add-Student-modal").modal('hide')
                 Result_Popup("Student data Added.",true,1700);
             }
             else{
@@ -278,13 +301,13 @@ function Final_Process (){
             document.getElementById('payment_radio_add_Not').checked = true;
 
             First_Name_Add.classList.remove('is-valid')
-            Last_Name_Add.value.remove('is-valid')
-            Phone_Add.value.remove('is-valid')
-            Email_Add.value.remove('is-valid')
-            Reg_Add.value.remove('is-valid')
-            Inst_Add.value.remove('is-valid')
-            Course_Add.value.remove('is-valid')
-            Total_Add.value.remove('is-valid')
+            Last_Name_Add.remove('is-valid')
+            Phone_Add.remove('is-valid')
+            Email_Add.remove('is-valid')
+            Reg_Add.remove('is-valid')
+            Inst_Add.remove('is-valid')
+            Course_Add.remove('is-valid')
+            Total_Add.remove('is-valid')
         })
 
    }

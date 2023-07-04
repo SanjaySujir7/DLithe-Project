@@ -11,6 +11,38 @@ from datetime import datetime,date
 app = Flask(__name__)
 
 
+@app.route('/Student-Account-check',methods=["POST"])
+def Check_Account_Exists ():
+    data = request.get_json()
+    
+    if data:
+        Phone = data["Phone"]
+        Email = data['Email']
+        Name = data['Name'].lower()
+        Last = data['Last'].lower()
+        
+        mydb = mysql.connector.connect(
+                host = 'localhost',
+                user = 'root',
+                password = 'admin',
+                database = 'sis'
+            )
+            
+        cursor = mydb.cursor()
+        
+        cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Email = %s AND First_Name = %s AND Last_Name = %s;",(Phone,Email,Name,Last))
+        data = cursor.fetchall()
+        
+        if data:
+            return jsonify({"res" : True})
+        else:
+            return jsonify({"res" : False})
+    
+    else:
+        return jsonify({"res" : False})
+    
+
+
 @app.route('/certificate-verify',methods=['POST'])
 def Verify_Certificate ():
     Data = request.get_json()
@@ -201,6 +233,7 @@ def Students_Info_Dashboard ():
         
         return render_template('students_imf_DashBoard.html',data = data,Icon = Icon)
     
+    
 
 @app.route('/student-login-data',methods=['POST'])
 def Student_Login_Data_Handle ():
@@ -287,7 +320,7 @@ def Add_Student ():
     if data :
     
         Name = data['Name'].lower()
-        Last = data['Last']
+        Last = data['Last'].lower()
         Phone = data['Phone']
         Email = data['Email']
         Register_Number= data['Reg']
@@ -403,60 +436,6 @@ def Log_out ():
     
     return redirect('/login')
 
-
-
-@app.route('/update-students-table',methods=['POST'])
-def Update_Students_Data():
-    details = request.get_json()
-
-    if details:
-        
-        new_list = []
-        
-        for sublist in details:
-            if not new_list:
-                new_list.append(sublist)
-            else:
-                got = False
-                
-                for x in new_list:
-                    if x[0] == sublist[0] and x[1] == sublist[1]:
-                        got = True
-                        
-                if not got :
-                    new_list.append(sublist)
-        
-    
-        
-        Mydb = mysql.connector.connect(
-        host = "localhost",
-        user = "root",
-        password = "admin",
-        database = 'sis'
-        )
-        
-        cursor = Mydb.cursor()
-        
-        for each_user in new_list:
-            Phone = each_user[0]
-            Email = each_user[1]
-            Course = each_user[2]
-            Total = each_user[3]
-            Payment_Status = each_user[4]
-            
-            cursor.execute("UPDATE students SET Course_Name = %s , Total = %s , Payment_Status = %s WHERE Phone = %s AND Email = %s;",
-                           (Course,Total,Payment_Status,Phone,Email,))
-            
-        
-        Mydb.commit()
-        cursor.close()
-        Mydb.close()
-        
-    
-        return jsonify({'result':True})
-    
-    else:
-        return jsonify({'result': False})
     
 
 @app.route('/get-data-csv',methods=['GET','POST'])
@@ -551,7 +530,7 @@ def Get_Csv_Data ():
             
             Students.append(
                 {
-                    'First_Name' : Name,
+                    'First_Name' : Name.capitalize(),
                     'Last_Name' : Last,
                     'Phone' :  Phone,   
                     'Email' : Email,
@@ -641,7 +620,7 @@ def Import_File ():
             for each_user in data:
                 
                 Name = each_user['First_Name'].lower()
-                Last = each_user['Last_Name']
+                Last = each_user['Last_Name'].lower()
                 Phone = each_user['Phone']
                 Email = each_user['Email']
                 Register_Number= each_user['Register_Number']
@@ -686,10 +665,33 @@ def Import_File ():
 
 @app.route('/admin')
 def Admin_Page ():
-
+        
         if 'Name' in session and 'Last' in session: 
-             return render_template('admin.html')
-         
+             
+            Name = session['Name']
+            Email = session['Email']
+            Password = session['Password']
+            
+            Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "admin",
+            database = 'sis'
+            
+            )
+            
+            cursor = Mydb.cursor()
+            
+            cursor.execute('SELECT First_Name FROM admin WHERE First_Name = %s AND Email = %s AND Password = %s',(Name,Email,Password))
+            data = cursor.fetchall()
+            
+            if data:
+                
+                return render_template("Admin.html")
+            
+            else:
+                return redirect('/login')
+            
         else:
             return redirect('/login')
             
@@ -712,6 +714,9 @@ def index ():
 
 @app.route('/login-data',methods = ['POST'])
 def Login_process():
+    
+    app.config['PERMANENT_SESSION_LIFETIME'] = 1140
+    
     Name_Email = request.form['uname']
     Password = request.form['psw']
     
