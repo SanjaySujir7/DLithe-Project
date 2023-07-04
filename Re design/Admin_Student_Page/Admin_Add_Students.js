@@ -264,6 +264,18 @@ function Final_Process (){
             else{
                 Result_Popup("Something Went Wrong !",false,1700);
             }
+
+            First_Name_Add.value = "";
+            Last_Name_Add.value = "";
+            Phone_Add.value = "";
+            Email_Add.value = "";
+            Reg_Add.value = "";
+            Inst_Add.value = "";
+            Course_Add.value = "Select";
+            Mode_Add.value = "Offline";
+            Total_Add.value = "";
+            payment_radio_add.checked = false;
+            document.getElementById('payment_radio_add_Not').checked = true;
         })
 
    }

@@ -280,7 +280,7 @@
                         <div class="col input-group has-validation">
                             <div class="form-floating mb-3">
                                 <select class="form-select mb-3" aria-label=".form-select-lg example" id="Course_Add">
-                                    <option selected>Select</option>
+                                    <option  value="Select" selected>Select</option>
                                     <option>Machine Learning</option>
                                     <option>Iot</option>
                                     <option>Web Development</option>
@@ -297,7 +297,7 @@
                         <div class="col input-group has-validation">
                             <div class="form-floating mb-3">
                                 <select class="form-select mb-3" aria-label=".form-select-lg example" id="Mode_Add">
-                                    <option selected>Offline</option>
+                                    <option selected value="Offline">Offline</option>
                                     <option>Online</option>
                                 </select>
                             </div>
@@ -316,7 +316,7 @@
                     <div class="row">
                         <div class="col input-group has-validation">
                             <div class="form-check mb3">
-                                <input class="form-check-input" type="radio" name="payment_radio_add" checked>
+                                <input class="form-check-input" type="radio" name="payment_radio_add_Not" checked>
                                 <label class="form-check-label" for="flexRadioDefault1">
                                   Not Paid
                                 </label>
@@ -460,7 +460,9 @@
                 </div>
             </div>
             <div class="modal-footer" style="border: none; justify-content:center;">
-              <button type="button" class="btn btn-success" disabled>Download</button>
+              <a id="Export-Download-Link">
+                  <button type="button" class="btn btn-success" id="Export-Download-btn" disabled>Download</button>
+              </a>
               <button type="button" class="btn btn-primary" id="Export-Dialog-button">Export</button>
               <button class="btn btn-primary" type="button" id="Loading-button-Export" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

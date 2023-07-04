@@ -33,6 +33,8 @@ const Result_Modal_Text = document.getElementById('Result-modal-text'),
 
 let  Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All']
 
+let Export_List = []
+
 function Apply_Filter (){
     console.log(Date_Filter_From.value);
     if(Date_Filter_From.value =="" || Date_Filter_To.value == ""){
@@ -154,6 +156,11 @@ Import_btn.addEventListener('click',function(){
     $('#SpinnerModal').modal('show');
 })
 
+const Export_Download_Link = document.getElementById('Export-Download-Link'),
+      Export_Download_Btn = document.getElementById('Export-Download-btn');
+
+
+
 Export_Modal_button.addEventListener('click',function(){
     Export_Modal_button.style.display = 'none';
     Export_Dialog_Spinner.style.display = 'block';
@@ -166,7 +173,20 @@ Export_Modal_button.addEventListener('click',function(){
         }
     }
 
-    // << == Fetch == >> 
+    fetch('/export-list',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({'Export_List' : Export_List,'Export_Limit' : Export_Limit_List,'Export_Format' : Export_File_Format.value})
+    })
+
+    .then(response => response.blob())
+    .then(file => {
+        const file_url = URL.createObjectURL(file);
+        Export_Download_Link.href = file_url;
+        Export_Download_Btn.removeAttribute('disabled');
+    })
 
     Export_Dialog_Spinner.style.display = 'none';
     Export_Modal_button.style.display = 'block';
@@ -319,5 +339,44 @@ function Default_Settings (){
 }
 
 Default_Settings();
-
 Apply_Settings.addEventListener('click',Table_Settings);
+
+function Fetch_Data (){
+
+    fetch('/get-data-csv',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(Filter_List)
+    })
+        .then(response => response.json())
+    
+        .then(Each_User => {
+
+            Export_List = Each_User;
+    
+        for(let i = 0 ; i < Each_User.length ; i++){
+    
+    
+            let Name = Each_User[i]['First_Name'],
+                Last = Each_User[i]['Last_Name'],
+                Phone = Each_User[i]['Phone'],
+                Email = Each_User[i]['Email'],
+                Register_Number= Each_User[i]['Register_Number'],
+                Institution_Name = Each_User[i]['Institution_Name'], 
+                Mode = Each_User[i]["Mode"],
+                Course_Name = Each_User[i]['Course_Name'],
+                Total = Each_User[i]['Total'],
+                Entry_Date = Each_User[i]['Entry_Date'],
+                Payment_Status = Each_User[i]['Payment_Status'],
+                Inst_Key = Each_User[i]['Inst_Key'];
+    
+            Create_Table(Name,Last,Phone,Email,Register_Number,Institution_Name,Course_Name,Mode,Entry_Date,Total,Payment_Status);
+            Create_Filter(Inst_Key,Course_Name);
+        }
+        
+    })
+
+}
+
