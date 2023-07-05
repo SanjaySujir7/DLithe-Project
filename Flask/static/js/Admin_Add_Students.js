@@ -14,7 +14,6 @@ const First_Name_Add = document.getElementById('First_Name_Add'),
 let Add_Validation = [[First_Name_Add,false],[Last_Name_Add,false],[Phone_Add,false],[Email_Add,false],[Reg_Add,false]
 ,[Inst_Add,false],[Course_Add,false],[Total_Add,false]]
 
-
 function Account_Check(){
     let Move_Process = true;
     for(let i = 0 ; i < 4 ; i ++){
@@ -301,13 +300,16 @@ function Final_Process (){
             document.getElementById('payment_radio_add_Not').checked = true;
 
             First_Name_Add.classList.remove('is-valid')
-            Last_Name_Add.remove('is-valid')
-            Phone_Add.remove('is-valid')
-            Email_Add.remove('is-valid')
-            Reg_Add.remove('is-valid')
-            Inst_Add.remove('is-valid')
-            Course_Add.remove('is-valid')
-            Total_Add.remove('is-valid')
+            Last_Name_Add.classList.remove('is-valid')
+            Phone_Add.classList.remove('is-valid')
+            Email_Add.classList.remove('is-valid')
+            Reg_Add.classList.remove('is-valid')
+            Inst_Add.classList.remove('is-valid')
+            Course_Add.classList.remove('is-valid')
+            Total_Add.classList.remove('is-valid')
+
+            Add_Validation = [[First_Name_Add,false],[Last_Name_Add,false],[Phone_Add,false],[Email_Add,false],[Reg_Add,false]
+,[Inst_Add,false],[Course_Add,false],[Total_Add,false]];
         })
 
    }
@@ -315,4 +317,4 @@ function Final_Process (){
 };
 
 
-Model_Add_btn.addEventListener('click',Final_Process);
+Model_Add_btn.addEventListener('click',Final_Process);   

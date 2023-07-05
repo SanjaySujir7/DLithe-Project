@@ -29,9 +29,10 @@ c = mydb.cursor()
 
 # c.execute("DROP TABLE students;")
 
+# c.execute("DELETE FROM students WHERE First_Name = 'fake' ;")
+
 
 # mydb.commit()
-
 
 c.execute("SELECT * FROM students;")
 # c.execute("SELECT * FROM sis.admin")
