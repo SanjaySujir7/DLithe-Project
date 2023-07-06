@@ -11,6 +11,12 @@ from datetime import datetime,date
 app = Flask(__name__)
 
 
+@app.route('/test')
+def Test ():
+    
+    return  render_template('test.html')
+
+
 @app.route('/Student-Account-check',methods=["POST"])
 def Check_Account_Exists ():
     data = request.get_json()

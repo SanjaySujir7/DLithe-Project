@@ -5,10 +5,11 @@ __pycache__/
 venv/
 
 
-#Files
+#Csv
 random_data.csv
 Students_info.csv
 Students.csv
+Scrap.csv
 
 #pdf 
 
@@ -20,3 +21,6 @@ inst_Name.py
 
 #Folders 
 dump/
+
+#Html
+test.html
