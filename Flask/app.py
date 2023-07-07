@@ -229,9 +229,9 @@ def Students_Info_Dashboard ():
         
         Days = end - Today
         
-        percentage = data['Days'] - Days.days 
+        percentage = data['Days'] - Days.days
         percentage = percentage / data['Days'] * 100
-        
+    
         data['Days_Left'] = round(percentage)
         
         Icon = Icon_Process().Process(data['Course'],data['Payment'])
@@ -363,9 +363,9 @@ def Add_Student ():
             
             cursor.execute("SELECT Entry_Date , Inst_Key FROM students WHERE Phone = %s AND Register_Number = %s ;",(Phone,Register_Number,))
             if_data_exist = cursor.fetchall()
-                
+            print(if_data_exist)
             if if_data_exist :
-                return jsonify({'res' : True,'date' : data[0][0],'Inst' : data[0][1]})
+                return jsonify({'res' : True,'date' : if_data_exist[0][0],'Inst' : if_data_exist[0][1]})
             
             else:
                 Password = Random_Password(10).Generate()
@@ -498,7 +498,7 @@ def Get_Csv_Data ():
             
         else:
             query = f"{query} AND DATE(Entry_Date) BETWEEN '{Year_From}' AND '{Year_To}'"
-            
+              
     if not "All" in Mode:
         if First:
             query = f"{query} WHERE Mode = '{Mode}'"

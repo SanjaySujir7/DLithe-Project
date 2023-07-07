@@ -1,0 +1,68 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+html{
+    height: 100%;
+    width: 100%;
+}
+
+.Form-Section{
+    height: 80%;
+    max-width: 500px;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.096);
+    background-color: white;
+}
+
+.Main-Page {
+    height: 100%;
+    background-color: whitesmoke;
+    width: 100%;
+}
+
+header{
+    height: 140px;
+}
+
+header img{
+    width: 150px;
+}
+
+h1{
+    margin-left: 30px;
+    font-size: 1.8rem;
+}
+
+.Input-Feild{
+    margin-top: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.Center {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-div{
+    margin-top: 50px;
+
+}
+
+#Submit-btn{
+    background-color: rgb(167, 46, 46);
+    transition: 0.2s;
+}
+
+#Submit-btn:active{
+    opacity: 0.8;
+}
+
+#Submit-btn:hover{
+    background-color: rgb(122, 15, 15);
+}
+
