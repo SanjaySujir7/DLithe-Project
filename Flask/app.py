@@ -315,7 +315,7 @@ def Student_Login_Data_Handle ():
 
 @app.route('/student-login')
 def Studets_Login ():
-    return render_template('Student_Login_Page.html')
+    return render_template('Students_Login.html')
 
 
 

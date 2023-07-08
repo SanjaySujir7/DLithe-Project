@@ -1,121 +1,117 @@
-let Eye_Button = document.getElementById('Span-Eye'),
-Password_Input = document.getElementById('Password-Input'),
-Name_Email = document.getElementById('Name-Input'),
-Error_Label= document.querySelectorAll('.Error-Label'),
-Login_Button = document.getElementById('Login-Button'),
-Login_Form = document.getElementById('Login-Page-Form');
+const Name_Field = document.getElementById('Name-Input'),
+      Password = document.getElementById('Password-Input'),
+      FeedBack = document.querySelectorAll('.feedback'),
+      Submit = document.getElementById('Submit-btn'),
+      Form = document.getElementById('Login-Form');
 
-Eye_Button.addEventListener('click',function(){
-    if(Eye_Button.innerText == 'visibility'){
-        Eye_Button.innerText = 'visibility_off';
-        Password_Input.type = 'text';
-    }
-    else{
-        Eye_Button.innerText = 'visibility';
-        Password_Input.type = 'password';
-    }
-})
 
-let Name_Email_Check_bool = false,
-Password_Check_bool = false;
+let Name_Email_Valid = false,Password_Valid = false;
+function Name_Email_Process (){
+    if(Name_Field.value){
+        if(Name_Field.value.includes('@')){
+            if(Name_Field.type == "text"){
+                Name_Field.type = 'email';
+            }
+            if(Name_Field.value.includes('.com')){
+                Name_Field.classList.add('is-valid');
+                Name_Field.classList.remove('is-invalid');
 
-function Name_Check (){
-    if(Name_Email.value.includes('@')){
-        if(!Name_Email.value.includes('.com')){
-            Error_Label[0].innerText = "Email is Not valid";
-            Error_Label[0].style.display = 'block';
-            Name_Email.style.border = '1px solid red';
-
-            Name_Email_Check_bool = false;
+                Name_Email_Valid = true;
+            }
+            else{
+                Name_Field.classList.remove('is-valid');
+                Name_Email_Valid = false;
+            }
         }
         else{
-            if (Error_Label[0].style.display == 'block'){
-                Error_Label[0].style.display = 'none';
-                Name_Email.style.border = '1.5px solid rgb(80, 78, 78)';
-                Name_Email_Check_bool = true;
+            if(Name_Field.type == "email"){
+                Name_Field.type = 'text';
+            }
+
+            if(isNaN(Name_Field.value)){
+                Name_Field.classList.add('is-valid');
+                Name_Field.classList.remove('is-invalid');
+
+                Name_Email_Valid = true;
+            }
+            else{
+                Name_Field.classList.remove('is-valid');
+                Name_Email_Valid = false;
             }
         }
     }
     else{
-
-        if (Error_Label[0].style.display == 'block'){
-
-            Error_Label[0].style.display = 'none';
-            Name_Email.style.border = '1.5px solid rgb(80, 78, 78)';
-            Name_Email_Check_bool = true;
-        }
-
-        if(isNaN(Name_Email.value)){
-            Name_Email_Check_bool = true;
-            if (Error_Label[0].style.display == 'block'){
-                Error_Label[0].style.display = 'none';
-                Name_Email.style.border = '1.5px solid rgb(80, 78, 78)';
-            }
-        }
-        else{
-            Error_Label[0].innerText = "Name must be string";
-            Error_Label[0].style.display = 'block';
-            Name_Email.style.border = '1px solid red';
-            Name_Email_Check_bool = false;
-        }
+        FeedBack[0].innerHTML = "Name or Email is required";
+        Name_Field.classList.add('is-invalid');
+        Name_Email_Valid = false;
     }
-}
+};
 
-function Password_Check (){
-    if(Password_Input.value.length < 7){
-        Error_Label[1].innerText = "Password must  be greater than 6 characters";
-        Error_Label[1].style.display = 'block';
-        Password_Input.style.border = '1px solid red';
-        Password_Check_bool = false;
+
+function Password_process(){
+    if(!Password.value){
+        FeedBack[1].innerHTML = "Password is required";
+        Password.classList.add('is-invalid');
+        Password_Valid = false;
     }
     else{
-        Password_Check_bool = true;
-        if (Error_Label[1].style.display == 'block'){
-            Error_Label[1].style.display = 'none';
-            Password_Input.style.border = '1.5px solid rgb(80, 78, 78)';
+        Password.classList.remove('is-invalid');
+        if(Password.value.length >= 10){
+            Password.classList.add('is-valid');
+            Password_Valid = true;
+        }
+        else{
+            Password.classList.remove('is-valid');
+            Password_Valid = false;
         }
     }
 };
 
-function Null_Check (){
-    
-    let i = 0, Final = true;
-    if (Name_Email.value && Password_Input.value){
-        if (Name_Email_Check_bool == false){
+
+function Final_Process (){
+    let Final = true;
+    if(Name_Field.value && Password.value){
+        if(Password.value.length < 10){
+            FeedBack[1].innerHTML = "Password must contain 10 characters";
+            Password.classList.add('is-invalid')
             Final = false;
-            Error_Label[0].style.display = 'block';
+        }
+        if(Name_Field.value.includes('@')){
+            if(!Name_Field.value.includes('.com')){
+                FeedBack[0].innerHTML = "Invalid Email";
+                Name_Field.classList.add('is-invalid');
+                Final = false;
+            }
         }
 
-        if(Password_Check_bool == false){
-            Final = false;
-            Error_Label[1].style.display = 'block';
+        if(Final & Name_Email_Valid & Password_Valid){
+            Form.submit();
+        }
+        else{
+            if(!Name_Email_Valid){
+                FeedBack[0].innerHTML = "invalid input";
+                Name_Field.classList.add('is-invalid');
+            }
+            if(!Password_Valid){
+                FeedBack[1].innerHTML = "invalid Password";
+                Password.classList.add('is-invalid');
+            }
+          
         }
     }
-    else {
-        if (Name_Email_Check_bool == false){
-            Final = false;
-            Name_Email.style.border = '1px solid red';
-            Error_Label[0].style.display = 'block';
+    else{
+        if(!Name_Email_Valid){
+            Name_Field.classList.add('is-invalid');
         }
-
-        if(Password_Check_bool == false){
-            Final = false;
-            Error_Label[1].style.display = 'block';
-            Password_Input.style.border = '1px solid red';
+        if(!Password_Valid){
+            Password.classList.add('is-invalid');
         }
     }
+};
 
-    if (Final){
-        Login_Form.submit();
-    }
-
-    console.log(Name_Email_Check_bool , Password_Check_bool);
-}
-
-
-Login_Button.addEventListener('click',Null_Check);
-Name_Email.addEventListener('input',Name_Check);
-Password_Input.addEventListener('input',Password_Check);
-Login_Form.addEventListener('submit',function(event){
+Name_Field.addEventListener('input',Name_Email_Process);
+Password.addEventListener('input',Password_process);
+Submit.addEventListener('click',Final_Process);
+Form.addEventListener('submit',function(event){
     event.preventDefault();
 })
