@@ -112,8 +112,8 @@ def Generate_Certificate ():
 
     Pass = request.get_json()
     
-    if 'Student_First_Name' in session and "Student_Last_Name" in session:
-        
+    if 'Student_First_Name' in session and "Student_Password" in session:
+    
         if Pass['pass']== "q#5qJKkaq*%@:+=771":
             
             mydb = mysql.connector.connect(
@@ -169,75 +169,96 @@ def Generate_Certificate ():
 
 @app.route('/certificate')
 def Certificate ():
-    if 'Student_First_Name' in session and "Student_Last_Name" in session:
+    if 'Student_First_Name' in session and "Student_Password" in session:
     
         return render_template('Certificate.html')
     
     else:
         return redirect('/student-login')
     
+    
 
 @app.route('/student-page-logout',methods=['POST'])
 def Students_Page_Log_out():
     session.clear()
     
-    return redirect('student-login')
+    return redirect('/')
     
 
 @app.route('/student')
 def Students_Info_Dashboard ():
     
-    if not 'Student_First_Name' in session and "Student_Last_Name" in session:
+    if not 'Student_First_Name' in session and "Student_Password" in session:
     
         return redirect('/student-login')
     
     else:
-        data = {
-            'Name' : session["Student_First_Name"],
-            'Last' : session["Student_Last_Name"],
-            'Phone' : session['Student_Phone'],
-            'Email' : session['Student_Email'],
-            'Reg' : session['Student_Register_Number'],
-            'Inst' : session['Student_Register_Number'],
-            'Mode' :  session['Student_Mode'],
-            'Course' : session['Student_Course_Name'],
-            'Total' : session['Student_Total'],
-            'Entry' : str(session['Student_Entry_Date']).split()[0],
-            'End' : "2023-8-20",
-            'Payment' : session['Student_Payment_Status'],
-            'Days' : None,
-            'Days_Left' : None
-        }
+        First_Name = session["Student_First_Name"]
+        Phone = session['Student_Phone']
+        Email = session['Student_Email']
+        Password = session['Student_Password']
         
-        start = str(data['Entry']).split('-')
-        end = data['End'].split('-')
+        Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "admin",
+            database = 'sis'
+        )
         
-        start = [int(i) for i in start]
-        end = [int(i) for i in end]
+        cursor = Mydb.cursor()
+        cursor.execute("SELECT * FROM students WHERE First_Name = %s AND Phone =  %s AND Email = %s AND Password = %s ;",(First_Name,Phone,Email,Password,))
+        Credential = cursor.fetchall()
         
-        start = date(start[0],start[1],start[2])
-        end = date(end[0],end[1],end[2])
+        if Credential:
+            data = {
+                'Name' : Credential[0][0],
+                'Last' : Credential[0][1],
+                'Phone' : Credential[0][2],
+                'Email' : Credential[0][3],
+                'Reg' : Credential[0][4],
+                'Inst' : Credential[0][5],
+                'Mode' :  Credential[0][6],
+                'Course' : Credential[0][7],
+                'Total' : Credential[0][8],
+                'Entry' : str(Credential[0][9]).split()[0],
+                'End' : "2023-8-20",
+                'Payment' : Credential[0][10],
+                'Days' : None,
+                'Days_Left' : None
+            }
+            
+            start = str(data['Entry']).split('-')
+            end = data['End'].split('-')
+            
+            start = [int(i) for i in start]
+            end = [int(i) for i in end]
+            
+            start = date(start[0],start[1],start[2])
+            end = date(end[0],end[1],end[2])
+            
+            Days = end - start
+            
+            data["Days"] = Days.days
+            
+            Today = str(datetime.now()).split()[0]
+            Today = Today.split('-')
+            Today = [int(i) for i in Today]
+            Today = date(Today[0],Today[1],Today[2])
+            
+            Days = end - Today
+            
+            percentage = data['Days'] - Days.days
+            percentage = percentage / data['Days'] * 100
         
-        Days = end - start
+            data['Days_Left'] = round(percentage)
+            
+            Icon = Icon_Process().Process(data['Course'],data['Payment'])
+            
+            
+            return render_template('students_imf_DashBoard.html',data = data,Icon = Icon)
         
-        data["Days"] = Days.days
-        
-        Today = str(datetime.now()).split()[0]
-        Today = Today.split('-')
-        Today = [int(i) for i in Today]
-        Today = date(Today[0],Today[1],Today[2])
-        
-        Days = end - Today
-        
-        percentage = data['Days'] - Days.days
-        percentage = percentage / data['Days'] * 100
-    
-        data['Days_Left'] = round(percentage)
-        
-        Icon = Icon_Process().Process(data['Course'],data['Payment'])
-        
-        
-        return render_template('students_imf_DashBoard.html',data = data,Icon = Icon)
+        else:
+            return "<h1>Your Session is Expired. Login Again to Continue.</h1>"
     
     
 
@@ -245,7 +266,7 @@ def Students_Info_Dashboard ():
 def Student_Login_Data_Handle ():
     Name_Email = request.form['Name_Email']
     Password = request.form['Password']
-    
+
     if Name_Email and Password :
         
         Name_Email_Password_Found = False
@@ -259,54 +280,46 @@ def Student_Login_Data_Handle ():
         
         cursor = Mydb.cursor()
         
-        if "@" in Name_Email and ".com" in Name_Email :
-            
-            cursor.execute("SELECT * FROM sis.students WHERE Email = %s AND Password = %s",(Name_Email,Password,))
-            
+        if '@' in Name_Email and '.com' in Name_Email:
+            cursor.execute("SELECT Password, Phone,Email,First_Name, Last_Name  FROM students WHERE Email = %s",(Name_Email,))
             data = cursor.fetchall()
             
             if data:
-                if Name_Email == data[0][3] and Password == data[0][-1]:
+                if Password == data[0][0]:
                     Name_Email_Password_Found = True
-            
+                    
+                else:
+                    flash("Invalid Password",'error')
+                    return redirect('/student-login')
             else:
-                Name_Email_Password_Found = False
-        
+                flash("Account Does not Exists For This Email",'error')
+                return redirect('/student-login')
+            
         else:
-            cursor.execute("SELECT * FROM sis.students WHERE First_Name = %s AND Password = %s",(Name_Email.lower(),Password,))
-            
+
+            cursor.execute("SELECT Password, Phone,Email, First_Name,Last_Name  FROM students WHERE First_Name = %s;",(Name_Email,))
             data = cursor.fetchall()
-
+            
             if data:
-                if Name_Email == data[0][0] and Password == data[0][12]:
+                if Password == data[0][0]:
                     Name_Email_Password_Found = True
-            
+                    
+                else:
+                    flash("Invalid Password",'error')
+                    return redirect('/student-login')
             else:
-                Name_Email_Password_Found = False
-                
-        if Name_Email_Password_Found :
-            session.clear()
+                flash("Account Does not Exists For This Name",'error')
+                return redirect('/student-login')
             
-            session.permanent = True
-            session["Student_First_Name"] = data[0][0]
-            session["Student_Last_Name"] = data[0][1]
-            session['Student_Email'] = data[0][3]
-            session['Student_Phone'] = data[0][2]
-            session['Student_Register_Number'] = data[0][4]
-            session['Student_Institution_Name'] = data[0][5]
-            session['Student_Mode'] = data[0][6]
-            session['Student_Course_Name'] = data[0][7]
-            session['Student_Total'] = data[0][8]
-            session['Student_Entry_Date'] = data[0][9]
-            session['Student_Payment_Status'] = data[0][10]
-
+        
+        if Name_Email_Password_Found == True :
+            session['Student_Password'] = data[0][0]
+            session['Student_Phone'] = data[0][1]
+            session['Student_Email'] = data[0][2]
+            session['Student_First_Name'] = data[0][3]
+            session['Student_Last_Name'] = data[0][4]
             
             return redirect('/student')
-            
-        else:
-            flash("Account Does not Exists!",'error')
-            
-            return redirect('/student-login')
         
     else:
         flash("Data is Not valid!. seems like javascript is manuplated !",'error')

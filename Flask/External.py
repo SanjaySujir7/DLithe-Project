@@ -1,15 +1,12 @@
-from reportlab.lib.pagesizes import letter
+
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader,PdfWriter
 import io
-import hashlib
-from Process import Random_Cirtificate_Number
 
 
 class Pdf_Certificate :
     
     def __init__(self,Name,Id):
-        print(f"name : {Name}, :id : {Id}")
         self.text = Name
         self.Id = Id
         
@@ -55,23 +52,7 @@ class Pdf_Certificate :
             page.merge_page(New_Pdf.pages[0])
             
             Out_Put.add_page(page)
-            
+                        
             with open(Out_Put_File,'wb') as Out_Put_File_Write :
                 Out_Put.write(Out_Put_File_Write)
                 
-                
-                
-    def Pdf_Hash(self):
-        File_Name = "output.pdf"
-        
-        with open(File_Name,'rb') as file:
-            hash = hashlib.sha256()
-            
-            for chunk in iter(lambda: file.read(4096), b''):
-
-                hash.update(chunk)
-                
-        file_hash = hash.hexdigest()
-        
-        return file_hash
-    
