@@ -1,0 +1,331 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--body-color);
+    margin-top: 70px;
+    height: calc(100% - 70px);
+    font-family: 'Poppins', sans-serif;
+    margin-left: 250px;
+    transition: margin-left var(--nav-transition);
+}
+
+:root{
+    --header-color : #f8f8f8cb;
+    --body-color: #f4f4f5;
+    --text-color:rgba(255, 255, 255, 0.849);
+    --nav-transition:0.3s;
+    --icon-color: rgb(85, 81, 81);
+}
+
+html{
+    height: 100%;
+}
+
+.page-header{
+    position: fixed;
+    justify-content: center;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 70px;
+    margin-left: 250px;
+    display: flex;
+    transition: margin-left var(--nav-transition);
+    background-color: white;
+    z-index: 50;
+
+}
+
+.page-header i{
+    color: var(--icon-color);
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.menu-icon-div{
+    width: 100px;
+}
+
+.menu-icon-div div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.menu-icon-div div:hover{
+    background-color: rgba(241, 238, 231, 0.199);
+}
+
+main{
+    height: 100%;
+}
+
+#Side-Nav{
+    width: 250px;
+    background-color: #242b33;
+    color: var(--text-color);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    z-index: 150;
+    transition: left 0.3s;
+}
+
+#Course-Select-Header{
+    background-color: transparent;
+    color: black;
+    border: none;
+}
+
+
+#Side-Nav button{
+    background-color: white;
+    display: none;
+}
+
+.side-nav-img-div{
+    height: 100px;
+}
+
+.side-nav-img-div img{
+    width: 40%;
+}
+
+#Nav-Close-btn{
+    position: absolute;
+    left: 210px;
+    top: 20px;
+    z-index: 150;
+}
+
+
+#Nav-Close-btn:hover{
+    color: rgba(255, 255, 255, 0.767);
+    cursor: pointer;
+}
+
+.back-drop{
+    display: none;
+    z-index: 100;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.37);
+}
+
+h1{
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 8px;
+    color: rgb(109, 105, 105);
+}
+
+.profile-header-div{
+    height: 100%;
+    padding-right: 20px;
+    padding-left:10px;
+}
+
+#Profile-image{
+    background-color:blueviolet;
+    height: 38px;
+    width: 38px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#Profile-image h6{
+    color: white;
+    margin-top: 10px;
+}
+
+.profile-text{
+    margin-left: 10px;
+    margin-top: 5%;
+    display: flex;
+}
+
+.profile-text h6{
+    font-weight:600;
+    color: rgb(83, 80, 80);
+    font-size: 0.8rem;
+}
+
+.Nav-Bar-List{
+    height: 100%;
+    margin-top: 20px;
+    overflow-y: auto ;
+}
+
+.Nav-Bar-List h5{
+    color: rgba(255, 255, 255, 0.596);
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+
+.List-Nav{
+    list-style: none;
+    margin-top: 20px;
+}
+
+.List-Nav i {
+    font-size: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.List-Nav ul {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.658);
+    height: 50px;
+    cursor: pointer;
+    margin-bottom: 0px;
+}
+
+.List-Nav ul:hover{
+    color: white;
+    background-color: rgba(255, 255, 255, 0.137);
+}
+
+.mobile-course-select{
+    display: flex;
+    display: none;
+}
+
+.Imformation-sec{
+    padding-top: 30px;
+    padding-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit ,minmax(300px,1fr));
+    column-gap: 20px;
+    row-gap: 20px;
+}
+
+.Imformation-cards{
+    background-color: white;
+    height: 200px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.075);
+    border-radius: 5px;
+}
+
+.dropdown-menu:hover{
+    cursor: pointer;
+}
+
+.profile-header-div:hover{
+    background-color: rgba(61, 59, 59, 0.055);
+    cursor: pointer;
+}
+
+.Profile-Off-canvas-body{
+    height: 90%;
+}
+
+.Off-Canvas-Profile{
+    height: 80px;
+    width: 80px;
+    background-color: blueviolet;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 50%;
+}
+
+.Off-Canvas-Profile h6{
+    margin: 0;
+    font-size: 40px;
+}
+
+.Off-canvas-Name{
+    margin-top: 20px;
+}
+
+.Off-canvas-Name h5{
+    text-align: center;
+    font-weight: 600;
+    color: rgba(12, 12, 12, 0.767);
+    font-size: 1.6rem;
+}
+
+.Info-profile-accor h4{
+    font-size: 0.9rem;
+}
+
+.Info-profile-accor{
+    list-style: none;
+}
+
+@media (max-width:1000px){
+    body{
+        margin-left: 0px;
+    }
+
+    .page-header{
+        margin-left: 0px;
+    }
+
+    #Side-Nav{
+        left:-250px;
+    }
+
+    .back-drop{
+        display: none;
+    }
+}
+
+@media (max-width:550px){
+    h1{
+        font-size: 1rem;
+    }
+
+    .menu-icon-div{
+        width: 60px;
+    }
+
+    .profile-text{
+        display: none;
+    }
+
+    #Profile-image{
+        width: 30px;
+        height: 30px;
+    }
+
+}
+
+@media (max-width:800px){
+    #Course-Select-Navbar{
+        display: none;
+    }
+
+    .mobile-course-select{
+        display: block;
+    }
+
+    .Imformation-sec{
+        margin-top: 20px;
+    }
+}
+
+@media (max-width:374px){
+    h1{
+        font-size: 0.7rem;
+    }
+
+    .menu-icon-div i{
+        font-size: 16px;
+    }
+}
