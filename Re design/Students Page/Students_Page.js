@@ -6,6 +6,13 @@ const mobileQuery = window.matchMedia('(max-width: 1000px)');
 
 const Back_Drop = document.querySelector('.back-drop');
 
+const Cercular_Progress = document.getElementById('duration-cercular-progress'),
+      Cercular_Progress_percentage = document.getElementById('duration-percentage');
+
+const Mobile_Duration_Progress = document.getElementById('duration-cercular-progress-mobile'),
+      Mobile_Duration_Progress_Percentage = document.getElementById('duration-percentage-mobile'),
+      Duration_Modal_Button = document.getElementById('Durtaion-Modal-Mobile-btn');
+
 let Nav_Status = true;
 function Side_Nav (){
     if(!mobileQuery.matches){
@@ -45,3 +52,42 @@ function Nav_Course_Select_Mobile(Select){
 
 
 Menu.addEventListener('click',Side_Nav);
+
+function Cercular_Progress_Toggle (){
+    let start = 0,
+        end = 70,
+        speed = 40;
+
+    let progress = setInterval(function(){
+        start ++;
+        if(start == end){
+            clearInterval(progress);
+        }
+        Cercular_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + start * 3.6 + "deg, white 0deg)";
+        Cercular_Progress_percentage.innerText = start + "%";
+    },speed);
+}
+
+Cercular_Progress_Toggle();
+
+function Cercular_Progress_Toggle_Mobile (){
+    let start = 0,
+        end = 70,
+        speed = 30;
+
+    let progress = setInterval(function(){
+        start ++;
+        if(start == end){
+            clearInterval(progress);
+        }
+        Mobile_Duration_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + start * 3.6 + "deg, white 0deg)";
+        Mobile_Duration_Progress_Percentage.innerText = start + "%";
+    },speed);
+}
+
+Duration_Modal_Button.addEventListener('click',Cercular_Progress_Toggle_Mobile);
+
+if(!mobileQuery.matches){
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+}

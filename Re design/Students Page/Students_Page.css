@@ -1,3 +1,6 @@
+
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
 body{
     margin: 0;
     padding: 0;
@@ -208,7 +211,7 @@ h1{
     padding-top: 30px;
     padding-bottom: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit ,minmax(300px,1fr));
+    grid-template-columns: repeat(auto-fit ,minmax(250px,1fr));
     column-gap: 20px;
     row-gap: 20px;
 }
@@ -268,6 +271,175 @@ h1{
     list-style: none;
 }
 
+.offcanvas-body .accordion button:focus{
+    box-shadow: none;
+}
+
+.Imforamtion-icon-div{
+    height: 150px;
+}
+
+.Imforamtion-icon-div i{
+    font-size: 4rem;
+}
+
+.imformation-div-text h5{
+    font-weight:700;
+    font-size: 1.05rem;
+    color: rgba(65, 62, 62, 0.877);
+}
+
+.Duration-Section{
+    padding-bottom: 50px;
+}
+
+.Duration-section-card{
+    background-color: white;
+    height: 110px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.11);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 10px;
+}
+
+
+.durarion-imf-div {
+    height: 100%;
+
+}
+
+.date-icon-div{
+    margin-right: 20px;
+}
+
+.date-icon-div i{
+    font-size: 2rem;
+    color: green;
+}
+
+
+.date-text-div h3{
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: rgba(39, 38, 38, 0.726);
+}
+
+.duration-caption{
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.duration-caption h5{
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(39, 38, 38, 0.726);
+}
+
+
+.Duration-cercular-progress{
+    width: 60px;
+    height: 60px;
+    background: conic-gradient(rgb(40, 57, 212) 0deg,white 0deg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.Duration-cercular-progress div{
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Duration-cercular-progress span{
+    color: black;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.mobile-duration-div-btn{
+    position: absolute;
+    margin-top: 10px;
+}
+
+.mobile-duration-div-btn{
+    display: none;
+}
+
+.duration-modal-body{
+    display: grid;
+    row-gap: 10px;
+}
+
+.duration-body-modal-childern{
+    width: 100%;
+    height: 100px;
+    background-color: #f4f4f5;
+}
+
+.dur-modal-mobile-caption{
+    height: 40%;
+}
+
+.dur-modal-mobile-caption h5{
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(39, 38, 38, 0.726);
+}
+
+.dur-modal-mobile-main{
+    height: 50%;
+}
+
+.dur-modal-mobile-main i{
+    margin-right: 20px;
+    font-size: 2rem;
+    color: green;
+}
+
+
+.dur-modal-mobile-main h3{
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: rgba(39, 38, 38, 0.726);
+}
+
+.Duration-cercular-progress-mobile{
+    margin-right: 20px;
+    width: 60px;
+    height: 60px;
+    background: conic-gradient(rgb(40, 57, 212) 0deg,white 0deg);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Duration-cercular-progress-mobile div{
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dur-cap-last{
+    margin-right: 40px;
+}
+
 @media (max-width:1000px){
     body{
         margin-left: 0px;
@@ -318,11 +490,19 @@ h1{
     .Imformation-sec{
         margin-top: 20px;
     }
+
+    .Duration-Section{
+        display: none;
+    }
+
+    .mobile-duration-div-btn{
+        display: block;
+    }
 }
 
 @media (max-width:374px){
     h1{
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .menu-icon-div i{

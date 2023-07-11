@@ -25,11 +25,11 @@
         </div>
         <div class="flex-grow-1 d-flex  align-items-center">
           <ul class="navbar-nav" id="Course-Select-Navbar">
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Swich between courses">
               <button class="btn  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="Course-Select-Header" style="color: rgba(99, 96, 96, 0.767);">
                 Web Development
               </button>
-              <ul class="dropdown-menu ">
+              <ul class="dropdown-menu">
                 <li><a class="dropdown-item" onclick="Nav_Course_Select(this.innerText)">Web Development</a></li>
                 <li><a class="dropdown-item" onclick="Nav_Course_Select(this.innerText)">Machine Learning</a></li>
               </ul>
@@ -37,7 +37,7 @@
           </ul>
         </div>
         <div class="d-flex  align-items-center justify-content-center profile-header-div" data-bs-toggle="offcanvas" data-bs-target="#Profile-OffCanvas" aria-controls="offcanvasRight">
-          <div class="d-flex profile-div-container ">
+          <div class="d-flex profile-div-container " data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Inspect profile">
             <div class="Image-Profile-div">
               <div id="Profile-image">
                 <h6>S</h6>
@@ -51,18 +51,18 @@
     </header>
     <section id="Side-Nav">
         <div class="side-nav-img-div d-flex justify-content-center align-items-center container-fluid">
-            <img src="Dlithe logo.png">
+            <img src="Dlithe logo.png" title="DLithe Logo">
         </div>
         <nav class="Nav-Bar-List">
             <div>
                 <h5>Navigation</h5>
             </div>
             <li class="List-Nav">
-                <ul style="border-left: 4px solid rgb(102, 98, 98); background-color: rgba(255, 255, 255, 0.055);">
+                <ul style="border-left: 4px solid rgb(102, 98, 98); background-color: rgba(255, 255, 255, 0.055);" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Current Page">
                   <i class="fi fi-br-house-chimney"></i>
                   Home
                 </ul>
-                <ul>
+                <ul data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Naviagate to certificate page">
                   <i class="fi fi-br-diploma"></i>
                   Certificate
                 </ul>
@@ -142,7 +142,7 @@
       </div>
     </div>
     <main class="main-page container-fluid">
-        <div class="mobile-course-select  justify-content-center" style="padding-top:20px;">
+        <div class="mobile-course-select  justify-content-center " style="padding-top:20px;">
             <div class="dropdown-center d-grid container-fluid" style="height: 30px; max-width:500px;">
               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="Course-Select-Mobile" style="color: rgba(255, 255, 255, 0.877);">
                 Web Development
@@ -155,19 +155,147 @@
         </div>
         <section class="Imformation-sec container-fluid">
             <div class="Imformation-cards">
-                
+                <div class="container-fluid Imforamtion-hold-container">
+                    <div class="mobile-duration-div-btn">
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#DurationModal" id="Durtaion-Modal-Mobile-btn">Duration</button>
+                    </div>
+                    <div class="container-fluid d-flex justify-content-center Imforamtion-icon-div align-items-center">
+                        <i class="fi fi-rr-graduation-cap" style="color: brown;"></i>
+                    </div>
+                    <div class="container-fluid  d-flex justify-content-center  align-items-center imformation-div-text">
+                        <h5>Internship</h5>
+                    </div>
+                </div>
             </div>
             <div class="Imformation-cards">
-                
+              <div class="container-fluid Imforamtion-hold-container">
+                <div class="container-fluid d-flex justify-content-center Imforamtion-icon-div align-items-center">
+                    <i class="fi fi-rr-display-code" style="color: rgb(52, 52, 161);"></i>
+                </div>
+                <div class="container-fluid  d-flex justify-content-center  align-items-center imformation-div-text">
+                    <h5>Web Development</h5>
+                </div>
+            </div>
             </div>
             <div class="Imformation-cards">
-                
+              <div class="container-fluid Imforamtion-hold-container">
+                <div class="container-fluid d-flex justify-content-center Imforamtion-icon-div align-items-center">
+                    <i class="fi fi-rr-check-circle" style="color:green;"></i>
+                </div>
+                <div class="container-fluid  d-flex justify-content-center  align-items-center imformation-div-text">
+                    <h5>Paid</h5>
+                </div>
+            </div>   
+            </div>
+        </section>
+        <section class="Duration-Section container-fluid">
+            <div class="Duration-section-card">
+                <div class="container-fluid durarion-imf-div">
+                    <div class="container-fluid duration-caption">
+                        <h5>Entry Date</h5>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 70%;">
+                        <div class="date-icon-div d-flex justify-content-center  align-items-center">
+                            <i class="fi fi-br-calendar-lines"></i>
+                        </div>
+                        <div class="date-text-div d-flex   align-items-center">
+                            <h3>11-07-2023</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid durarion-imf-div">
+                    <div class="container-fluid duration-caption">
+                        <h5>End Date</h5>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 70%;">
+                        <div class="date-icon-div d-flex justify-content-center  align-items-center">
+                            <i class="fi fi-br-calendar-clock"></i>
+                        </div>
+                        <div class="date-text-div d-flex  align-items-center">
+                            <h3>11-10-2023</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid durarion-imf-div">
+                  <div class="container-fluid duration-caption" style="margin-left: 30px;">
+                      <h5>Duration</h5>
+                  </div>
+                  <div class="d-flex justify-content-center" style="height: 70%;">
+                      <div class="date-icon-div d-flex justify-content-center  align-items-center">
+                          <div class="Duration-cercular-progress" id="duration-cercular-progress" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Days Completed">
+                              <div>
+                                  <span id="duration-percentage">0%</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="date-text-div d-flex   align-items-center" style="margin-bottom:10px ;">
+                        <h3 style="font-size: 1.1rem;" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Days Completed">60 days</h3>
+                      </div>
+                  </div>
+                </div>
             </div>
         </section>
     </main>
+    <div class="modal fade" id="DurationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Duration</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body duration-modal-body">
+              <div class="duration-body-modal-childern">
+                  <div class="conatiner-fluid d-flex justify-content-center align-items-center dur-modal-mobile-caption">
+                      <h5>Entry Date</h5>
+                  </div>
+                  <div class="d-flex justify-content-center align-items-center dur-modal-mobile-main">
+                      <div>
+                          <i class="fi fi-br-calendar-lines"></i>
+                      </div>
+                      <div>
+                          <h3>11-07-2023</h3>
+                      </div>
+                  </div>
+              </div>
+              <div class="duration-body-modal-childern">
+                <div class="conatiner-fluid d-flex justify-content-center align-items-center dur-modal-mobile-caption">
+                    <h5>End Date</h5>
+                </div>
+                <div class="d-flex justify-content-center align-items-center dur-modal-mobile-main">
+                    <div>
+                        <i class="fi fi-br-calendar-clock"></i>
+                    </div>
+                    <div>
+                       <h3>11-10-2023</h3>
+                    </div>
+                </div>
+              </div>
+              <div class="duration-body-modal-childern">
+                  <div class="conatiner-fluid d-flex justify-content-center align-items-center dur-modal-mobile-caption">
+                      <h5>Duration</h5>
+                  </div>
+                  <div class="d-flex justify-content-center align-items-center dur-modal-mobile-main">
+                      <div>
+                          <div class="Duration-cercular-progress-mobile" id="duration-cercular-progress-mobile">
+                              <div>
+                                <span id="duration-percentage-mobile">0%</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="dur-cap-last">
+                          <h3 style="font-size: 1.1rem;">60 days</h3>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <section class="back-drop"></section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="Students_Page.js"></script>
 </body>
 </html>
