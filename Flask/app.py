@@ -255,7 +255,7 @@ def Students_Info_Dashboard ():
             Icon = Icon_Process().Process(data['Course'],data['Payment'])
             
             
-            return render_template('students_imf_DashBoard.html',data = data,Icon = Icon)
+            return render_template('Students_Page.html',data = data,Icon = Icon)
         
         else:
             return "<h1>Your Session is Expired. Login Again to Continue.</h1>"

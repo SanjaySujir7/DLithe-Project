@@ -1,58 +1,36 @@
+from PyPDF2 import PdfReader, PdfWriter
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph
 
-from reportlab.pdfgen import canvas
-from PyPDF2 import PdfReader,PdfWriter
-import io
 
+def add_paragraph_to_pdf(input_pdf_path, output_pdf_path, paragraph_text):
+    # Open the existing PDF file
+    existing_pdf = PdfReader(open(input_pdf_path, 'rb'))
 
-class Pdf_Certificate :
+    # Create a new PDF writer
+    output_pdf = PdfWriter()
+
+    # Get the number of pages in the existing PDF
+    num_pages = len(existing_pdf.pages)
     
-    def __init__(self,Name,Id):
-        self.text = Name
-        self.Id = Id
-        
-    def Print (self):
-        Input_Pdf = "Certificate_Input.pdf"
-        Out_Put_File = "output.pdf"
-        
-        X_pos = 525
-        Y_pos = 490
-        
-        if len(self.text) > 6:
-            
-            pixle_move = len(self.text) - 6 
-            pixle_move = pixle_move * 3
-            
-            if not pixle_move <= 0:
-                X_pos = X_pos - pixle_move
-                
-                
-        else :
-            X_pos = 550
-        
-        with open(Input_Pdf,'rb') as file:
-        
-            Reader = PdfReader(file)
-            
-            Out_Put = PdfWriter()
-            
-            Packet = io.BytesIO()
-            
-            Can = canvas.Canvas(Packet,pagesize=(1200,864))
-            
-            Can.setFont("Helvetica-Bold", 32)
-            Can.drawString(X_pos,Y_pos, self.text)
-            Can.drawString(550,80,self.Id)
-            Can.save()
-    
-            Packet.seek(0)
-            
-            New_Pdf = PdfReader(Packet)
-            
-            page = Reader.pages[0]
-            page.merge_page(New_Pdf.pages[0])
-            
-            Out_Put.add_page(page)
-                        
-            with open(Out_Put_File,'wb') as Out_Put_File_Write :
-                Out_Put.write(Out_Put_File_Write)
-                
+    # Create a stylesheet for paragraph formatting
+    styles = getSampleStyleSheet()
+
+    # Add the paragraph to each page of the existing PDF
+    for page_num in range(num_pages):
+        page = existing_pdf.pages[page_num]
+        canvas = output_pdf.pages[page_num].canvas
+        paragraph = Paragraph(paragraph_text, styles["Normal"])
+        paragraph.wrapOn(canvas, 400, 200)# Adjust the width and height as nee
+        paragraph.drawOn(canvas, 100, 100)  # Adjust the x and y coordinates as needed
+        output_pdf.addPage(page)
+
+    # Save the updated PDF to a new file
+    with open(output_pdf_path, 'wb') as output_file:
+        output_pdf.write(output_file)
+
+    print("Paragraph added successfully to the PDF.")
+
+
+add_paragraph_to_pdf("Certificate_Input.pdf",'output.pdf',"This is to certify Name, bearing USN No: USN from College has successfully completed one-month internship starting from From date to To Date, under the mentorship of DLithe’s development team. Name has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task. ")
