@@ -3,7 +3,7 @@ from flask import Flask, jsonify,render_template,request, send_file,session,redi
 import mysql.connector
 import csv
 from Process import DateTimeProcess,Inst_Process,Random_Password,Random_Cirtificate_Number,Icon_Process
-from External import Pdf_Certificate
+from External import add_paragraph_to_pdf
 from time import time
 from datetime import datetime,date
 
@@ -152,8 +152,8 @@ def Generate_Certificate ():
                 cursor.close()
                 mydb.close()
             
-                Certificate = Pdf_Certificate(f"{Name.capitalize()} {Last}",Certificate_Number)
-                Certificate.Print()
+                # Certificate = Pdf_Certificate(f"{Name.capitalize()} {Last}",Certificate_Number)
+                # Certificate.Print()
                 
                 Output_File = "output.pdf"
 
