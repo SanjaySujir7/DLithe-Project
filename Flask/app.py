@@ -3,18 +3,12 @@ from flask import Flask, jsonify,render_template,request, send_file,session,redi
 import mysql.connector
 import csv
 from Process import DateTimeProcess,Inst_Process,Random_Password,Random_Cirtificate_Number,Icon_Process
-from External import add_paragraph_to_pdf
+from External import Pdf_Certificate
 from time import time
 from datetime import datetime,date
 
 
 app = Flask(__name__)
-
-
-@app.route('/test')
-def Test ():
-    
-    return  render_template('test.html')
 
 
 @app.route('/Student-Account-check',methods=["POST"])
@@ -187,8 +181,8 @@ def Students_Page_Log_out():
 
 @app.route('/student')
 def Students_Info_Dashboard ():
-    
-    if not 'Student_First_Name' in session and "Student_Password" in session:
+
+    if not 'Student_First_Name' in session and not "Student_Password" in session:
     
         return redirect('/student-login')
     
@@ -220,15 +214,15 @@ def Students_Info_Dashboard ():
                 'Mode' :  Credential[0][6],
                 'Course' : Credential[0][7],
                 'Total' : Credential[0][8],
-                'Entry' : str(Credential[0][9]).split()[0],
-                'End' : "2023-8-20",
+                'Entry' : str(Credential[0][9]).split()[0].split('-'),
+                'End' : "2023-7-20".split('-'),
                 'Payment' : Credential[0][10],
                 'Days' : None,
                 'Days_Left' : None
             }
             
-            start = str(data['Entry']).split('-')
-            end = data['End'].split('-')
+            start = [str(i) for i in data['Entry']]
+            end = data['End']
             
             start = [int(i) for i in start]
             end = [int(i) for i in end]
@@ -238,7 +232,7 @@ def Students_Info_Dashboard ():
             
             Days = end - start
             
-            data["Days"] = Days.days
+            Total_Days = Days.days
             
             Today = str(datetime.now()).split()[0]
             Today = Today.split('-')
@@ -246,9 +240,9 @@ def Students_Info_Dashboard ():
             Today = date(Today[0],Today[1],Today[2])
             
             Days = end - Today
-            
-            percentage = data['Days'] - Days.days
-            percentage = percentage / data['Days'] * 100
+            data['Days'] = Days.days
+            percentage = Total_Days - Days.days
+            percentage = percentage / Total_Days * 100
         
             data['Days_Left'] = round(percentage)
             

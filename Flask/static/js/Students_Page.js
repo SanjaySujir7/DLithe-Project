@@ -55,7 +55,7 @@ Menu.addEventListener('click',Side_Nav);
 
 function Cercular_Progress_Toggle (){
     let start = 0,
-        end = 70,
+        end = Days_Progress,
         speed = 40;
 
     let progress = setInterval(function(){
@@ -72,7 +72,7 @@ Cercular_Progress_Toggle();
 
 function Cercular_Progress_Toggle_Mobile (){
     let start = 0,
-        end = 70,
+        end = Days_Progress,
         speed = 30;
 
     let progress = setInterval(function(){
