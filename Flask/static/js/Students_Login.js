@@ -12,7 +12,7 @@ function Name_Email_Process (){
             if(Name_Field.type == "text"){
                 Name_Field.type = 'email';
             }
-            if(Name_Field.value.includes('.com')){
+            if(Name_Field.value.includes('.com') ||  Name_Field.value.includes('.in')){
                 Name_Field.classList.add('is-valid');
                 Name_Field.classList.remove('is-invalid');
 
@@ -77,7 +77,7 @@ function Final_Process (){
             Final = false;
         }
         if(Name_Field.value.includes('@')){
-            if(!Name_Field.value.includes('.com')){
+            if(!Name_Field.value.includes('.com') && !Name_Field.value.includes('.in')){
                 FeedBack[0].innerHTML = "Invalid Email";
                 Name_Field.classList.add('is-invalid');
                 Final = false;

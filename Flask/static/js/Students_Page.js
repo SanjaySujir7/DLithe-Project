@@ -91,3 +91,12 @@ if(!mobileQuery.matches){
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 }
+
+const Logout_Button = document.getElementById('Log-out-Button'),
+      Log_Out_Form = document.getElementById('Logout-form');
+
+Logout_Button.addEventListener('click',function(){
+    if(confirm("Do you want to Log out ?")){
+        Log_Out_Form.submit();
+    }
+})

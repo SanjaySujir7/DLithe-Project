@@ -140,6 +140,11 @@
                   </div>
                 </div>
               </div>
+              <form style="margin-top: 50px;" id="Logout-form" action="/student-page-logout" method="post">
+                <div class="d-grid gap-2">
+                  <button class="btn btn-secondary" type="button" id="Log-out-Button">Log out</button>
+                </div>
+              </form>
           </div>
       </div>
     </div>
@@ -172,7 +177,7 @@
             <div class="Imformation-cards">
               <div class="container-fluid Imforamtion-hold-container">
                 <div class="container-fluid d-flex justify-content-center Imforamtion-icon-div align-items-center">
-                    <i class="fi fi-rr-display-code" style="color: rgb(52, 52, 161);"></i>
+                    <i class="{{Icon['course']}}" style="color: rgb(52, 52, 161);"></i>
                 </div>
                 <div class="container-fluid  d-flex justify-content-center  align-items-center imformation-div-text">
                     <h5>{{data['Course']}}</h5>
@@ -182,7 +187,7 @@
             <div class="Imformation-cards">
               <div class="container-fluid Imforamtion-hold-container">
                 <div class="container-fluid d-flex justify-content-center Imforamtion-icon-div align-items-center">
-                    <i class="fi fi-rr-check-circle" style="color:green;"></i>
+                    <i class="{{Icon['pay'][0]}}" style="color:{{Icon['pay'][1]}};"></i>
                 </div>
                 <div class="container-fluid  d-flex justify-content-center  align-items-center imformation-div-text">
                     <h5>{{data['Payment']}}</h5>

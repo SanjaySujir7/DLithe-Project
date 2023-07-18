@@ -274,7 +274,8 @@ def Student_Login_Data_Handle ():
         
         cursor = Mydb.cursor()
         
-        if '@' in Name_Email and '.com' in Name_Email:
+        if '@' in Name_Email and '.com' in Name_Email or '.in' in Name_Email:
+
             cursor.execute("SELECT Password, Phone,Email,First_Name, Last_Name  FROM students WHERE Email = %s",(Name_Email,))
             data = cursor.fetchall()
             

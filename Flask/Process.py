@@ -110,19 +110,19 @@ class Random_Cirtificate_Number:
 class Icon_Process :
     
     course_icon = {
-        'iot' : "fi fi-sr-microchip",
-        'web development' : 'fi fi-sr-globe',
-        'machine learning' : 'fi fi-ss-brain-circuit',
-        'cyber security' : 'fi fi-sr-shield-virus'
+        'iot' : "fi fi-rr-microchip",
+        'web development' : 'fi fi-rr-display-code',
+        'machine learning' : 'fi fi-rr-brain-circuit',
+        'cyber security' : 'fi fi-rr-shield-virus'
     }
     
     Payment_icon = {
         'paid' : [
-            'fi fi-sr-badge-check',
+            'fi fi-rr-check-circle',
             'green'
         ],
         'not paid': [
-            'fi fi-sr-circle-xmark',
+            'fi fi-rr-circle-xmark',
             'red'
         ]
     }
