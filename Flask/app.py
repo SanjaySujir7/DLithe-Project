@@ -145,11 +145,19 @@ def Generate_Certificate ():
                 
                 cursor.close()
                 mydb.close()
-            
-                # Certificate = Pdf_Certificate(f"{Name.capitalize()} {Last}",Certificate_Number)
-                # Certificate.Print()
                 
-                Output_File = "output.pdf"
+                data = {
+                    'Name':"Sanjay sujir",
+                    'Usn' : "1t526278",
+                    "Inst" : "Test Collage Name (test)",
+                    "Date_From" : "20-07-2023",
+                    "Date_To" : "20-08-2023"
+                }
+            
+                Certificate = Pdf_Certificate(data=data)
+                Certificate.Print()
+                
+                Output_File = "output_final.pdf"
 
                 return send_file(Output_File,as_attachment=True)
             
@@ -215,7 +223,7 @@ def Students_Info_Dashboard ():
                 'Course' : Credential[0][7],
                 'Total' : Credential[0][8],
                 'Entry' : str(Credential[0][9]).split()[0].split('-'),
-                'End' : "2023-7-20".split('-'),
+                'End' : "2023-7-19".split('-'),
                 'Payment' : Credential[0][10],
                 'Days' : None,
                 'Days_Left' : None
@@ -240,14 +248,22 @@ def Students_Info_Dashboard ():
             Today = date(Today[0],Today[1],Today[2])
             
             Days = end - Today
-            data['Days'] = Days.days
+            if Days.days <= 0:
+                data['Days'] = 0
+                
+            else:
+                data['Days'] = Days.days
+                
             percentage = Total_Days - Days.days
             percentage = percentage / Total_Days * 100
         
-            data['Days_Left'] = round(percentage)
+            if percentage >= 100:
+                data['Days_Left'] = 100
+                
+            else:
+                data['Days_Left'] = round(percentage)
             
             Icon = Icon_Process().Process(data['Course'],data['Payment'])
-            
             
             return render_template('Students_Page.html',data = data,Icon = Icon)
         
@@ -308,6 +324,7 @@ def Student_Login_Data_Handle ():
             
         
         if Name_Email_Password_Found == True :
+            session.permanent = True
             session['Student_Password'] = data[0][0]
             session['Student_Phone'] = data[0][1]
             session['Student_Email'] = data[0][2]

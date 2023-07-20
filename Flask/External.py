@@ -4,9 +4,9 @@ from datetime import date
 
 class Pdf_Certificate :
     
-    def __init__(self,Input,Output,data):
-        self.Input = Input
-        self.Output = Output
+    def __init__(self,data):
+        self.Input = "Certificate_Input.pdf"
+        self.Output = "output.pdf"
         self.data = data
         self.replace = None
         self.replace_usn = None
@@ -92,16 +92,16 @@ class Pdf_Certificate :
         
     
         
-if __name__ == '__main__':
+# if __name__ == '__main__':
     
-    data = {
-        'Name':"Sanjay sujir",
-        'Usn' : "1t526278",
-        "Inst" : "Test Collage Name (test)",
-        "Date_From" : "20-07-2023",
-        "Date_To" : "20-08-2023"
-    }
+#     data = {
+#         'Name':"Sanjay sujir",
+#         'Usn' : "1t526278",
+#         "Inst" : "Test Collage Name (test)",
+#         "Date_From" : "20-07-2023",
+#         "Date_To" : "20-08-2023"
+#     }
     
-    Test = Pdf_Certificate('Certificate_Input.pdf',"output.pdf",data=data)
-    Test.Print()
+#     Test = Pdf_Certificate(data=data)
+#     Test.Print()
 

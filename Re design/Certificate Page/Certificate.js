@@ -48,37 +48,16 @@ if(!mobileQuery_Tool.matches){
 
 function Genearte (){
 
-    const collapseElementList = document.querySelectorAll('.collapse')
-    const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
-    Generate_Div.style.height = "50%";
-    Loading_Button.style.display = "none";
-    Download_Button.style.display = "block";
-}
-
-Genearte_Button.addEventListener("click",Request_Certificate);
-
-const Download_Certificate_Link = document.getElementById('Download_Link');
-
-function Request_Certificate (){
-
     Genearte_Button.style.display = 'none';
     Loading_Button.style.display = 'block';
 
-    fetch('/certificate-generate',{
-        method : 'POST',
-        headers : {
-            'Content-Type' : 'application/json'
-        },
-        body : JSON.stringify({'pass' : "q#5qJKkaq*%@:+=771"})
-    })
+    setTimeout(function(){
+        const collapseElementList = document.querySelectorAll('.collapse')
+        const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
+        Generate_Div.style.height = "50%";
+        Loading_Button.style.display = "none";
+        Download_Button.style.display = "block";
+    },2000)
+}
 
-    .then(response => response.blob())
-    .then(file => {
-        const file_url = URL.createObjectURL(file);
-
-        Download_Certificate_Link.href = file_url;
-        Download_Certificate_Link.download = "DLithe_Certificate.pdf";
-    });
-
-    Genearte();
-};
+Genearte_Button.addEventListener("click",Genearte);
