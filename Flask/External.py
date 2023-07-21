@@ -1,107 +1,58 @@
-import fitz
-import os
-from datetime import date
+
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from PyPDF2 import PdfReader,PdfWriter
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import Paragraph
+import io
+
 
 class Pdf_Certificate :
     
-    def __init__(self,data):
-        self.Input = "Certificate_Input.pdf"
-        self.Output = "output.pdf"
-        self.data = data
-        self.replace = None
-        self.replace_usn = None
-        self.replace_date_from = None
-        self.replace_date_To = None
-        self.Today_Date = None
+    def __init__(self,Name,Usn,Collage,Date_From,Date_Two):
+        self.Name = Name
+        self.Usn = Usn
+        self.Collage = Collage
+        self.Date_From = Date_From
+        self.Date_Two = Date_Two
         
-    def Bold (self):
-        pdf = fitz.open(self.Output)
-
-        for page in pdf:
-
-            search_results = page.search_for(self.replace)
-            Usn_Search = page.search_for(self.replace_usn)
-            Date_From_Search = page.search_for(self.replace_date_from)
-            Date_To_Search = page.search_for(self.replace_date_To)
-            Certificate_Date = page.search_for('17 May 2023')
-
-            for rect in search_results:
-                page.add_redact_annot(rect)
-                page.apply_redactions()
-                
-                page.insert_textbox(rect, f" {self.data['Name']}", fontfile="tnr.ttf", fontname = 'times-new-roman',fontsize=12, color=(0, 0, 0))
-
-            for rect in Usn_Search:
-                page.add_redact_annot(rect)
-                page.apply_redactions()
-                
-                page.insert_textbox(rect,f" {self.data['Usn']}",fontfile="tnr.ttf", fontname = 'times-new-roman',fontsize=12, color=(0, 0, 0))
-                
-
-            for rect in Date_From_Search:
-                page.add_redact_annot(rect)
-                page.apply_redactions()
-                
-                page.insert_textbox(rect,f" {self.data['Date_From']} ",fontfile="tnr.ttf", fontname = 'times-new-roman',fontsize=12, color=(0, 0, 0))
+    def Print (self):
+        Input_Pdf = "Certificate_Input.pdf"
+        Out_Put_File = "output.pdf"
+        
+        with open(Input_Pdf,'rb') as file:
+        
+            Reader = PdfReader(file)
             
-            for rect in Date_To_Search:
-                page.add_redact_annot(rect)
-                page.apply_redactions()
-                
-                page.insert_textbox(rect,f" {self.data['Date_To']}",fontfile="tnr.ttf", fontname = 'times-new-roman',fontsize=12, color=(0, 0, 0))
-                
-            for rect in Certificate_Date:
-                page.add_redact_annot(rect)
-                page.apply_redactions()
-                
-                page.insert_textbox(rect,f"{self.Today_Date}" , fontname = 'Times-Roman',fontsize=11, color=(0, 0, 0)) 
-             
+            Out_Put = PdfWriter()
             
-        pdf.save("output_final.pdf")
-        pdf.close()
-        
-    def Print(self):
-        
-        Today = date.today()
-        Formated_Date = Today.strftime('%d %B %Y')
-        self.Today_Date = Formated_Date
-        
-        Name = self.data['Name'] + "----"
-        self.replace = Name
-        Usn = self.data['Usn'] + "--"
-        self.replace_usn  = Usn
-        Collage = self.data['Inst']
-        Date_From = self.data['Date_From'] + "--"
-        self.replace_date_from = Date_From
-        Date_To = self.data['Date_To'] + "--"
-        self.replace_date_To = Date_To
-        font_Size = 12
-        
-        
-        Paragraph = f"This is to certify  {Name}  , bearing USN No: {Usn} from {Collage}\n\nhas successfully completed one-month internship starting from    {Date_From}  to  {Date_To}.\n\nunder the mentorship of DLithe's development team. {Name}  has worked on\n\nCybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task."
-
-        pdf = fitz.open(self.Input)
-        page = pdf.load_page(0)
-
-        textbox = fitz.Rect(70,200,523,600)
-        page.insert_textbox(textbox,Paragraph, fontname="Times-Roman", fontsize=font_Size, color=(0, 0, 0))
-        pdf.save(self.Output)
-        pdf.close()
-        self.Bold()
-        os.remove("output.pdf")
-        
-    
-        
-# if __name__ == '__main__':
-    
-#     data = {
-#         'Name':"Sanjay sujir",
-#         'Usn' : "1t526278",
-#         "Inst" : "Test Collage Name (test)",
-#         "Date_From" : "20-07-2023",
-#         "Date_To" : "20-08-2023"
-#     }
-    
-#     Test = Pdf_Certificate(data=data)
-#     Test.Print()
-
+            Packet = io.BytesIO()
+            
+            Can = canvas.Canvas(Packet,pagesize=A4)
+            
+            my_Style=ParagraphStyle('My Para style',
+            fontName='Times-Roman',
+            fontSize=12,
+            leading=35,
+            alignment=0,
+            )
+            
+            p1=Paragraph(f"This is to certify   <b>{self.Name}</b> , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from   <b>{self.Date_From}</b>  to  <b>{self.Date_Two}</b>   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked onCybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
+            
+            p1.wrapOn(Can,450,300)
+            p1.drawOn(Can,70,460)
+            Can.save()
+            
+            Packet.seek(0)
+            
+            New_Pdf = PdfReader(Packet)
+            
+            page = Reader.pages[0]
+            page.merge_page(New_Pdf.pages[0])
+            
+            Out_Put.add_page(page)
+            
+            with open(Out_Put_File,'wb') as Out_Put_File_Write :
+                Out_Put.write(Out_Put_File_Write)
+                
+Pdf_Certificate("First Name","Register Number",'Institution Name','Date From','Date To').Print()

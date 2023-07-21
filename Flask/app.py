@@ -223,7 +223,7 @@ def Students_Info_Dashboard ():
                 'Course' : Credential[0][7],
                 'Total' : Credential[0][8],
                 'Entry' : str(Credential[0][9]).split()[0].split('-'),
-                'End' : "2023-7-19".split('-'),
+                'End' : "2023-8-19".split('-'),
                 'Payment' : Credential[0][10],
                 'Days' : None,
                 'Days_Left' : None
@@ -262,6 +262,8 @@ def Students_Info_Dashboard ():
                 
             else:
                 data['Days_Left'] = round(percentage)
+                
+            print(data['Days_Left'])
             
             Icon = Icon_Process().Process(data['Course'],data['Payment'])
             
@@ -290,20 +292,25 @@ def Student_Login_Data_Handle ():
         
         cursor = Mydb.cursor()
         
-        if '@' in Name_Email and '.com' in Name_Email or '.in' in Name_Email:
-
-            cursor.execute("SELECT Password, Phone,Email,First_Name, Last_Name  FROM students WHERE Email = %s",(Name_Email,))
-            data = cursor.fetchall()
+        if '@' in Name_Email:
             
-            if data:
-                if Password == data[0][0]:
-                    Name_Email_Password_Found = True
-                    
+            if ".in" in Name_Email or ".com" in Name_Email:
+
+                cursor.execute("SELECT Password, Phone,Email,First_Name, Last_Name  FROM students WHERE Email = %s",(Name_Email,))
+                data = cursor.fetchall()
+                
+                if data:
+                    if Password == data[0][0]:
+                        Name_Email_Password_Found = True
+                        
+                    else:
+                        flash("Invalid Password",'error')
+                        return redirect('/student-login')
                 else:
-                    flash("Invalid Password",'error')
+                    flash("Account Does not Exists For This Email",'error')
                     return redirect('/student-login')
             else:
-                flash("Account Does not Exists For This Email",'error')
+                flash("Invalid Email!",'error')
                 return redirect('/student-login')
             
         else:
@@ -365,8 +372,9 @@ def Add_Student ():
         Final = True
         
         if Name and Last and Phone and Email and Register_Number and Institution_Name and Course_Name and Total and Payment_Status and Mode:
-            if not "@" in Email and ".com" in Email:
-                Final = False
+            if "@" in Email:
+                if not ".com" in Email and not ".in" in  Email:
+                    Final = False
                 
             if not len(Phone) >= 10 :
                 Final = False

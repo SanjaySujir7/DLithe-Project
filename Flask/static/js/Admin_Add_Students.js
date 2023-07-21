@@ -128,16 +128,21 @@ Phone_Add.addEventListener('input',Phone_Process);
 
 function Email_Process (){
     if(Email_Add.value){
-        if(Email_Add.value.includes('@') && Email_Add.value.includes('.com') ){
-            Add_Validation[3][0].classList.add('is-valid');
-            Add_Validation[3][0].classList.remove('is-invalid');
-            Add_Validation[3][1] = true;
-            Account_Check();
+        if(Email_Add.value.includes('@')){
+
+            if(Email_Add.value.includes('.com') || Email_Add.value.includes('.in') ){
+                Add_Validation[3][0].classList.add('is-valid');
+                Add_Validation[3][0].classList.remove('is-invalid');
+                Add_Validation[3][1] = true;
+                Account_Check();
+            }
+            else{
+                Add_Validation[3][0].classList.add('is-invalid');
+                Add_Validation[3][0].classList.remove('is-valid');
+                Add_Validation[3][1] = false;
+            }
         }
         else{
-            Add_Validation[3][0].classList.add('is-invalid');
-            Add_Validation[3][0].classList.remove('is-valid');
-            Add_Validation[3][1] = false;
         }
     }
     else{

@@ -59,12 +59,15 @@ function Cercular_Progress_Toggle (){
         speed = 40;
 
     let progress = setInterval(function(){
-        start ++;
+
         if(start == end){
             clearInterval(progress);
         }
-        Cercular_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + start * 3.6 + "deg, white 0deg)";
-        Cercular_Progress_percentage.innerText = start + "%";
+        else{
+            start ++;
+            Cercular_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + start * 3.6 + "deg, white 0deg)";
+            Cercular_Progress_percentage.innerText = start + "%";
+        }
     },speed);
 }
 
@@ -76,12 +79,15 @@ function Cercular_Progress_Toggle_Mobile (){
         speed = 30;
 
     let progress = setInterval(function(){
-        start ++;
+
         if(start == end){
             clearInterval(progress);
         }
-        Mobile_Duration_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + start * 3.6 + "deg, white 0deg)";
-        Mobile_Duration_Progress_Percentage.innerText = start + "%";
+        else{
+            start ++;
+            Mobile_Duration_Progress.style.background = "conic-gradient(rgb(40, 57, 212)" + start * 3.6 + "deg, white 0deg)";
+            Mobile_Duration_Progress_Percentage.innerText = start + "%";
+        }
     },speed);
 }
 
