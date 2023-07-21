@@ -8,7 +8,8 @@ const First_Name_Add = document.getElementById('First_Name_Add'),
     payment_radio_add = document.getElementById('payment_radio_add'),
     Course_Add = document.getElementById('Course_Add'),
     Model_Add_btn = document.getElementById('Model_Add_btn'),
-    Mode_Add = document.getElementById('Mode_Add');
+    Mode_Add = document.getElementById('Mode_Add'),
+    End_Date = document.getElementById('End_Date_Add');
 
 
 let Add_Validation = [[First_Name_Add,false],[Last_Name_Add,false],[Phone_Add,false],[Email_Add,false],[Reg_Add,false]
@@ -232,8 +233,10 @@ Total_Add.addEventListener('input',function(){
 })
 
 
+
 function Final_Process (){
-   let  Final_Move = true;
+
+   let Final_Move = true;
     
    Add_Validation.forEach(item => {
         if(!item[1]){
@@ -242,8 +245,15 @@ function Final_Process (){
         }
    })
 
-   if(Final_Move){
+   if(End_Date.value == ""){
+        Final_Move = false;
+        alert('Please Select Entry Date')
+   }
 
+   console.log(Final_Move);
+
+   if(Final_Move){
+    
         let Pay_radio = false;
 
         if(payment_radio_add.checked){
@@ -264,7 +274,8 @@ function Final_Process (){
             Course : Course_Add.value,
             Total : Total_Add.value,
             Mode : Mode_Add.value,
-            Payment : Pay_radio
+            Payment : Pay_radio,
+            Entry_Date : End_Date.value
         }
 
         fetch('/add-student',{

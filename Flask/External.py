@@ -1,24 +1,32 @@
 
 from reportlab.lib.pagesizes import A4
+from reportlab.lib import utils
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader,PdfWriter
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
 import io
+import qrcode
+import os
+
 
 
 class Pdf_Certificate :
     
-    def __init__(self,Name,Usn,Collage,Date_From,Date_Two):
+    def __init__(self,Name,Usn,Collage,Date_From,Date_Two,Certificate_Id):
         self.Name = Name
         self.Usn = Usn
         self.Collage = Collage
         self.Date_From = Date_From
         self.Date_Two = Date_Two
+        self.Certificate_Id = Certificate_Id
+        
         
     def Print (self):
         Input_Pdf = "Certificate_Input.pdf"
         Out_Put_File = "output.pdf"
+        
+        self.Qr_Code(self.Certificate_Id,file_name="Qr_Certificate.png",)
         
         with open(Input_Pdf,'rb') as file:
         
@@ -37,10 +45,12 @@ class Pdf_Certificate :
             alignment=0,
             )
             
-            p1=Paragraph(f"This is to certify   <b>{self.Name}</b> , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from   <b>{self.Date_From}</b>  to  <b>{self.Date_Two}</b>   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked onCybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
+            p1=Paragraph(f"This is to certify   <b>{self.Name}</b> , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from   <b>{str(self.Date_From).split()[0]}</b>  to  <b>{str(self.Date_Two).split()[0]}</b>   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
             
             p1.wrapOn(Can,450,300)
             p1.drawOn(Can,70,460)
+            img = utils.ImageReader("Qr_Certificate.png")
+            Can.drawImage(img, 350, 180, 100, 100)
             Can.save()
             
             Packet.seek(0)
@@ -55,4 +65,25 @@ class Pdf_Certificate :
             with open(Out_Put_File,'wb') as Out_Put_File_Write :
                 Out_Put.write(Out_Put_File_Write)
                 
-Pdf_Certificate("First Name","Register Number",'Institution Name','Date From','Date To').Print()
+            os.remove("QR_Certificate.png")
+            
+            
+                
+    def Qr_Code(self,data, file_name, version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4):
+  
+        qr = qrcode.QRCode(
+            version=version,
+            error_correction=error_correction,
+            box_size=box_size,
+            border=border,
+        )
+        
+        qr.add_data(data)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color="black", back_color="white")
+        img.save(file_name)
+        
+        
+                
+

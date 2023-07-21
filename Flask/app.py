@@ -2,7 +2,7 @@
 from flask import Flask, jsonify,render_template,request, send_file,session,redirect,flash
 import mysql.connector
 import csv
-from Process import DateTimeProcess,Inst_Process,Random_Password,Random_Cirtificate_Number,Icon_Process
+from Process import DateTimeProcess,Inst_Process,Random_Password,Certificat_Number_Generator,Icon_Process
 from External import Pdf_Certificate
 from time import time
 from datetime import datetime,date
@@ -124,16 +124,16 @@ def Generate_Certificate ():
             
             cursor = mydb.cursor()
             
-            cursor.execute("SELECT Certificate_Number FROM Students WHERE First_Name = %s AND Email = %s AND Phone = %s;",(Name,Email,Phone,))
+            cursor.execute("SELECT * FROM Students WHERE First_Name = %s AND Email = %s AND Phone = %s;",(Name,Email,Phone,))
             
             data = cursor.fetchall()
            
             if data :
-                Certificate_Number = data[0][0]
+                Certificate_Number = data[0][13]
 
                 if Certificate_Number == None:
     
-                    Certificate_Number = Random_Cirtificate_Number().Generate()
+                    Certificate_Number = Certificat_Number_Generator(data[0][7],data[0][14]).Generate()
                     
                     cursor.execute("UPDATE students SET Certificate_Number = %s WHERE First_Name = %s AND Email = %s AND Phone = %s;",
                                    (Certificate_Number,Name,Email,Phone))
@@ -145,19 +145,12 @@ def Generate_Certificate ():
                 
                 cursor.close()
                 mydb.close()
-                
-                data = {
-                    'Name':"Sanjay sujir",
-                    'Usn' : "1t526278",
-                    "Inst" : "Test Collage Name (test)",
-                    "Date_From" : "20-07-2023",
-                    "Date_To" : "20-08-2023"
-                }
+    
             
-                Certificate = Pdf_Certificate(data=data)
+                Certificate = Pdf_Certificate(data[0][0] + " " + data[0][1],data[0][4], data[0][5],data[0][9],data[0][14],Certificate_Number)
                 Certificate.Print()
                 
-                Output_File = "output_final.pdf"
+                Output_File = "output.pdf"
 
                 return send_file(Output_File,as_attachment=True)
             
@@ -270,7 +263,7 @@ def Students_Info_Dashboard ():
             return render_template('Students_Page.html',data = data,Icon = Icon)
         
         else:
-            return "<h1>Your Session is Expired. Login Again to Continue.</h1>"
+            return redirect('/student-login')
     
     
 
@@ -367,6 +360,7 @@ def Add_Student ():
         Total = data['Total']
         Payment_Status = data['Payment'].lower()
         Mode = data['Mode']
+        Entry_Date = data['Entry_Date']
     
 
         Final = True
@@ -380,7 +374,6 @@ def Add_Student ():
                 Final = False
                 
         if Final:
-            Entry_Date = datetime.now()
             Inst_Key = Inst_Process(Register_Number,Institution_Name).Process()
             
             
@@ -396,17 +389,20 @@ def Add_Student ():
             
             cursor.execute("SELECT Entry_Date , Inst_Key FROM students WHERE Phone = %s AND Register_Number = %s ;",(Phone,Register_Number,))
             if_data_exist = cursor.fetchall()
-            print(if_data_exist)
+        
             if if_data_exist :
+                
                 return jsonify({'res' : True,'date' : if_data_exist[0][0],'Inst' : if_data_exist[0][1]})
             
             else:
                 Password = Random_Password(10).Generate()
                 
+                End_Date = DateTimeProcess(Entry_Date).End_Date_Process()
+                
                 cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                             Email , Register_Number, Institution_Name, Mode,Course_Name,
-                            Total, Entry_Date,Payment_Status,Inst_Key,Password) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password))
+                            Total, Entry_Date,Payment_Status,Inst_Key,Password,End_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,End_Date))
             
                 
                 Mydb.commit()
@@ -566,7 +562,6 @@ def Get_Csv_Data ():
             Inst_Key = Each_User[11]
             
             
-            
             Students.append(
                 {
                     'First_Name' : Name.capitalize(),
@@ -681,11 +676,12 @@ def Import_File ():
                     Entry_Date = DateTimeProcess(Entry_Date).Get()
                     Inst_Key = Inst_Process(Register_Number,Institution_Name).Process()
                     Password = Random_Password(10).Generate()
+                    End_Date =  DateTimeProcess(Entry_Date).End_Date_Process()
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
-                        Total, Entry_Date,Payment_Status,Inst_Key,Password) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password))
+                        Total, Entry_Date,Payment_Status,Inst_Key,Password,End_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,End_Date))
             
             Mydb.commit()
             cursor.close()

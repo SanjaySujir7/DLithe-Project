@@ -1,5 +1,6 @@
 import inst_Name 
 from random import choice,randint
+from datetime import datetime
 
 
 class DateTimeProcess:
@@ -18,7 +19,18 @@ class DateTimeProcess:
         
         return f"{Date_Split[2]}-{Date_Split[1]}-{Date_Split[0]} {TIme}"
     
+    
+    def End_Date_Process(self):
+        
+        Date = self.Date_Time.split()
+        Add = Date[0].split('-')
+        
+        Month = int(Add[1]) + 1
+        
+        return f"{Add[0]}-{Month}-{Add[2]}"
+    
 
+    
 
 class Inst_Process:
     def __init__ (self,reg,inst):
@@ -79,32 +91,28 @@ class Random_Password:
             
             return Password_List
         
-class Random_Cirtificate_Number:
-    
-    def Generate (self):
-        Strings = "abcdefghijklmnopqrstuvwxyz"
-        Number_Range = [0,9]
-        str_int = [1,0,1,1,0]
         
-        Serial_Number = None
+class Certificat_Number_Generator:
+    
+    def __init__(self,Course,End_Date):
+        self.course = Course
+        self.End_Date = End_Date
+        
+        
+    def Generate(self):
+        date_obj = datetime.strptime(str(self.End_Date).split()[0], '%Y-%m-%d')
+    
+        formatted_date_str = date_obj.strftime('%B')
+        Month = formatted_date_str[:3] + str(self.End_Date).split('-')[0]
+        Course = self.course[:3]
+        
+        Random_Number = ""
         
         for _ in range(7):
-            if choice(str_int) == 0:
-                if Serial_Number == None:
-                    Serial_Number = choice(Strings)
-                    
-                else:
-                    Serial_Number = f"{Serial_Number}{choice(Strings)}"
-                    
-            else:
-                if Serial_Number == None:
-                    Serial_Number = randint(Number_Range[0],Number_Range[1])
-                    
-                else:
-                    Serial_Number = f"{Serial_Number}{randint(Number_Range[0],Number_Range[1])}" 
-                    
-        return Serial_Number
-
+            Random_Number = f"{Random_Number}{randint(1,9)}"
+            
+        return Month + Course + Random_Number
+        
 
 
 class Icon_Process :
