@@ -59,7 +59,7 @@ class Inst_Process:
         
         
         if not New_reg in inst_Name.Students_Inst_Names:
-
+        
             dict = inst_Name.Students_Inst_Names
             
             dict[New_reg] = self.inst

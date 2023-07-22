@@ -45,7 +45,7 @@ class Pdf_Certificate :
             alignment=0,
             )
             
-            p1=Paragraph(f"This is to certify &nbsp<b>{self.Name}</b>&nbsp , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from   <b>{str(self.Date_From).split()[0]}</b>  to  <b>{str(self.Date_Two).split()[0]}</b>   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
+            p1=Paragraph(f"This is to certify &nbsp<b>{self.Name}</b>&nbsp , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from  &nbsp<b>{str(self.Date_From).split()[0]}</b>&nbsp  to  &nbsp<b>{str(self.Date_Two).split()[0]}</b>&nbsp   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
             
             p1.wrapOn(Can,450,300)
             p1.drawOn(Can,70,460)
@@ -65,7 +65,7 @@ class Pdf_Certificate :
             with open(Out_Put_File,'wb') as Out_Put_File_Write :
                 Out_Put.write(Out_Put_File_Write)
                 
-            os.remove("QR_Certificate.png")
+            # os.remove("QR_Certificate.png")
             
             
                 
@@ -85,3 +85,4 @@ class Pdf_Certificate :
         img.save(file_name)
         
         
+# Pdf_Certificate('FirstName LastName','Register Number',"Collage Name","2023-8-12 00:00:00",'2023-9-12 00:00:00',"Certificate_Number").Print()
