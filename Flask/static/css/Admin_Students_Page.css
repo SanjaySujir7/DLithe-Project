@@ -2,7 +2,7 @@
     --font : 'Poppins', sans-serif;
     --Background-Color : #ebedfa;
     --text-color:white;
-    --Nav-Background:rgb(19, 18, 18);
+    --Nav-Background:#242b33;
     --Hover-Color:rgba(202, 202, 202, 0.452);
     --icon-color:white;
     --nav-text-color:rgba(255, 255, 255, 0.705);
@@ -49,7 +49,6 @@ html{
 }
 
 .side-nav-header{
-    background-color: gray;
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -64,9 +63,10 @@ html{
 }
 
 .menu-icon-div i{
-    font-size: 26px;
+    font-size: 25px;
     margin: 0;
     margin-top: 5px;
+    color: rgba(36, 35, 35, 0.726);
 }
 
 .menu-icon-div div{
@@ -91,6 +91,7 @@ html{
     font-size: 1.7rem;
     font-weight:600;
     margin-top: 5px;
+    color: rgba(36, 35, 35, 0.726);
 }
 
 

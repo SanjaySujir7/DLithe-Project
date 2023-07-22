@@ -25,7 +25,10 @@ class DateTimeProcess:
         Date = self.Date_Time.split()
         Add = Date[0].split('-')
         
-        Month = int(Add[1]) + 1
+        if int(Add[1]) == 12 :
+             Month = 1
+        else:
+             Month = int(Add[1]) + 1
         
         return f"{Add[0]}-{Month}-{Add[2]}"
     
@@ -100,11 +103,19 @@ class Certificat_Number_Generator:
         
         
     def Generate(self):
+        
+        Course_Code = {
+            'internet of things (iot)' : "iot",
+            'web development' : 'web',
+            'artificial inteligence & data science' : 'aiml',
+            'cyber security' : 'cybs'
+        }
+        
         date_obj = datetime.strptime(str(self.End_Date).split()[0], '%Y-%m-%d')
     
         formatted_date_str = date_obj.strftime('%B')
         Month = formatted_date_str[:3] + str(self.End_Date).split('-')[0]
-        Course = self.course[:3]
+        Course = Course_Code[self.course]
         
         Random_Number = ""
         
@@ -118,9 +129,9 @@ class Certificat_Number_Generator:
 class Icon_Process :
     
     course_icon = {
-        'iot' : "fi fi-rr-microchip",
+        'internet of things (iot)' : "fi fi-rr-microchip",
         'web development' : 'fi fi-rr-display-code',
-        'machine learning' : 'fi fi-rr-brain-circuit',
+        'artificial inteligence & data science' : 'fi fi-rr-brain-circuit',
         'cyber security' : 'fi fi-rr-shield-virus'
     }
     
@@ -146,3 +157,25 @@ class Icon_Process :
         return {'course' : Course_Icon , 'pay' : Payment_Icon}
     
     
+class Date_Time :
+    
+    def __init__(self,DateTime):
+        self.DateTime = DateTime
+        
+    def Re_Format (self):
+        
+        original_datetime = datetime.strptime(str(self.DateTime), "%Y-%m-%d %H:%M:%S")
+        
+        formatted_datetime_str = original_datetime.strftime("%d-%m-%Y %H:%M:%S")
+        
+        return formatted_datetime_str
+    
+    
+    def Reformat_Only_Date (self):
+        
+        original_datetime = datetime.strptime(str(self.DateTime), "%Y-%m-%d")
+        
+        formatted_datetime_str = original_datetime.strftime("%d-%m-%Y")
+        
+        return formatted_datetime_str
+        

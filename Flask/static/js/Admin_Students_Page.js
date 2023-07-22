@@ -123,17 +123,17 @@ for(let i = 0;i < Export_Check_Box.length ; i++){
         let Non_Checked = false;
 
         for(let i = 0;i < Export_Check_Box.length ; i++){
-            if(Export_Check_Box[i].checked == false){
+            if(!Export_Check_Box[i].checked){
                 Non_Checked = true;
                 break;
             }
 
-            if(Non_Checked){
-                All_Export_btn.checked = false;
-            }
-            else{
-                All_Export_btn.checked = true;
-            }
+        }
+        if(Non_Checked){
+            All_Export_btn.checked = false;
+        }
+        else{
+            All_Export_btn.checked = true;
         }
     })
 }
@@ -195,6 +195,7 @@ Export_Modal_button.addEventListener('click',function(){
     .then(file => {
         const file_url = URL.createObjectURL(file);
         Export_Download_Link.href = file_url;
+        Export_Download_Link.download = "Students_Info.csv"
         Export_Download_Btn.removeAttribute('disabled');
     })
 

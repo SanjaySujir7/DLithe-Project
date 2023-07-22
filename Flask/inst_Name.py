@@ -1,1 +1,1 @@
-Students_Inst_Names = {'tt': 'test test', 'hh': 'hello', 'no': 'no', 'f': 'fake fake', 's': 'test test', 'ag': 'test test'}
+Students_Inst_Names = {'tt': 'test test', 'f': 'fake fake', 'sp': 'sdm', 'mp': 'mite', 'm': 'manipal'}

@@ -216,7 +216,7 @@ def Students_Info_Dashboard ():
                 'Course' : Credential[0][7],
                 'Total' : Credential[0][8],
                 'Entry' : str(Credential[0][9]).split()[0].split('-'),
-                'End' : "2023-8-19".split('-'),
+                'End' : str(Credential[0][14]).split()[0].split('-'),
                 'Payment' : Credential[0][10],
                 'Days' : None,
                 'Days_Left' : None
@@ -227,7 +227,7 @@ def Students_Info_Dashboard ():
             
             start = [int(i) for i in start]
             end = [int(i) for i in end]
-            
+
             start = date(start[0],start[1],start[2])
             end = date(end[0],end[1],end[2])
             
@@ -324,6 +324,7 @@ def Student_Login_Data_Handle ():
             
         
         if Name_Email_Password_Found == True :
+            session.clear()
             session.permanent = True
             session['Student_Password'] = data[0][0]
             session['Student_Phone'] = data[0][1]
@@ -688,7 +689,7 @@ def Import_File ():
             Mydb.close()
             
             print("end Time : ",time()-start_time)
-            return redirect('/students')
+            return redirect('/admin-students')
         
         else:
             return redirect("/admin-students")

@@ -60,7 +60,7 @@ function Cercular_Progress_Toggle (){
 
     let progress = setInterval(function(){
 
-        if(start == end){
+        if(start >= end){
             clearInterval(progress);
         }
         else{
@@ -80,7 +80,7 @@ function Cercular_Progress_Toggle_Mobile (){
 
     let progress = setInterval(function(){
 
-        if(start == end){
+        if(start >= end){
             clearInterval(progress);
         }
         else{

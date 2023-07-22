@@ -8,17 +8,17 @@ from reportlab.platypus import Paragraph
 import io
 import qrcode
 import os
-
+from Process import Date_Time
 
 
 class Pdf_Certificate :
     
-    def __init__(self,Name,Usn,Collage,Date_From,Date_Two,Certificate_Id):
+    def __init__(self,Name,Usn,Collage,Date_From,Date_To,Certificate_Id):
         self.Name = Name
         self.Usn = Usn
         self.Collage = Collage
-        self.Date_From = Date_From
-        self.Date_Two = Date_Two
+        self.Date_From = Date_Time(Date_From).Re_Format()
+        self.Date_Two = Date_Time(Date_To).Re_Format()
         self.Certificate_Id = Certificate_Id
         
         
@@ -45,7 +45,7 @@ class Pdf_Certificate :
             alignment=0,
             )
             
-            p1=Paragraph(f"This is to certify   <b>{self.Name}</b> , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from   <b>{str(self.Date_From).split()[0]}</b>  to  <b>{str(self.Date_Two).split()[0]}</b>   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
+            p1=Paragraph(f"This is to certify &nbsp<b>{self.Name}</b>&nbsp , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from   <b>{str(self.Date_From).split()[0]}</b>  to  <b>{str(self.Date_Two).split()[0]}</b>   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
             
             p1.wrapOn(Can,450,300)
             p1.drawOn(Can,70,460)
@@ -85,5 +85,3 @@ class Pdf_Certificate :
         img.save(file_name)
         
         
-                
-

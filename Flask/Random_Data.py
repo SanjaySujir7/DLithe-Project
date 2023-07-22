@@ -21,13 +21,10 @@ College_Choice = [
     ['manipal','m'],
 ]
 
-Course_Choice = [['Web Development','5000'],
-                 ['iot','4000'],
-                  ['ai-ml','6000'],
-                 ['Cyber Security-l1','5000'],
-                 ['Java Full-stack','5500'],
-                 ['Cyber Security-l0','4500'],
-                 ['Web Development-15weeks','3000']
+Course_Choice = [['Web Development','2500'],
+                 ['Artificial Inteligence & Data Science','2500'],
+                 ['Cyber Security','2500'],
+                 ["Internet of Things (IoT)",'2500']
                  ]
 
 
@@ -35,7 +32,7 @@ max = 4
 
 st = 0
 
-while  st <= 10:
+while  st <= 3:
     
     Name = ''
     Last = ''
