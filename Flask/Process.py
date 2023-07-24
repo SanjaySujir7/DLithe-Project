@@ -115,7 +115,7 @@ class Certificat_Number_Generator:
     
         formatted_date_str = date_obj.strftime('%B')
         Month = formatted_date_str[:3] + str(self.End_Date).split('-')[0]
-        Course = Course_Code[self.course]
+        Course = Course_Code[self.course.lower()]
         
         Random_Number = ""
         

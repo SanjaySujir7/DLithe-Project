@@ -132,6 +132,18 @@ body{
     font-size: 5rem;
 }
 
+#Verify-Modal h1{
+    color: rgba(39, 39, 39, 0.664);
+    font-weight: 700;
+    text-align: center;
+}
+
+#Verify-Modal .modal-title{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 @media (max-width:800px){
     .page-main{
         grid-template-columns: 1fr;

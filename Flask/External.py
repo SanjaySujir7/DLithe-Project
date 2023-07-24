@@ -65,7 +65,7 @@ class Pdf_Certificate :
             with open(Out_Put_File,'wb') as Out_Put_File_Write :
                 Out_Put.write(Out_Put_File_Write)
                 
-            # os.remove("QR_Certificate.png")
+            os.remove("QR_Certificate.png")
             
             
                 

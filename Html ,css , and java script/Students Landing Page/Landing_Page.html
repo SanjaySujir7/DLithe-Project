@@ -20,7 +20,7 @@
             <img src="Dlithe logo.png">
         </div>
         <div class="verify-button-div">
-            <button type="button" class="btn btn-outline-light header-button" style="border: none;" data-bs-toggle="modal" data-bs-target="#verifyModal" >Verify Certificate</button>
+            <button type="button" class="btn btn-outline-light header-button" style="border: none;" data-bs-toggle="modal" data-bs-target="#Verify-Modal" id="verify-cert-btn">Verify Certificate</button>
             <a href="https://www.dlithe.com/">
                 <button type="button" class="btn btn-outline-light header-button" style="border: none;"  data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="this will redirect to official DLithe Page">Official Page</button>
             </a>
@@ -43,43 +43,17 @@
         </div>
     </main>
   <!-- Modal -->
-  <div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade" id="Verify-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
-            <span  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="click on this to get info" style="display: flex; justify-content:center;align-items:center;">
-                <i class="fi fi-sr-info" id="verify-modal-info" data-bs-toggle="popover" data-bs-title="How to get Cerificate Id ?" data-bs-content="The Certificate Id containes unique 7 charcters. This will be at the bottom of the certificate. check here if the certificate original or not."></i>
-            </span>
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Verify Certificate</h1>
-          <div class="text-center" style="margin-left: 20px;" id="Loading_Spinner">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>  
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header" style="border: none;">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Point The cerficate qr at the Scanner</h1>
         </div>
         <div class="modal-body">
-            <div class="verify-dialog-input">
-                <div class="mb-3">
-                    <label for="certificate-id" class="form-label" style="font-weight: bold;">Certificate Id</label>
-                    <input type="text" class="form-control" id="certificate-id" aria-describedby="emailHelp" maxlength="7" required>
-                    <div id="emailHelp" class="form-text">The Certificate id will be at botttom of the certificate</div>
-                </div>
-                <div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingInputName" placeholder="Name" required>
-                        <label for="floatingInputName">First Name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com" required>
-                        <label for="floatingInputEmail">Email</label>
-                    </div>
-                </div>
-            </div>
+          <div id="reader" width="600px"></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="verify-button-dialog">Verify</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Close</button>
         </div>
       </div>
     </div>
@@ -95,12 +69,13 @@
             <i class="fi fi-ss-check-circle" id="result-modal-icon"></i>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="verify-mdl-close">Close</button>
         </div>
       </div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="Landing_Page.js"></script>
     <script>

@@ -47,47 +47,32 @@ def Check_Account_Exists ():
 def Verify_Certificate ():
     Data = request.get_json()
     
-    Certificate_Id = Data['id']
-    Name = Data['Name'].lower()
-    Email = Data['Email']
+    Certificate_Id = Data['data']
     
-    is_valid = True
-    if Certificate_Id and Name and Email:
-        if len(Certificate_Id) == 7:
-            if "@" in Email and ".com" in Email:
-                pass
+    if Certificate_Id:
+        mydb = mysql.connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = 'admin',
+            database = 'sis'
+        )
         
-            else:
-                is_valid = False
+        cursor = mydb.cursor()
+        
+        cursor.execute("SELECT  First_Name,Email FROM students WHERE Certificate_Number = %s",
+                        (Certificate_Id,))
+        
+        data = cursor.fetchall()
+        
+        if data:
+            
+            return jsonify({'result':True,'title' : "Certificate is Authorized"})
         
         else:
-            is_valid = False
-            
-            
-        if is_valid:
-            mydb = mysql.connector.connect(
-                host = 'localhost',
-                user = 'root',
-                password = 'admin',
-                database = 'sis'
-            )
-            
-            cursor = mydb.cursor()
-            
-            cursor.execute("SELECT  First_Name,Email FROM students WHERE Certificate_Number = %s AND First_Name = %s AND Email = %s",
-                            (Certificate_Id,Name,Email))
-            
-            data = cursor.fetchall()
-            
-            if data:
-                
-                return jsonify({'result':True,'title' : "Certificate is Authorized"})
-            
-            else:
-                return jsonify({'result':False,'title' : "Certificate is Unauthorized"})
-            
-        else:
-            return jsonify({'result':False,'title' : "Invalid Input!"})
+            return jsonify({'result':False,'title' : "Certificate is Unauthorized"})
+        
+    else:
+        return jsonify({'result':False,'title' : "Invalid Input!"})
 
 
 @app.route('/')
@@ -832,5 +817,5 @@ def Login_process():
 
 if __name__ == "__main__":
     app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%"
-    app.run(debug=True)
+    app.run(debug=True,host="0.0.0.0")
     
