@@ -6,7 +6,7 @@ from Process import DateTimeProcess,Inst_Process,Random_Password,Certificat_Numb
 from External import Pdf_Certificate
 from time import time
 from datetime import datetime,date
-
+from Sideoper import Hash_Password
 
 app = Flask(__name__)
 
@@ -770,28 +770,36 @@ def Login_process():
         
         if "@" in Name_Email and ".com" in Name_Email:
             
-            c.execute("SELECT * FROM sis.admin WHERE Email = %s AND Password = %s;",(Name_Email,Password))
+            c.execute("SELECT * FROM sis.admin WHERE Email = %s AND Password = %s;",(Name_Email))
             
             data = c.fetchall()
             
             if data:
-                session['Name'] = data[0][0]
-                session['Last'] = data[0][1]
-                session['Email'] = data[0][2]
-                session['Password'] = data[0][3]
-                Name_Email_found = True
+                
+                Email = data[0][2]
+                Pass = data[0][3]
+                Hash_p = Hash_Password(Password.lower())
+                
+                if Email == Name_Email and Hash_p.Validate(Pass):
+                    
+                    session['Name'] = data[0][0]
+                    session['Last'] = data[0][1]
+                    session['Email'] = data[0][2]
+                    session['Password'] = data[0][3]
+                    Name_Email_found = True
                 
         else:
             
-            c.execute("SELECT * FROM sis.admin WHERE First_Name  = %s AND Password = %s;",(Name_Email.lower(),Password))
+            c.execute("SELECT * FROM sis.admin WHERE First_Name  = %s;",(Name_Email.lower(),))
             data = c.fetchall()
             
             if data :
     
                 Name = data[0][0]
                 Pass = data[0][3]
+                Hash_p = Hash_Password(Password.lower())
                 
-                if Name == Name_Email.lower() and Pass == Password:
+                if Name == Name_Email.lower() and Hash_p.Validate(Pass):
                     session.clear()
                     
                     session['Name'] = data[0][0]
