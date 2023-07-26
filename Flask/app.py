@@ -369,7 +369,6 @@ def Add_Student ():
                 Final = False
                 
         if Final:
-            Inst_Key = Inst_Process(Register_Number,Institution_Name).Process()
             
             
             Mydb = mysql.connector.connect(
@@ -382,6 +381,17 @@ def Add_Student ():
             
             cursor = Mydb.cursor()
             
+            cursor.execute('SELECT * FROM key_Dictionary')
+            Key_List = cursor.fetchall()
+            
+            Key_Process = Inst_Process(Register_Number,Institution_Name,Key_List).Process()
+                    
+            Inst_Key = Key_Process['inst_key']
+                    
+            if not Key_Process['got']:
+                 cursor.execute("INSERT INTO Key_Dictionary (Reg_key, Inst) VALUES (%s , %s)",Key_Process['keys'])
+                        
+            
             cursor.execute("SELECT Entry_Date , Inst_Key FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
             if_data_exist = cursor.fetchall()
         
@@ -392,12 +402,10 @@ def Add_Student ():
             else:
                 Password = Random_Password(10).Generate()
                 
-                End_Date = DateTimeProcess(Entry_Date).End_Date_Process()
-                
                 cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                             Email , Register_Number, Institution_Name, Mode,Course_Name,
-                            Total, Entry_Date,Payment_Status,Inst_Key,Password,End_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,End_Date))
+                            Total, Entry_Date,Payment_Status,Inst_Key,Password) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password))
             
                 
                 Mydb.commit()
@@ -429,12 +437,13 @@ def Export_Data ():
     Export_Format = Data['Export_Format']
     
     if 'Csv' in Export_Format:
-        Headings = ['First_Name', 'Last_Name', 'Phone', 'Email','Register_Number', 'Institution_Name','Mode','Course_Name','Total','Entry_Date','Payment_Status']
+        Headings = ['First_Name', 'Last_Name', 'Phone', 'Email','Register_Number', 'Institution_Name','Mode','Course_Name','Total','Entry_Date',
+                    'Payment_Status','Inst_Key','Password','Certificate','End_Date','Payment_Date']
         
         New_Heading = []
         New_Export_List = []
         
-        for i in range(11):
+        for i in range(17):
             if i in Export_Limit:
                 New_Heading.append(Headings[i])
         
@@ -554,7 +563,10 @@ def Get_Csv_Data ():
             Entry_Date = Each_User[9]
             Payment_Status = Each_User[10]
             Inst_Key = Each_User[11]
-            
+            Password = Each_User[12]
+            Certificate_Number = Each_User[13]
+            End_Date = Each_User[14]
+            Payment_Date = Each_User[15]
             
             Students.append(
                 {
@@ -569,7 +581,11 @@ def Get_Csv_Data ():
                     'Total' :  Total,
                     'Entry_Date' : Entry_Date,
                     'Payment_Status' : Payment_Status.capitalize(),
-                    'Inst_Key' : Inst_Key
+                    'Inst_Key' : Inst_Key,
+                    'Password' : Password,
+                    'Certificate' : Certificate_Number,
+                    'End_Date' : End_Date,
+                    'Payment_Date':Payment_Date
                 }
                 
             )
@@ -681,12 +697,11 @@ def Import_File ():
                     Entry_Date = DateTimeProcess(Entry_Date).Get()
                     Payment_Date = DateTimeProcess(Payment_Date).Get()
                     Password = Random_Password(10).Generate()
-                    End_Date =  DateTimeProcess(Entry_Date).End_Date_Process()
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
-                        Total, Entry_Date,Payment_Status,Inst_Key,Password,End_Date,Payment_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,End_Date,Payment_Date))
+                        Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date))
             
             
             Mydb.commit()
