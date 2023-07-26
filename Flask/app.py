@@ -165,9 +165,16 @@ def Students_Page_Log_out():
     return redirect('/')
     
 
-@app.route('/student')
+@app.route('/student',methods = ['POST',"GET"])
 def Students_Info_Dashboard ():
 
+    if request.method == "GET":
+        Course = None
+    
+    else:
+        Course = request.get_json()
+        
+        
     if not 'Student_First_Name' in session and not "Student_Password" in session:
     
         return redirect('/student-login')
@@ -186,8 +193,10 @@ def Students_Info_Dashboard ():
         )
         
         cursor = Mydb.cursor()
-        cursor.execute("SELECT * FROM students WHERE First_Name = %s AND Phone =  %s AND Email = %s AND Password = %s ;",(First_Name,Phone,Email,Password,))
-        Credential = cursor.fetchall()
+        
+        if Course == None:
+            cursor.execute("SELECT * FROM students WHERE First_Name = %s AND Phone =  %s AND Email = %s AND Password = %s ;",(First_Name,Phone,Email,Password,))
+            Credential = cursor.fetchall()
         
         if Credential:
             data = {
@@ -373,7 +382,7 @@ def Add_Student ():
             
             cursor = Mydb.cursor()
             
-            cursor.execute("SELECT Entry_Date , Inst_Key FROM students WHERE Phone = %s AND Register_Number = %s ;",(Phone,Register_Number,))
+            cursor.execute("SELECT Entry_Date , Inst_Key FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
             if_data_exist = cursor.fetchall()
         
             if if_data_exist :
@@ -651,7 +660,7 @@ def Import_File ():
                 Payment_Status = each_user['Payment_Status']
                 Mode = each_user['Mode']
                 
-                cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s ;",(Phone,Register_Number,))
+                cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
                 if_data_exist = cursor.fetchall()
                 
                 if if_data_exist :
@@ -817,5 +826,5 @@ def Login_process():
 
 if __name__ == "__main__":
     app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%"
-    app.run(debug=True,host="0.0.0.0")
+    app.run(debug=True)
     
