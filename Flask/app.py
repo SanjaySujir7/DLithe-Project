@@ -194,9 +194,9 @@ def Students_Info_Dashboard ():
         
         cursor = Mydb.cursor()
         
-        if Course == None:
-            cursor.execute("SELECT * FROM students WHERE First_Name = %s AND Phone =  %s AND Email = %s AND Password = %s ;",(First_Name,Phone,Email,Password,))
-            Credential = cursor.fetchall()
+        cursor.execute("SELECT * FROM students WHERE First_Name = %s AND Phone =  %s AND Email = %s AND Password = %s ;",(First_Name,Phone,Email,Password,))
+        Credential = cursor.fetchall()
+            
         
         if Credential:
             data = {
@@ -356,7 +356,7 @@ def Add_Student ():
         Payment_Status = data['Payment'].lower()
         Mode = data['Mode']
         Entry_Date = data['Entry_Date']
-    
+
 
         Final = True
         
@@ -533,7 +533,6 @@ def Get_Csv_Data ():
             
     query = f"{query};"
     
-    print(query)
 
     cursor.execute(query) 
     
@@ -635,7 +634,7 @@ def Import_File ():
             data.append(each_user)
 
         if data:
-                
+            
             Mydb = mysql.connector.connect(
             host = "localhost",
             user = "root",
@@ -645,6 +644,9 @@ def Import_File ():
             )
             
             cursor = Mydb.cursor()
+            
+            cursor.execute('SELECT * FROM key_Dictionary')
+            Key_List = cursor.fetchall()
             
             for each_user in data:
                 
@@ -659,6 +661,7 @@ def Import_File ():
                 Entry_Date = each_user['Entry_Date']
                 Payment_Status = each_user['Payment_Status']
                 Mode = each_user['Mode']
+                Payment_Date = each_user['Payment_Date']
                 
                 cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
                 if_data_exist = cursor.fetchall()
@@ -667,16 +670,24 @@ def Import_File ():
                     pass
                 
                 else:
+                    Key_Process = Inst_Process(Register_Number,Institution_Name,Key_List).Process()
+                    
+                    Inst_Key = Key_Process['inst_key']
+                    
+                    if not Key_Process['got']:
+                        cursor.execute("INSERT INTO Key_Dictionary (Reg_key, Inst) VALUES (%s , %s)",Key_Process['keys'])
+                        
                     
                     Entry_Date = DateTimeProcess(Entry_Date).Get()
-                    Inst_Key = Inst_Process(Register_Number,Institution_Name).Process()
+                    Payment_Date = DateTimeProcess(Payment_Date).Get()
                     Password = Random_Password(10).Generate()
                     End_Date =  DateTimeProcess(Entry_Date).End_Date_Process()
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
-                        Total, Entry_Date,Payment_Status,Inst_Key,Password,End_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,End_Date))
+                        Total, Entry_Date,Payment_Status,Inst_Key,Password,End_Date,Payment_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,End_Date,Payment_Date))
+            
             
             Mydb.commit()
             cursor.close()

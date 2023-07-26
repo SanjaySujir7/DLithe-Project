@@ -320,7 +320,6 @@ function Table_Settings (){
 }
 
 function Default_Settings (){
-    console.log(localStorage.getItem('table-borderd'));
     let Table_str = localStorage.getItem('table-striped'),
         Table_hover = localStorage.getItem('table-hover');
 

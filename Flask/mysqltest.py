@@ -13,7 +13,7 @@ c = mydb.cursor()
 # c.execute("""CREATE TABLE students (First_Name varchar(50), Last_Name varchar(50), Phone char(20),
 #           Email varchar(100) , Register_Number char(50) , Institution_Name varchar(300),Mode char(30), Course_Name varchar(200),
 #           Total char(50), Entry_Date DATETIME,Payment_Status char(20), Inst_Key varchar(200), Password varchar(50), Certificate_Number char(30),
-#           End_Date DATETIME);
+#           End_Date DATETIME,Payment_Date DATETIME);
 #           """)
 
 
@@ -32,10 +32,12 @@ c = mydb.cursor()
 
 # c.execute("DELETE FROM students WHERE First_Name = 'fake' ;")
 
+# c.execute("CREATE TABLE Key_Dictionary ( Reg_key  varchar(50), Inst varchar(100))")
+
 
 # mydb.commit()
 
-c.execute("SELECT * FROM students;")
+c.execute("SELECT * FROM Key_Dictionary;")
 # c.execute("SELECT * FROM sis.admin")
 data = c.fetchall()
 

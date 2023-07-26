@@ -1,4 +1,3 @@
-import inst_Name 
 from random import choice,randint
 from datetime import datetime
 
@@ -36,41 +35,28 @@ class DateTimeProcess:
     
 
 class Inst_Process:
-    def __init__ (self,reg,inst):
+    def __init__ (self,reg,inst,key_dictionary):
         self.reg = reg 
         self.inst = inst
-        
+        self.key_dictionary = key_dictionary
         
     def Process (self):  
-        Reg_Num = self.reg
+        new_reg = self.reg[1] + self.reg[2]
+        keys_got = None
         
-        New_reg = ""
-        
-        for all in Reg_Num:
+        for keys in self.key_dictionary:
+            if new_reg in keys:
+                keys_got = (keys[0],keys[1])
+                break
             
-            if not all.isdigit():
-                if New_reg =="":
-                    New_reg = all
-                else:
-                    New_reg = f"{New_reg}{all}"
+        if keys_got == None:
+            temp_keys = (new_reg,self.inst)
             
-        if New_reg == "":
-            return "undefined"
-        
-        
-        if not New_reg in inst_Name.Students_Inst_Names:
-        
-            dict = inst_Name.Students_Inst_Names
-            
-            dict[New_reg] = self.inst
-            
-            with open("inst_Name.py",'w') as file:
-                file.write(f'Students_Inst_Names = {dict}')
-                
-            return self.inst
+            return {'got' : False , 'keys' : temp_keys , 'inst_key' : self.inst}
         
         else:
-            return inst_Name.Students_Inst_Names[New_reg]
+            return {'got' : True , 'keys' : keys_got, 'inst_key' : keys_got[1]}
+        
         
 
 class Random_Password:
