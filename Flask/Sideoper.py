@@ -18,4 +18,33 @@ class Hash_Password :
     def Validate(self,Hash):
         
         return bcrypt.checkpw(self.Password.encode('utf-8'), Hash.encode('utf-8'))
+
+
+class Clean_Data :
     
+    def __init__(self,data):
+        self.data = str(data)
+        
+    def Phone_Num_Clean(self):
+        
+        phone = ""
+        for chr in self.data:
+            
+            if not chr == '(' and not chr == ')' and not chr == "-":
+                phone += chr
+                
+        return phone
+    
+    
+    def Course_Clean (self):
+        
+        course = ""
+        
+        for chr in self.data:
+            if chr == "|":
+                return course
+            
+            else:
+                course += chr
+                
+        return course

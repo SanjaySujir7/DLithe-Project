@@ -37,7 +37,7 @@ c = mydb.cursor()
 
 # mydb.commit()
 
-c.execute("SELECT * FROM;")
+c.execute("SELECT * FROM students;")
 # c.execute("SELECT * FROM sis.admin")
 data = c.fetchall()
 

@@ -18,7 +18,6 @@ output_final.pdf
 
 #python file
 test.py
-inst_Name.py
 
 #Folders 
 dump/
@@ -28,3 +27,6 @@ test.html
 
 #css 
 bold-icon.css
+
+#img
+Dlithe logo.png

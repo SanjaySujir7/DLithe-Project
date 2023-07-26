@@ -190,10 +190,10 @@ Inst_Add.addEventListener('input',Inst_Process);
 
 
 let Total_Price_According = [
-    ['Web Development','2500'],
-    ['Internet of Things (IoT)','2500'],
-    ['Cyber Security','2500'],
-    ['Artificial Inteligence & Data Science','2500']
+    ['Web Development','2499'],
+    ['Internet of Things (IoT)','2499'],
+    ['Cyber Security','2499'],
+    ['Artificial Inteligence & Data Science','2499']
 ]
 
 Course_Add.addEventListener('change',function(){

@@ -6,7 +6,7 @@ from Process import DateTimeProcess,Inst_Process,Random_Password,Certificat_Numb
 from External import Pdf_Certificate
 from time import time
 from datetime import datetime,date
-from Sideoper import Hash_Password
+from Sideoper import Hash_Password,Clean_Data
 
 app = Flask(__name__)
 
@@ -668,11 +668,11 @@ def Import_File ():
                 
                 Name = each_user['First_Name'].lower()
                 Last = each_user['Last_Name'].lower()
-                Phone = each_user['Phone']
+                Phone = Clean_Data(each_user['Phone']).Phone_Num_Clean()
                 Email = each_user['Email']
                 Register_Number= each_user['Register_Number']
                 Institution_Name = each_user['Institution_Name']
-                Course_Name = each_user['Course_Name']
+                Course_Name = Clean_Data(each_user['Course_Name']).Course_Clean()
                 Total = each_user['Total']
                 Entry_Date = each_user['Entry_Date']
                 Payment_Status = each_user['Payment_Status']
@@ -717,41 +717,20 @@ def Import_File ():
     else:
         
         return redirect('/admin-students')
+    
 
 
-@app.route('/admin')
-def Admin_Page ():
-        
-        if 'Name' in session and 'Last' in session: 
-             
-            Name = session['Name']
-            Email = session['Email']
-            Password = session['Password']
-            
-            Mydb = mysql.connector.connect(
-            host = "localhost",
-            user = "root",
-            password = "admin",
-            database = 'sis'
-            
-            )
-            
-            cursor = Mydb.cursor()
-            
-            cursor.execute('SELECT First_Name FROM admin WHERE First_Name = %s AND Email = %s AND Password = %s',(Name,Email,Password))
-            data = cursor.fetchall()
-            
-            if data:
-                
-                return render_template("Admin.html")
-            
-            else:
-                return redirect('/login')
-            
-        else:
-            return redirect('/login')
-            
-        
+@app.route('/admin/<url_Password>')
+def Admin_Page (url_Password):
+    
+    if url_Password == "777":
+    
+        return redirect('/admin-students')
+    
+    else:
+        return "<h1 style='text-align:center; color:red;'>Access Denied!</h1>"
+    
+
 @app.route('/login')
 def index ():
     
@@ -839,7 +818,7 @@ def Login_process():
             except:
                 pass
                 
-            return redirect('/admin')
+            return redirect('/admin-students')
         
         else:
             session['login_error'] = "Account Does not Exist !"

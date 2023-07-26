@@ -378,9 +378,11 @@ function Fetch_Data (){
                 Mode = Each_User[i]["Mode"],
                 Course_Name = Each_User[i]['Course_Name'],
                 Total = Each_User[i]['Total'],
-                Entry_Date = Each_User[i]['Entry_Date'],
+                Entry_Date = Each_User[i]['Entry_Date'].split(" "),
                 Payment_Status = Each_User[i]['Payment_Status'],
                 Inst_Key = Each_User[i]['Inst_Key'];
+
+                Entry_Date = Entry_Date[0] + " " + Entry_Date[1] + " " +  Entry_Date[2] + " " + Entry_Date[3]
     
             Create_Table(Name,Last,Phone,Email,Register_Number,Institution_Name,Course_Name,Mode,Entry_Date,Total,Payment_Status);
             Create_Filter(Inst_Key,Course_Name);
