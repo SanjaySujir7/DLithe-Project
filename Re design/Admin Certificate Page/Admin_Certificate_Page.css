@@ -1,0 +1,216 @@
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
+:root{
+    --font : 'Poppins', sans-serif;
+    --Background-Color : #f1f2f3;
+    --text-color:white;
+    --Nav-Background:#242b33;
+    --Hover-Color:rgba(202, 202, 202, 0.452);
+    --icon-color:white;
+    --nav-text-color:rgba(255, 255, 255, 0.705);
+    --Hover-Color-nav:rgba(202, 202, 202, 0.288);
+    --Card_Background:whitesmoke;
+}
+
+body{
+    background-color: var(--Background-Color);
+    font-family: var(--font);
+    margin: 0;
+    padding: 0;
+    margin-top: 70px;
+    height: 100%;
+    margin-left: 230px;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: margin-left 0.3s;
+}
+
+html{
+    height: 100%;
+}
+
+.header {
+    background-color: var(--Background-Color);
+    height: 70px;
+    margin-left: 230px;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    transition: margin-left 0.3s;
+    background-color: white;
+}
+
+.side-nav{
+    background-color: var(--Nav-Background);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 230px;
+    transition: left 0.3s;
+}
+
+.side-nav-header{
+    padding-top: 30px;
+    padding-bottom: 40px;
+}
+
+.side-nav-header img{
+    height: 60px;
+}
+
+
+
+.Nav-list-div{
+    margin-top: 20px;
+}
+
+.Nav-list-div ul{
+    color: var(--nav-text-color);
+    margin: 0;
+    padding-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    height: 60px;
+}
+
+.Nav-list-div ul:hover{
+    background-color: var(--Hover-Color-nav);
+    color: var(--text-color);
+}
+
+.Nav-list-div i{
+    font-size: 25px;
+}
+
+.Nav-list-div ul h3{
+    font-size: 1rem;
+    margin-left: 20px;
+}
+
+.Nav-list-div a{
+    color: var(--nav-text-color);
+    margin: 0;
+    cursor: pointer;
+    width: 100%;
+    text-decoration: none;
+}
+
+.menu-icon-div{
+    height: 100%;
+    margin-left: 20px;
+}
+
+.menu-icon-div i{
+    font-size: 22px;
+    margin: 0;
+    margin-top: 5px;
+    color: rgba(49, 49, 49, 0.699);
+}
+
+.menu-icon-div div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    border-radius: 50%;
+    height: 50px;
+}
+
+.menu-icon-div div:hover{
+    cursor: pointer;
+    background-color: var(--Hover-Color);
+}
+
+.Page-heading{
+    margin-left: 10px;
+}
+
+.Page-heading h1{
+    font-size: 1.3rem;
+    font-weight:600;
+    margin-top: 5px;
+    color: rgba(49, 49, 49, 0.699);
+}
+
+
+main{
+    height: calc(100% - 70px);
+}
+
+.main-section{
+    height: 95%;
+    padding-top: 40px;
+}
+
+.main-certificate-div{
+    background-color: white ;
+    border-radius: 3px;
+    height: 100%;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.082);
+}
+
+.main-certificate-header{
+    height: 25%;
+}
+
+.navigation_tab{
+    height: 34%;
+}
+
+.tools-tab{
+    height: 66%;
+}
+
+
+.main-certificate-body{
+    height: 75%;
+    overflow-y: auto;
+
+}
+
+.nav-item{
+    cursor: pointer;
+}
+
+.spinner-div{
+    height: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-generate-non-generate{
+    display: none;
+}
+
+.error-table{
+    display: none;
+}
+
+#Empty-Place-Holder{
+    height: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#Empty-Place-Holder h3{
+    color: rgba(59, 58, 58, 0.432);
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+
+.height100{
+    height: 100%;
+}
+
+.dropdown ul {
+    cursor: pointer;
+}
+
+.margin-left{
+    margin-left: 30px;
+}
