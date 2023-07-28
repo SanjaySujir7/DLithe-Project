@@ -11,6 +11,135 @@ from Sideoper import Hash_Password,Clean_Data
 app = Flask(__name__)
 
 
+@app.route('/admin-certificate-fetch-data',methods =['POST'])
+def Admin_Certificate_Fetch_Data ():
+    
+    data = request.get_json()
+    
+    
+    if data['pass'] == "!#@1234q:{)324++@9926xcvbn":
+        
+        Mydb = mysql.connector.connect(
+        host = "localhost",
+        user = "root",
+        password = "admin",
+        database = 'sis'
+        
+        )
+        
+        cursor = Mydb.cursor()
+        Send_List = []
+        value = data['value']
+        Batch = data['batch']
+        
+        
+        if value == "generat-selec":
+            
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number  FROM students WHERE Certificate_Number != 'None' AND Batch = %s;",(Batch,))
+            data = cursor.fetchall()
+            if data:
+                for cred in data:
+                    send_data = {
+                        'First_Name' : cred[0],
+                        'Last_Name' : cred[1],
+                        'Phone' : cred[2],
+                        'Email' : cred[3],
+                        'Certi_Number' : cred[4],
+                        'Certi_Status' : "True"
+                    }
+                    
+                    Send_List.append(send_data)
+            
+                return jsonify({'exists' : True , 'data' : Send_List})
+                
+            else:
+                return jsonify({'exists' : False})
+            
+            
+        elif value == "nongener-selec":
+            
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number  FROM students WHERE Certificate_Number is NULL AND Batch = %s;",(Batch,))
+            data = cursor.fetchall()
+    
+            if data:
+                for cred in data:
+                    send_data = {
+                        'First_Name' : cred[0],
+                        'Last_Name' : cred[1],
+                        'Phone' : cred[2],
+                        'Email' : cred[3],
+                        'Certi_Number' : cred[4],
+                        'Certi_Status' : "False"
+                    }
+                    
+                    Send_List.append(send_data)
+
+                return jsonify({'exists' : True , 'data' : Send_List})
+                
+            else:
+                return jsonify({'exists' : False})
+            
+        elif value == "errror-selec":
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Error FROM  Certificate_Error WHERE  Batch = %s;",(Batch,))
+            data = cursor.fetchall()
+    
+            if data:
+                for cred in data:
+                    send_data = {
+                        'First_Name' : cred[0],
+                        'Last_Name' : cred[1],
+                        'Phone' : cred[2],
+                        'Email' : cred[3],
+                        'Error' : cred[4],
+                    }
+                    
+                    Send_List.append(send_data)
+
+                return jsonify({'exists' : True , 'data' : Send_List})
+                
+            else:
+                return jsonify({'exists' : False})
+            
+        else:
+            return jsonify({'exists' : False})
+            
+    else:
+        return jsonify({'error' : "access denied!"})
+        
+
+
+@app.route('/admin-certificate')
+def Admin_Certificate_Page ():
+    
+    if 'Name' in session and 'Email' in session:
+        Name = session['Name']
+        Email = session['Email']
+        Password = session['Password']
+        
+        Mydb = mysql.connector.connect(
+        host = "localhost",
+        user = "root",
+        password = "admin",
+        database = 'sis'
+        
+        )
+        
+        cursor = Mydb.cursor()
+        
+        cursor.execute('SELECT First_Name FROM admin WHERE First_Name = %s AND Email = %s AND Password = %s',(Name,Email,Password))
+        data = cursor.fetchall()
+        
+        if data:
+            
+            return render_template("Admin_Certificate_Page.html")
+        
+        else:
+            return redirect('/login')
+         
+    else:
+        return redirect('/login')
+          
+
 @app.route('/Student-Account-check',methods=["POST"])
 def Check_Account_Exists ():
     data = request.get_json()
@@ -357,7 +486,6 @@ def Add_Student ():
         Mode = data['Mode']
         Entry_Date = data['Entry_Date']
 
-
         Final = True
         
         if Name and Last and Phone and Email and Register_Number and Institution_Name and Course_Name and Total and Payment_Status and Mode:
@@ -400,12 +528,14 @@ def Add_Student ():
                 return jsonify({'res' : True,'date' : if_data_exist[0][0],'Inst' : if_data_exist[0][1]})
             
             else:
+                Batch = "Aug-Sep-2023"
                 Password = Random_Password(10).Generate()
+                Payment_date = datetime.now()
                 
                 cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                             Email , Register_Number, Institution_Name, Mode,Course_Name,
-                            Total, Entry_Date,Payment_Status,Inst_Key,Password) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password))
+                            Total, Entry_Date,Payment_Status,Inst_Key,Password,Batch,Payment_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                            Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Batch,Payment_date))
             
                 
                 Mydb.commit()
@@ -697,11 +827,12 @@ def Import_File ():
                     Entry_Date = DateTimeProcess(Entry_Date).Get()
                     Payment_Date = DateTimeProcess(Payment_Date).Get()
                     Password = Random_Password(10).Generate()
+                    Batch = "Aug-Sep-2023"
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
-                        Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date))
+                        Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
+                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch))
             
             
             Mydb.commit()

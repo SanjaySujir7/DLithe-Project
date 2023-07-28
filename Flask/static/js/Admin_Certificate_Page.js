@@ -28,14 +28,13 @@ Side_Nav_Button.addEventListener('click',function(){
 let Generate_List = null;
 
 let Tab_Filter = {
-    value : null,
-    batch : "Default"
+    value : "generat-selec",
+    batch : "Aug-Sep-2023",
+    pass : "!#@1234q:{)324++@9926xcvbn"
 }
 
 function Batch_Process (value){
     Tab_Filter.batch = value;
-
-    console.log(Tab_Filter);
 }
 
 const Batch = document.querySelectorAll('.Batch-selection-a');
@@ -47,30 +46,68 @@ Batch.forEach(item => {
 })
 
 
-function Fetch_Data (){
-
-
-}
-
+const Empty_Place_Holder = document.getElementById('Empty-Place-Holder');
 
 function Certificate_Tab_Filter (){
-    
-    Row_Number = 1;
-    if (Tab_Filter.value == "errror-selec"){
-        Error_Table.style.display = "table";
-        Table_Spinner.style.display = "none";
-        for(let i = 0; i < 3; i ++){
-            Create_Error_Table('sanjay','sujir','123456789','sujirsanjay@gmail.com',"Cannot generate file because end date is not defined")
-        }
-    }
-    else{
-        Table_gener_non_gener.style.display = "table";
-        Table_Spinner.style.display = "none";
-        for(let i = 0; i < 3; i ++){
-            Create_Table('sanjay','sujir','123456789','sujirsanjay@gmail.com','23456789','True')
-        }
-    };
 
+    fetch('/admin-certificate-fetch-data',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(Tab_Filter)
+    })
+        .then(response => response.json())
+
+        .then(credential => {
+            Row_Number = 1;
+
+            if (credential['exists']){
+                if (Tab_Filter.value == "errror-selec"){
+                    Error_Table.style.display = "table";
+                    
+                    credential = credential['data']
+
+                    for(let i = 0; i < credential.length ; i++) {
+                
+                        let First_Name = credential[i]['First_Name'],
+                            Last_Name = credential[i]['Last_Name'],
+                            Phone = credential[i]['Phone'],
+                            Email = credential[i]['Email'],
+                            Error = credential[i]['Error'];
+    
+                        Create_Error_Table(First_Name,Last_Name,Phone,Email,Error);
+                    }
+    
+                    Table_Spinner.style.display = "none";
+    
+                }
+                else{
+                    Table_gener_non_gener.style.display = "table";
+                    credential = credential['data']
+
+                    for(let i = 0; i < credential.length ; i++) {
+                
+                        let First_Name = credential[i]['First_Name'],
+                            Last_Name = credential[i]['Last_Name'],
+                            Phone = credential[i]['Phone'],
+                            Email = credential[i]['Email'],
+                            Certi_Number = credential[i]['Certi_Number'],
+                            Certi_Status = credential[i]['Certi_Status'];
+    
+                        Create_Table(First_Name,Last_Name,Phone,Email,Certi_Number,Certi_Status);
+                    }
+    
+                    Table_Spinner.style.display = "none";
+                };
+            }
+
+            else{
+                Table_Spinner.style.display = "none";
+                Empty_Place_Holder.style.display = 'flex';
+            }
+            
+        })
 }
 
 const Generate_Module_btn = document.getElementById('generate_Module_btn'),
@@ -99,18 +136,16 @@ function Nav_process (id){
     document.getElementById(id).classList.add('active');
     previous_select = id;
 
-    Tab_Filter = {
-       value : id
-    }
+    Tab_Filter.value = id;
 
     Table_Body.innerHTML = "";
     Error_Table_Body.innerHTML = "";
     Error_Table.style.display = "none";
     Table_gener_non_gener.style.display = 'none';
     Table_Spinner.style.display = "flex";
+    Empty_Place_Holder.style.display = 'none';
 
-    setTimeout(Certificate_Tab_Filter,1000);
-
+    Certificate_Tab_Filter();
 };
 
 
