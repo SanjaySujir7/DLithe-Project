@@ -10,6 +10,12 @@ from Sideoper import Hash_Password,Clean_Data
 
 app = Flask(__name__)
 
+@app.route('/bulk-certificate',methods = ['POST'])
+def Bulk_Certificate ():
+    data = request.get_json()
+    
+    
+    
 
 @app.route('/admin-certificate-fetch-data',methods =['POST'])
 def Admin_Certificate_Fetch_Data ():
@@ -35,7 +41,7 @@ def Admin_Certificate_Fetch_Data ():
         
         if value == "generat-selec":
             
-            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number  FROM students WHERE Certificate_Number != 'None' AND Batch = %s;",(Batch,))
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number,Register_Number  FROM students WHERE Certificate_Number != 'None' AND Batch = %s;",(Batch,))
             data = cursor.fetchall()
             if data:
                 for cred in data:
@@ -45,6 +51,7 @@ def Admin_Certificate_Fetch_Data ():
                         'Phone' : cred[2],
                         'Email' : cred[3],
                         'Certi_Number' : cred[4],
+                        'USN' : cred[5],
                         'Certi_Status' : "True"
                     }
                     
@@ -58,7 +65,7 @@ def Admin_Certificate_Fetch_Data ():
             
         elif value == "nongener-selec":
             
-            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number  FROM students WHERE Certificate_Number is NULL AND Batch = %s;",(Batch,))
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number, Register_Number  FROM students WHERE Certificate_Number is NULL AND Batch = %s;",(Batch,))
             data = cursor.fetchall()
     
             if data:
@@ -69,6 +76,7 @@ def Admin_Certificate_Fetch_Data ():
                         'Phone' : cred[2],
                         'Email' : cred[3],
                         'Certi_Number' : cred[4],
+                        'USN' : cred[5],
                         'Certi_Status' : "False"
                     }
                     
@@ -80,7 +88,7 @@ def Admin_Certificate_Fetch_Data ():
                 return jsonify({'exists' : False})
             
         elif value == "errror-selec":
-            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Error FROM  Certificate_Error WHERE  Batch = %s;",(Batch,))
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Error, Register_Number FROM  Certificate_Error WHERE  Batch = %s;",(Batch,))
             data = cursor.fetchall()
     
             if data:
@@ -91,6 +99,7 @@ def Admin_Certificate_Fetch_Data ():
                         'Phone' : cred[2],
                         'Email' : cred[3],
                         'Error' : cred[4],
+                        'USN' : cred[5],
                     }
                     
                     Send_List.append(send_data)

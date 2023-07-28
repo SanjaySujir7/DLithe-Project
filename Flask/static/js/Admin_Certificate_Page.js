@@ -35,6 +35,15 @@ let Tab_Filter = {
 
 function Batch_Process (value){
     Tab_Filter.batch = value;
+
+    Table_Body.innerHTML = "";
+    Error_Table_Body.innerHTML = "";
+    Error_Table.style.display = "none";
+    Table_gener_non_gener.style.display = 'none';
+    Table_Spinner.style.display = "flex";
+    Empty_Place_Holder.style.display = 'none';
+
+    Certificate_Tab_Filter();
 }
 
 const Batch = document.querySelectorAll('.Batch-selection-a');
@@ -67,6 +76,7 @@ function Certificate_Tab_Filter (){
                     Error_Table.style.display = "table";
                     
                     credential = credential['data']
+                    Generate_List = credential['data']
 
                     for(let i = 0; i < credential.length ; i++) {
                 
@@ -85,6 +95,7 @@ function Certificate_Tab_Filter (){
                 else{
                     Table_gener_non_gener.style.display = "table";
                     credential = credential['data']
+                    Generate_List = credential['data']
 
                     for(let i = 0; i < credential.length ; i++) {
                 
@@ -111,16 +122,33 @@ function Certificate_Tab_Filter (){
 }
 
 const Generate_Module_btn = document.getElementById('generate_Module_btn'),
-      Generate_Module_type = document.getElementById('generate_modla_select');
+      Generate_Module_type = document.getElementById('generate_modla_select'),
+      Certificate_Download_Link = document.getElementById('Certificate-file-link');
 
 function generate_Certificate_process (){
-    let send_data = {
-        generate_list : null,
-        method : Generate_Module_type.value
-    }
 
     $('#Generate_Modal').modal('hide');
     $('#Spinner-Modal').modal('show');
+
+    if(Generate_Module_type.value == "Download"){
+        Generate_List.forEach(item => {
+            fetch('/bulk-certificate',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({method : Generate_Module_type.value, data : item})
+            })
+                .then(response => response.blob())
+                .then(file => {
+                    const file_url = URL.createObjectURL(file);
+            
+                    Certificate_Download_Link.href = file_url;
+                    Certificate_Download_Link.download = item['First_Name'] + item['USN'] + '.pdf';
+                });
+        })
+    }
+
 };
 
 Generate_Module_btn.addEventListener('click',generate_Certificate_process);

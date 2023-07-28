@@ -380,3 +380,15 @@ function Fetch_Data (){
 
 }
 
+const Search_Div_Parent = document.getElementById('SearchReusltdiv');
+
+function Create_Search_Div(Name){
+    let div = document.createElement('div');
+        div.className = "search-result-child";
+
+    let h6 = document.createElement('h6');
+        h6.innerText = Name;
+        div.appendChild(h6)
+
+    Search_Div_Parent.append(div);
+};

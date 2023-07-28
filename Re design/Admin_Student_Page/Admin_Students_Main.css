@@ -37,3 +37,33 @@
 #Loading-button-Export{
     display: none;
 }
+
+
+.Search-bar-div {
+    margin-left: 40px;
+    margin-top: 15px;
+}
+
+.SearchReusltdiv{
+    width: 220px;
+    padding-bottom: 1px;
+    position: absolute;
+    top: 165px;
+    margin-left: 295px;
+    background-color: white;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.219);
+    border-radius: 3px;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-result-child{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.068);
+    padding-left: 20px;
+    padding-top: 10px;
+}

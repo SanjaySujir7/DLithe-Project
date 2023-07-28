@@ -393,3 +393,59 @@ function Fetch_Data (){
 }
 
 Fetch_Data();
+
+const Search_Div_Parent = document.getElementById('SearchReusltdiv');
+
+function Search_Text_Apend (text){
+    Search_Input.value = text;
+    Search_Div_Parent.innerHTML = "";
+    Search_Div_Parent.style.display = 'none';
+}
+
+
+
+function Create_Search_Div(Name,text){
+    let div = document.createElement('div');
+        div.className = "search-result-child";
+        div.addEventListener('click',function(){Search_Text_Apend(this.innerText)})
+
+    let h6 = document.createElement('h6');
+        let updatedText = Name.replace(new RegExp(text, "gi"), match => `<strong>${match}</strong>`);
+
+        h6.innerHTML = updatedText;
+        div.appendChild(h6)
+
+    Search_Div_Parent.append(div);
+};
+
+
+const Search_Input = document.getElementById('Search-Input');
+
+function Search_process (){
+    Search_Div_Parent.innerHTML = "";
+    RN = 1;
+
+    if(Search_Input.value){
+        let got = false;
+        Search_Div_Parent.style.display = 'block';
+
+        for(let i = 0 ; i < Export_List.length; i++){
+
+            if(Export_List[i]['First_Name'].toLowerCase().startsWith(Search_Input.value.toLowerCase())){
+                got = true;
+                Create_Search_Div(Export_List[i]['First_Name'].toLowerCase(),Search_Input.value.toLowerCase());
+            }
+        }
+
+        if(!got){
+            Search_Div_Parent.style.display = 'none';
+        }
+    }
+    else{
+        Search_Div_Parent.style.display = "none";
+    }
+}
+
+
+
+Search_Input.addEventListener('input',Search_process);
