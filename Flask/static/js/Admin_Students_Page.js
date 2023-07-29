@@ -394,12 +394,75 @@ function Fetch_Data (){
 
 Fetch_Data();
 
-const Search_Div_Parent = document.getElementById('SearchReusltdiv');
+let Search_Indicator = false;
+
+const Search_Div_Parent = document.getElementById('SearchReusltdiv'),
+      Serach_Button = document.getElementById('Search_btn');
+
+
+function Search (word){
+    Table_Body.innerHTML = "";
+    RN = 1;
+    for(let i =0 ; i < Export_List.length ; i ++){
+
+        if(Export_List[i]['First_Name'].toLowerCase().startsWith(word)){
+            
+            let Name = Export_List[i]['First_Name'],
+                Last = Export_List[i]['Last_Name'],
+                Phone = Export_List[i]['Phone'],
+                Email = Export_List[i]['Email'],
+                Register_Number= Export_List[i]['Register_Number'],
+                Institution_Name = Export_List[i]['Institution_Name'], 
+                Mode = Export_List[i]["Mode"],
+                Course_Name = Export_List[i]['Course_Name'],
+                Total = Export_List[i]['Total'],
+                Entry_Date = Export_List[i]['Entry_Date'].split(" "),
+                Payment_Status = Export_List[i]['Payment_Status'];
+
+                Entry_Date = Entry_Date[0] + " " + Entry_Date[1] + " " +  Entry_Date[2] + " " + Entry_Date[3]
+    
+            Create_Table(Name,Last,Phone,Email,Register_Number,Institution_Name,Course_Name,Mode,Entry_Date,Total,Payment_Status);
+        }
+    }
+}
+
+Serach_Button.addEventListener('click',function(){
+
+    if(!Search_Input.value){
+        Table_Body.innerHTML = "";
+        RN = 1;
+        for(let i =0 ; i < Export_List.length ; i ++){
+                
+            let Name = Export_List[i]['First_Name'],
+                Last = Export_List[i]['Last_Name'],
+                Phone = Export_List[i]['Phone'],
+                Email = Export_List[i]['Email'],
+                Register_Number= Export_List[i]['Register_Number'],
+                Institution_Name = Export_List[i]['Institution_Name'], 
+                Mode = Export_List[i]["Mode"],
+                Course_Name = Export_List[i]['Course_Name'],
+                Total = Export_List[i]['Total'],
+                Entry_Date = Export_List[i]['Entry_Date'].split(" "),
+                Payment_Status = Export_List[i]['Payment_Status'];
+
+                Entry_Date = Entry_Date[0] + " " + Entry_Date[1] + " " +  Entry_Date[2] + " " + Entry_Date[3]
+    
+            Create_Table(Name,Last,Phone,Email,Register_Number,Institution_Name,Course_Name,Mode,Entry_Date,Total,Payment_Status);
+        }
+    }
+
+    else{
+        Search_Div_Parent.innerHTML = "";
+        Search_Div_Parent.style.display = 'none';
+        Search(Search_Input.value.toLowerCase());
+    }
+})
 
 function Search_Text_Apend (text){
     Search_Input.value = text;
     Search_Div_Parent.innerHTML = "";
     Search_Div_Parent.style.display = 'none';
+    Search(text);
 }
 
 
@@ -421,9 +484,11 @@ function Create_Search_Div(Name,text){
 
 const Search_Input = document.getElementById('Search-Input');
 
+
 function Search_process (){
     Search_Div_Parent.innerHTML = "";
     RN = 1;
+    let Search_Limit = 0;
 
     if(Search_Input.value){
         let got = false;
@@ -434,6 +499,11 @@ function Search_process (){
             if(Export_List[i]['First_Name'].toLowerCase().startsWith(Search_Input.value.toLowerCase())){
                 got = true;
                 Create_Search_Div(Export_List[i]['First_Name'].toLowerCase(),Search_Input.value.toLowerCase());
+                Search_Limit ++;
+            }
+
+            if(Search_Limit >= 10){
+                break;
             }
         }
 

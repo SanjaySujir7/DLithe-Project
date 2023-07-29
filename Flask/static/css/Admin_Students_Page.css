@@ -66,7 +66,7 @@ html{
     font-size: 25px;
     margin: 0;
     margin-top: 5px;
-    color: rgba(36, 35, 35, 0.726);
+    color: rgba(49, 49, 49, 0.699);
 }
 
 .menu-icon-div div{
@@ -88,10 +88,10 @@ html{
 }
 
 .Page-heading h1{
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     font-weight:600;
     margin-top: 5px;
-    color: rgba(36, 35, 35, 0.726);
+    color: rgba(49, 49, 49, 0.699);
 }
 
 
