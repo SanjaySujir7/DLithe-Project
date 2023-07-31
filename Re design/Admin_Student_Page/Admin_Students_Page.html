@@ -25,6 +25,9 @@
         <div class="flex-grow-1 Page-heading d-flex align-items-center">
             <h1>Admin</h1>
         </div>
+        <div class="d-flex align-items-center" style="margin-right: 20px;">
+            <h6>Working on : Aug-Sep-2023</h6>
+        </div>
     </header>
     <section class="side-nav">
         <div class="container-fluid side-nav-header d-flex justify-content-center">
@@ -60,6 +63,14 @@
                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
                     </div>
                     <div class="flex-grow-1"></div>
+                    <div class="dropdown" style="margin-right: 10px;">
+                        <a class="btn btn-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bulk Action
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#EndDateModal">End Date</a></li>
+                        </ul>
+                      </div>
                     <button type="button" class="btn btn-primary" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#Add-Student-modal">Add Student</button>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -212,6 +223,17 @@
                                   <option>Online</option>
                                 </select>
                                 <label for="floatingSelect">Mode</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col">
+                            <div class="form-floating">
+                                <select class="form-select"  aria-label="Floating label select example">
+                                  <option>All</option>
+                                  <option selected>Aug-Sep-2023</option>
+                                </select>
+                                <label for="floatingSelect">Batch</label>
                             </div>
                         </div>
                     </div>
@@ -551,6 +573,28 @@
             <div class="modal-body d-flex ">
               <i class="fi fi-rr-check-circle" style="font-size: 35px;color:green; margin-right:20px;" id="Result-modal-i"></i>
               <p style="margin-top: 9px;" id="Result-modal-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="EndDateModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+                <div style="margin-top: 10px;">
+                    <i class="fi fi-rr-calendar-clock" style="font-size: 2rem; margin-right:10px;"></i>
+                </div>
+              <h5 class="modal-title" id="End_date_modal_Title">
+                    None
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <input type="date" class="Filter-Date">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Set</button>
             </div>
           </div>
         </div>

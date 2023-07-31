@@ -10,13 +10,17 @@ from Sideoper import Hash_Password,Clean_Data
 
 app = Flask(__name__)
 
+
+@app.route('/bulk-action',methods= ['POST'])
+def Admin_Bulk_Action ():
+    pass
+
+
 @app.route('/bulk-certificate',methods = ['POST'])
 def Bulk_Certificate ():
     data = request.get_json()
     
     
-    
-
 @app.route('/admin-certificate-fetch-data',methods =['POST'])
 def Admin_Certificate_Fetch_Data ():
     
@@ -231,7 +235,7 @@ def Generate_Certificate ():
     
     if 'Student_First_Name' in session and "Student_Password" in session:
     
-        if Pass['pass']== "q#5qJKkaq*%@:+=771":
+        if Pass['pass']== "bDr*^1t4t_@fj<lDda24Cz9*BM)I@u":
             
             mydb = mysql.connector.connect(
                 host = "localhost",
