@@ -72,3 +72,7 @@
 .search-result-child:hover{
     background-color: rgba(158, 160, 160, 0.192);
 }
+
+.dropdown-item{
+    cursor: pointer;
+}

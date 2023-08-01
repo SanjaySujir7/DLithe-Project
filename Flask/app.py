@@ -13,7 +13,41 @@ app = Flask(__name__)
 
 @app.route('/bulk-action',methods= ['POST'])
 def Admin_Bulk_Action ():
-    pass
+    
+    data = request.get_json()
+    
+    if data['for'] == "End_Date":
+
+        Batch = data['data']['Batch']
+        Date = data['data']['Date']
+        
+        if Batch and Date and not 'All' in Batch:
+            
+            Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "admin",
+            database = 'sis'
+            
+            )
+            
+            cursor = Mydb.cursor()
+            
+            cursor.execute("UPDATE students SET End_Date = %s WHERE Batch = %s",(Date,Batch,))
+            
+            Mydb.commit()
+            
+            cursor.close()
+            Mydb.close()
+            
+            return jsonify({'res' : True})
+        
+        else:
+            return jsonify({'res' : False})
+        
+    else:
+        return jsonify({'res' : False})
+    
 
 
 @app.route('/bulk-certificate',methods = ['POST'])
@@ -60,10 +94,15 @@ def Admin_Certificate_Fetch_Data ():
                     }
                     
                     Send_List.append(send_data)
+                    
+                    cursor.close()
+                    Mydb.close()
             
                 return jsonify({'exists' : True , 'data' : Send_List})
                 
             else:
+                cursor.close()
+                Mydb.close()
                 return jsonify({'exists' : False})
             
             
@@ -85,10 +124,14 @@ def Admin_Certificate_Fetch_Data ():
                     }
                     
                     Send_List.append(send_data)
-
+                    
+                cursor.close()
+                Mydb.close()
                 return jsonify({'exists' : True , 'data' : Send_List})
                 
             else:
+                cursor.close()
+                Mydb.close()
                 return jsonify({'exists' : False})
             
         elif value == "errror-selec":
@@ -107,13 +150,20 @@ def Admin_Certificate_Fetch_Data ():
                     }
                     
                     Send_List.append(send_data)
+                    
+                cursor.close()
+                Mydb.close()
 
                 return jsonify({'exists' : True , 'data' : Send_List})
                 
             else:
+                cursor.close()
+                Mydb.close()
                 return jsonify({'exists' : False})
             
         else:
+            cursor.close()
+            Mydb.close()
             return jsonify({'exists' : False})
             
     else:
@@ -144,9 +194,13 @@ def Admin_Certificate_Page ():
         
         if data:
             
+            cursor.close()
+            Mydb.close()
             return render_template("Admin_Certificate_Page.html")
         
         else:
+            cursor.close()
+            Mydb.close()
             return redirect('/login')
          
     else:
@@ -174,6 +228,9 @@ def Check_Account_Exists ():
         
         cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Email = %s AND First_Name = %s AND Last_Name = %s;",(Phone,Email,Name,Last))
         data = cursor.fetchall()
+        
+        cursor.close()
+        mydb.close()
         
         if data:
             return jsonify({"res" : True})
@@ -205,6 +262,9 @@ def Verify_Certificate ():
                         (Certificate_Id,))
         
         data = cursor.fetchall()
+        
+        cursor.close()
+        mydb.close()
         
         if data:
             
@@ -254,6 +314,7 @@ def Generate_Certificate ():
             cursor.execute("SELECT * FROM Students WHERE First_Name = %s AND Email = %s AND Phone = %s;",(Name,Email,Phone,))
             
             data = cursor.fetchall()
+           
            
             if data :
                 Certificate_Number = data[0][13]
@@ -377,6 +438,7 @@ def Students_Info_Dashboard ():
             Today = date(Today[0],Today[1],Today[2])
             
             Days = end - Today
+            print(Days.days)
             if Days.days <= 0:
                 data['Days'] = 0
                 
@@ -395,6 +457,9 @@ def Students_Info_Dashboard ():
             print(data['Days_Left'])
             
             Icon = Icon_Process().Process(data['Course'],data['Payment'])
+            
+            cursor.close()
+            Mydb.close()
             
             return render_template('Students_Page.html',data = data,Icon = Icon)
         
@@ -427,6 +492,8 @@ def Student_Login_Data_Handle ():
 
                 cursor.execute("SELECT Password, Phone,Email,First_Name, Last_Name  FROM students WHERE Email = %s",(Name_Email,))
                 data = cursor.fetchall()
+                cursor.close()
+                Mydb.close()
                 
                 if data:
                     if Password == data[0][0]:
@@ -446,6 +513,9 @@ def Student_Login_Data_Handle ():
 
             cursor.execute("SELECT Password, Phone,Email, First_Name,Last_Name  FROM students WHERE First_Name = %s;",(Name_Email,))
             data = cursor.fetchall()
+            
+            cursor.close()
+            Mydb.close()
             
             if data:
                 if Password == data[0][0]:
@@ -630,6 +700,7 @@ def Get_Csv_Data ():
     Year_To = filters[3]
     Payment  = filters[4]
     Mode = filters[5]
+    Batch = filters[6]
     
     
     Mydb = mysql.connector.connect(
@@ -682,9 +753,15 @@ def Get_Csv_Data ():
         else:
             query = f"{query} AND Mode = '{Mode}'"
             
+    if not "All" in Batch:
+        
+        if First:
+            query = f"{query} WHERE Batch = '{Batch}'"
+            
+        else:
+            query = f"{query} AND Batch = '{Batch}'"
             
     query = f"{query};"
-    
 
     cursor.execute(query) 
     
@@ -765,6 +842,9 @@ def Students_DashBoard():
         cursor.execute('SELECT First_Name FROM admin WHERE First_Name = %s AND Email = %s AND Password = %s',(Name,Email,Password))
         data = cursor.fetchall()
         
+        cursor.close()
+        Mydb.close()
+        
         if data:
             
             return render_template("Admin_Students_Page.html")
@@ -806,6 +886,7 @@ def Import_File ():
             
             cursor.execute('SELECT * FROM key_Dictionary')
             Key_List = cursor.fetchall()
+            
             
             for each_user in data:
                 

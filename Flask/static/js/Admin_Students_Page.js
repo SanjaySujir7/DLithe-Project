@@ -17,7 +17,8 @@ const Collage_Filter = document.getElementById('Collage-filter'),
       Payment_Filter = document.getElementById('Payment_Filter'),
       Mode_Filter = document.getElementById('Mode_Filter'),
       Apply_Filter_btn = document.getElementById('Apply-Filter-btn'),
-      Remove_Filter_btn = document.getElementById('Remove-Filter-btn');
+      Remove_Filter_btn = document.getElementById('Remove-Filter-btn'),
+      Batch_Filter = document.getElementById('Batch-Filter');
 
 const Export_File_Format = document.getElementById('Export-File-Format'),
       All_Export_btn = document.getElementById('All-checkbox'),
@@ -32,7 +33,9 @@ const Table = document.getElementById('Table'),
 const Result_Modal_Text = document.getElementById('Result-modal-text'),
       Result_Modal_Icon = document.getElementById('Result-modal-i');
 
-let  Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All']
+const Working_Indicator = document.getElementById('working-indicator');
+
+let  Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All',"Aug-Sep-2023"]
 
 let Export_List = []
 
@@ -41,11 +44,11 @@ let RN = 1;
 function Apply_Filter (){
 
     if(Date_Filter_From.value =="" || Date_Filter_To.value == ""){
-        Filter_List = [Collage_Filter.value,Course_Filter.value,'yyyy-MM-dd','yyyy-MM-dd',Payment_Filter.value,Mode_Filter.value]
+        Filter_List = [Collage_Filter.value,Course_Filter.value,'yyyy-MM-dd','yyyy-MM-dd',Payment_Filter.value,Mode_Filter.value,Batch_Filter.value]
     }
 
     else{
-        Filter_List = [Collage_Filter.value,Course_Filter.value,Date_Filter_From.value,Date_Filter_To.value,Payment_Filter.value,Mode_Filter.value]
+        Filter_List = [Collage_Filter.value,Course_Filter.value,Date_Filter_From.value,Date_Filter_To.value,Payment_Filter.value,Mode_Filter.value,Batch_Filter.value]
     }
 
     Table_Body.innerHTML = "";
@@ -53,12 +56,13 @@ function Apply_Filter (){
     Result_Popup("Filter Applied .",true,1500);
 
     Fetch_Data();
+    Working_Indicator.innerHTML = `Working on : ${Batch_Filter.value}`;
 };
 
 
 
 function Remove_Filter (){
-    Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All']
+    Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All','Aug-Sep-2023']
 
     Collage_Filter.value = "All";
     Course_Filter.value = "All";
@@ -66,6 +70,7 @@ function Remove_Filter (){
     Date_Filter_To.value = "";
     Payment_Filter.value = "All";
     Mode_Filter.value = "All";
+    Batch_Filter.value = "Aug-Sep-2023";
 };
 
 let Existing_Filter = [];
@@ -519,3 +524,59 @@ function Search_process (){
 
 
 Search_Input.addEventListener('input',Search_process);
+
+
+const End_Date_Button = document.getElementById('End_Date_btn'),
+      End_date_Modal_Title = document.getElementById('End_date_modal_Title');
+
+End_Date_Button.addEventListener('click',function(){
+    End_date_Modal_Title.innerHTML = Batch_Filter.value;
+})
+
+
+const End_date_Set_Btn = document.getElementById('End-Date-Set-btn'),
+      End_date_set_input = document.getElementById('End_Date_Set_Input');
+
+    
+End_date_Set_Btn.addEventListener('click',function(){
+    if(End_date_set_input.value && Batch_Filter.value != 'All'){
+        $("#EndDateModal").modal('hide');
+
+        let send_data = {
+            for : 'End_Date',
+            data : {
+                Batch : Batch_Filter.value,
+                Date : End_date_set_input.value,
+            }
+        }
+
+        try {
+        
+            fetch('/bulk-action',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify(send_data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if(data['res']){
+                        Result_Popup(`End Date Changed for ${Batch_Filter.value}`,true,1500)
+                    }
+                    else{
+                        Result_Popup("Something Wrong Happend!. Try again.",false,1500)
+                    }
+                })
+        } catch (error) {
+            Result_Popup("Something Wrong Happend!. Try again.",false,1500);
+        }
+    }
+    else{
+        End_date_set_input.style.border = "2px solid red";
+
+        if(Batch_Filter.value == "All"){
+            alert("You can't set End Date for all")
+        }
+    }
+})
