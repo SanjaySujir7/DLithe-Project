@@ -8,6 +8,7 @@ from time import time
 from datetime import datetime,date
 from Sideoper import Hash_Password,Clean_Data
 
+
 app = Flask(__name__)
 
 
@@ -45,6 +46,35 @@ def Admin_Bulk_Action ():
         else:
             return jsonify({'res' : False})
         
+        
+    elif data['for'] == "Start_Date":
+        Batch = data['data']['Batch']
+        Date = data['data']['Date']
+        
+        if Batch and Date and not 'All' in Batch:
+            
+            Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "admin",
+            database = 'sis'
+            
+            )
+            
+            cursor = Mydb.cursor()
+            
+            cursor.execute("UPDATE students SET Start_Date = %s  WHERE  Batch = %s",(Date,Batch,))
+            
+            Mydb.commit()
+            
+            cursor.close()
+            Mydb.close()
+            
+            return jsonify({'res' : True})
+        
+        else:
+            return jsonify({'res' : False})
+        
     else:
         return jsonify({'res' : False})
     
@@ -53,6 +83,34 @@ def Admin_Bulk_Action ():
 @app.route('/bulk-certificate',methods = ['POST'])
 def Bulk_Certificate ():
     data = request.get_json()
+    
+    if data['method'] == "Download":
+        
+        First_Name = data['First_Name']
+        Email = data['Email']
+        Register_Number = data['Usn']
+        Course_Name = data['Course_Name']
+        
+        if data['data']:
+            Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "admin",
+            database = 'sis'
+            
+            )
+            
+            cursor = Mydb.cursor()
+            
+            cursor.execute("SELECT * FROM students WHERE First_Name = %s , Email = %s , Register_Number = %s , Course_Name = %s",(First_Name,Email,Register_Number,Course_Name,))
+            data = cursor.fetchall()
+            
+            if data:
+                if data['Error'] is None or data['Error '] == False:
+                    pass
+                
+                else:
+                    pass
     
     
 @app.route('/admin-certificate-fetch-data',methods =['POST'])
@@ -79,7 +137,7 @@ def Admin_Certificate_Fetch_Data ():
         
         if value == "generat-selec":
             
-            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number,Register_Number  FROM students WHERE Certificate_Number != 'None' AND Batch = %s;",(Batch,))
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number,Register_Number,Course_Name  FROM students WHERE Certificate_Number IS NOT NULL AND Batch = %s;",(Batch,))
             data = cursor.fetchall()
             if data:
                 for cred in data:
@@ -89,8 +147,9 @@ def Admin_Certificate_Fetch_Data ():
                         'Phone' : cred[2],
                         'Email' : cred[3],
                         'Certi_Number' : cred[4],
-                        'USN' : cred[5],
-                        'Certi_Status' : "True"
+                        'Usn' : cred[5],
+                        'Certi_Status' : "True",
+                        'Course_Name' : cred[6]
                     }
                     
                     Send_List.append(send_data)
@@ -108,7 +167,7 @@ def Admin_Certificate_Fetch_Data ():
             
         elif value == "nongener-selec":
             
-            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number, Register_Number  FROM students WHERE Certificate_Number is NULL AND Batch = %s;",(Batch,))
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Certificate_Number, Register_Number,Course_Name  FROM students WHERE Certificate_Number is NULL AND Batch = %s;",(Batch,))
             data = cursor.fetchall()
     
             if data:
@@ -119,8 +178,9 @@ def Admin_Certificate_Fetch_Data ():
                         'Phone' : cred[2],
                         'Email' : cred[3],
                         'Certi_Number' : cred[4],
-                        'USN' : cred[5],
-                        'Certi_Status' : "False"
+                        'Usn' : cred[5],
+                        'Certi_Status' : "False",
+                        'Course_Name' : cred[6]
                     }
                     
                     Send_List.append(send_data)
@@ -135,7 +195,7 @@ def Admin_Certificate_Fetch_Data ():
                 return jsonify({'exists' : False})
             
         elif value == "errror-selec":
-            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Error, Register_Number FROM  Certificate_Error WHERE  Batch = %s;",(Batch,))
+            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Error, Usn,Course_Name FROM  Certificate_Error WHERE  Batch = %s;",(Batch,))
             data = cursor.fetchall()
     
             if data:
@@ -146,7 +206,8 @@ def Admin_Certificate_Fetch_Data ():
                         'Phone' : cred[2],
                         'Email' : cred[3],
                         'Error' : cred[4],
-                        'USN' : cred[5],
+                        'Usn' : cred[5],
+                        'Course_Name' : cred[6]
                     }
                     
                     Send_List.append(send_data)
@@ -682,11 +743,16 @@ def Export_Data ():
         return send_file(filename,as_attachment=True)
         
 
-@app.route('/log-out',methods = ['POST'])
-def Log_out ():
-    session.clear()
+@app.route('/log-out / <Pass>',methods = ['POST'])
+def Log_out (Pass):
     
-    return redirect('/login')
+    if Pass == "bDr*^1t4t_@fj<lDda24Cz9*BM)I@u":
+        session.clear()
+    
+        return redirect('/login')
+    
+    else:
+        return "<h3>Access Denied !</h3>"
 
     
 

@@ -52,7 +52,6 @@ function Genearte (){
     const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
     Generate_Div.style.height = "50%";
     Loading_Button.style.display = "none";
-    Download_Button.style.display = "block";
 }
 
 Genearte_Button.addEventListener("click",Request_Certificate);
@@ -78,6 +77,7 @@ function Request_Certificate (){
 
         Download_Certificate_Link.href = file_url;
         Download_Certificate_Link.download = "DLithe_Certificate.pdf";
+        Download_Certificate_Link.click();
     });
 
     Genearte();

@@ -130,6 +130,15 @@ function generate_Certificate_process (){
     $('#Generate_Modal').modal('hide');
     $('#Spinner-Modal').modal('show');
 
+    let Error = null;
+
+    if(Tab_Filter.value == "errror-selec"){
+        Error = true;
+    }
+    else{
+        Error = false;
+    }
+
     if(Generate_Module_type.value == "Download"){
         Generate_List.forEach(item => {
             fetch('/bulk-certificate',{
@@ -137,7 +146,7 @@ function generate_Certificate_process (){
                 headers : {
                     'Content-Type' : 'application/json'
                 },
-                body : JSON.stringify({method : Generate_Module_type.value, data : item})
+                body : JSON.stringify({method : Generate_Module_type.value, data : item, Error :Error})
             })
                 .then(response => response.blob())
                 .then(file => {

@@ -565,11 +565,11 @@ End_date_Set_Btn.addEventListener('click',function(){
                         Result_Popup(`End Date Changed for ${Batch_Filter.value}`,true,1500)
                     }
                     else{
-                        Result_Popup("Something Wrong Happend!. Try again.",false,1500)
+                        Result_Popup("Something Went Wrong!. Try again.",false,1500)
                     }
                 })
         } catch (error) {
-            Result_Popup("Something Wrong Happend!. Try again.",false,1500);
+            Result_Popup("Something Went Wrong!. Try again.",false,1500);
         }
     }
     else{
@@ -580,3 +580,70 @@ End_date_Set_Btn.addEventListener('click',function(){
         }
     }
 })
+
+const Start_Date_btn = document.getElementById('Start_Date_btn'),
+      Start_Date_Modal_Title = document.getElementById('Start_date_modal_Title'),
+      Start_Date_Set_Btn = document.getElementById('Start_date_Set_btn'),
+      Start_Date_Input = document.getElementById('Start_Date_Set_Input');
+
+Start_Date_btn.addEventListener('click',function(){
+    Start_Date_Modal_Title.innerHTML = Batch_Filter.value;
+})
+
+
+
+Start_Date_Set_Btn.addEventListener('click',function(){
+    if(Start_Date_Input.value && Batch_Filter.value != 'All'){
+        $("#StartDateModal").modal('hide');
+
+        let send_data = {
+            for : 'Start_Date',
+            data : {
+                Batch : Batch_Filter.value,
+                Date : Start_Date_Input.value,
+            }
+        }
+
+        try {
+        
+            fetch('/bulk-action',{
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify(send_data)
+            })
+                .then(response => response.json())
+                .then(data => {
+        
+                    if(data['res']){
+                        Result_Popup(`Start Date Changed for ${Batch_Filter.value}`,true,1500)
+                    }
+                    else{
+                        Result_Popup("Something Went Wrong!. Try again.",false,1500)
+                    }
+                })
+        } catch (error) {
+            Result_Popup("Something Went Worng !. Try again.",false,1500);
+        }
+    }
+    else{
+        End_date_set_input.style.border = "2px solid red";
+
+        if(Batch_Filter.value == "All"){
+            alert("You can't set Start Date for all")
+        }
+    }
+})
+
+
+const Log_Out_Form = document.getElementById('log-out-form'),
+      Log_out_Btn = document.getElementById('Log-out-list');
+
+
+Log_out_Btn.addEventListener('click',function(){
+    if(confirm("Do You Want to log out ?")){
+        Log_Out_Form.submit();
+    }
+})
+

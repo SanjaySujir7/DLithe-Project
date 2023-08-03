@@ -41,11 +41,18 @@
                 </ul>
             </li>
             <a href="{{url_for('Admin_Certificate_Page')}}">
-                <ul class="d-flex align-items-center" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Current Page">
+                <ul class="d-flex align-items-center" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Certificate Page">
                     <i class="fi fi-rr-diploma"></i>
                     <h3>Certificate</h3>
                 </ul>
             </a>
+            <li class="d-flex align-items-center flex-column" id="Log-out-list">
+                <ul class="d-flex align-items-center"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Log out">
+                    <i class="fi fi-rr-exit"></i>
+                    <h3>Log out</h3>
+                </ul>
+            </li>
+            <form id="log-out-form" action="/log-out / bDr*^1t4t_@fj<lDda24Cz9*BM)I@u" method="POST"></form>
         </div>
     </section>
     <main class="container-fluid main-page">
@@ -66,11 +73,12 @@
                     </div>
                     <div class="flex-grow-1"></div>
                     <div class="dropdown" style="margin-right: 10px;">
-                        <a class="btn btn-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn btn-warning dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Bulk Action
                         </a>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#EndDateModal" id="End_Date_btn">End Date</a></li>
+                          <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#StartDateModal" id="Start_Date_btn">Start Date</a></li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-primary" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#Add-Student-modal">Add Student</button>
@@ -599,6 +607,28 @@
             <div class="modal-body d-flex ">
               <i class="fi fi-rr-check-circle" style="font-size: 35px;color:green; margin-right:20px;" id="Result-modal-i"></i>
               <p style="margin-top: 9px;" id="Result-modal-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="StartDateModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+                <div style="margin-top: 10px;">
+                    <i class="fi fi-rr-calendar-clock" style="font-size: 2rem; margin-right:10px;"></i>
+                </div>
+              <h5 class="modal-title" id="Start_date_modal_Title">
+                    None
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <input type="date" class="Filter-Date" id="Start_Date_Set_Input">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="Start_date_Set_btn">Set</button>
             </div>
           </div>
         </div>

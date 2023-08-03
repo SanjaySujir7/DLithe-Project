@@ -76,3 +76,9 @@
 .dropdown-item{
     cursor: pointer;
 }
+
+#Log-out-list{
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+}
