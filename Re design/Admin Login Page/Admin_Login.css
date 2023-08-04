@@ -1,0 +1,87 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(236, 236, 236);
+}
+
+html{
+    height: 100%;
+}
+
+.Main-Page{
+    height: 80%;
+    width: 100%;
+}
+
+.Login-Page{
+    width: 400px;
+    padding-bottom: 30px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.13);
+}
+
+header{
+    height: 100px;
+}
+
+header img{
+    width: 120px;
+}
+
+.Login-Page-Body{
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+}
+
+.button-div{
+    margin-top: 50px;
+    height: 50px;
+}
+
+#Login-Buton{
+    background-color: rgba(122, 7, 7, 0.897);
+    border: none;
+}
+
+#Login-Buton:hover{
+    background-color: rgb(167, 16, 16);
+}
+
+#Login-Buton:active{
+    opacity: 0.7;
+}
+
+
+.alert-div{
+    position: absolute;
+    top: 10px;
+    display: flex;
+    justify-content: center;
+    left: 0px;
+    right: 0px;
+}
+
+#eye-i{
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.589);
+    margin-top: -45px;
+    position: absolute;
+    margin-left: 280px;
+}
+
+#eye-i:hover{
+    opacity: 0.7;
+}
+
+.margin-t{
+    margin-top: 40px;
+}
+
+.invalid-feedback{
+    position: absolute;
+}
