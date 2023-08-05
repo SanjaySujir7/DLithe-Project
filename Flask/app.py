@@ -1024,18 +1024,8 @@ def Admin_Page (url_Password):
 
 @app.route('/login')
 def index ():
-    
-    try:
-        if session["login_error"] == 'none':
-            error = 'none'
-        
-        else:
-            error = session['login_error']
-            
-    except:
-        error = 'none'
 
-    return render_template("index.html",error = error)
+    return render_template("Admin_Login.html")
 
 
 @app.route('/login-data',methods = ['POST'])
@@ -1043,11 +1033,13 @@ def Login_process():
     
     app.config['PERMANENT_SESSION_LIFETIME'] = 1140
     
-    Name_Email = request.form['uname']
-    Password = request.form['psw']
+    Name_Email = request.form['Name_Email']
+    Password = request.form['Password']
     
     if Name_Email and Password:
+        
         Name_Email_found = False
+        session.clear()
 
         mydb = mysql.connector.connect(
             host = 'localhost',
@@ -1056,70 +1048,70 @@ def Login_process():
             database = 'sis'
         )
         
-        c = mydb.cursor()
+        cursor = mydb.cursor()
         
-        if "@" in Name_Email and ".com" in Name_Email:
+        if "@" in Name_Email:
             
-            c.execute("SELECT * FROM sis.admin WHERE Email = %s AND Password = %s;",(Name_Email))
-            
-            data = c.fetchall()
+            cursor.execute("SELECT Email, Password , First_Name FROM admin WHERE Email = %s",(Name_Email,))
+            data = cursor.fetchall()
+            cursor.close()
+            mydb.close()
             
             if data:
+                Hash_P = Hash_Password(Password)
+                Email = data[0][0]
                 
-                Email = data[0][2]
-                Pass = data[0][3]
-                Hash_p = Hash_Password(Password.lower())
-                
-                if Email == Name_Email and Hash_p.Validate(Pass):
-                    
-                    session['Name'] = data[0][0]
-                    session['Last'] = data[0][1]
-                    session['Email'] = data[0][2]
-                    session['Password'] = data[0][3]
-                    Name_Email_found = True
-                
-        else:
-            
-            c.execute("SELECT * FROM sis.admin WHERE First_Name  = %s;",(Name_Email.lower(),))
-            data = c.fetchall()
-            
-            if data :
-    
-                Name = data[0][0]
-                Pass = data[0][3]
-                Hash_p = Hash_Password(Password.lower())
-                
-                if Name == Name_Email.lower() and Hash_p.Validate(Pass):
-                    session.clear()
-                    
-                    session['Name'] = data[0][0]
-                    session['Last'] = data[0][1]
-                    session['Email'] = data[0][2]
-                    session['Password'] = data[0][3]
-                    Name_Email_found = True
+                if Email == Name_Email and Hash_P.Validate(data[0][1]):
         
-        c.close()
-        mydb.close()
-             
-        if Name_Email_found:
-
-            try:
-                session['login_error'] = 'none'
+                    Name_Email_found = True
+                    session['Name'] = data[0][2]
+                    session['Email'] = data[0][0]
+                    session['Password'] = data[0][1]
+                    
+                else:
+                    flash("Incorrect Password !",'error')
+                    return redirect('/login')
             
-            except:
-                pass
+            else:
+              flash("Email does't exists!")
+              return redirect('/login')
+              
+        else:
+            cursor.execute("SELECT Email, Password , First_Name FROM admin WHERE First_Name = %s",(Name_Email.lower(),))
+            data = cursor.fetchall()
+            cursor.close()
+            mydb.close()
+            
+            if data:
+                Hash_P = Hash_Password(Password)
+                Name = data[0][2]
                 
+                if Name == Name_Email and Hash_P.Validate(data[0][1]):
+        
+                    Name_Email_found = True
+                    session['Name'] = data[0][2]
+                    session['Email'] = data[0][0]
+                    session['Password'] = data[0][1]
+                    
+                else:
+                    flash("Incorrect Password !",'error')
+                    return redirect('/login')
+            
+            else:
+              flash("Name does't exists!")
+              return redirect('/login')
+              
+        if Name_Email_found:
             return redirect('/admin-students')
         
         else:
-            session['login_error'] = "Account Does not Exist !"
-            
-            return redirect('/login')
+            return "Some thing wrong Happend!"
         
     else:
-        session['login_error'] = "Data is invalid !"
-        return "Data is invalid"
-
+        flash("Invalid Input!",'error')
+        return redirect('/login')
+       
+       
 if __name__ == "__main__":
     app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%"
     app.run(debug=True)
