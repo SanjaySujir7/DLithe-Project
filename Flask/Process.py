@@ -40,9 +40,26 @@ class Inst_Process:
         self.inst = inst
         self.key_dictionary = key_dictionary
         
-    def Process (self):  
-        new_reg = self.reg[1] + self.reg[2]
-        keys_got = None
+    def Process (self): 
+        
+        if not self.reg.strip() == "":
+            
+            new_reg = self.reg[1] + self.reg[2]
+            new_reg = new_reg.lower()
+            keys_got = None
+            
+        else:
+            
+            new_reg = None
+            keys_got = None
+            for keys in self.key_dictionary:
+                
+                if "Not defined" in keys:
+                     return {'got' : True , 'keys' : ("Not defined","Not defined"), 'inst_key' : "Not defined"}
+                 
+                else:
+                    return {'got' : False , 'keys' : ("Not defined","Not defined") , 'inst_key' : "Not defined"}
+                
         
         for keys in self.key_dictionary:
             if new_reg in keys:

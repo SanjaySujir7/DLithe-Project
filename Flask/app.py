@@ -956,43 +956,56 @@ def Import_File ():
             
             for each_user in data:
                 
-                Name = each_user['First_Name'].lower()
-                Last = each_user['Last_Name'].lower()
+                if "Last_Name" in each_user:
+                    First_Name = each_user['First_Name']
+                    Last_Name = each_user['Last_Name']
+                    
+                else:
+                    Name_Split = Clean_Data(each_user['First_Name']).Name_Split()
+                    
+                    First_Name = Name_Split[0]
+                    Last_Name = Name_Split[1]
+    
                 Phone = Clean_Data(each_user['Phone']).Phone_Num_Clean()
                 Email = each_user['Email']
                 Register_Number= each_user['Register_Number']
                 Institution_Name = each_user['Institution_Name']
                 Course_Name = Clean_Data(each_user['Course_Name']).Course_Clean()
                 Total = each_user['Total']
-                Entry_Date = each_user['Entry_Date']
+                Entry_Date = "2023-08-16 00:00:00"
                 Payment_Status = each_user['Payment_Status']
-                Mode = each_user['Mode']
-                Payment_Date = each_user['Payment_Date']
+                Mode = ""
+                Payment_Date = Entry_Date
+                Department = each_user['Department']
                 
-                cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
-                if_data_exist = cursor.fetchall()
+                # cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
+                # if_data_exist = cursor.fetchall()
                 
-                if if_data_exist :
-                    pass
+                # if if_data_exist :
+                #     pass
                 
-                else:
-                    Key_Process = Inst_Process(Register_Number,Institution_Name,Key_List).Process()
+                if True:
                     
+                    Key_Process = Inst_Process(Register_Number,Institution_Name,Key_List).Process()
+            
                     Inst_Key = Key_Process['inst_key']
                     
                     if not Key_Process['got']:
                         cursor.execute("INSERT INTO Key_Dictionary (Reg_key, Inst) VALUES (%s , %s)",Key_Process['keys'])
+                        Key_List.append(Key_Process['keys'])
                         
                     
-                    Entry_Date = DateTimeProcess(Entry_Date).Get()
-                    Payment_Date = DateTimeProcess(Payment_Date).Get()
+                    # Entry_Date = DateTimeProcess(Entry_Date).Get()
+                    # Payment_Date = DateTimeProcess(Payment_Date).Get()
                     Password = Random_Password(10).Generate()
                     Batch = "Aug-Sep-2023"
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
-                        Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);""",(Name,Last,Phone,Email,Register_Number,Institution_Name,
-                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch))
+                        Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department) 
+                        VALUES(IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"));"""
+                        ,(First_Name,Last_Name,Phone,Email,Register_Number,Institution_Name,
+                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department))
             
             
             Mydb.commit()

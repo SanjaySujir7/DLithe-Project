@@ -32,7 +32,8 @@ class Clean_Data :
             
             if not chr == '(' and not chr == ')' and not chr == "-":
                 phone += chr
-                
+        
+        phone = phone.replace(" ", "")
         return phone
     
     
@@ -48,3 +49,21 @@ class Clean_Data :
                 course += chr
                 
         return course
+    
+    
+    def Name_Split (self):
+        name = ""
+        last = ""
+        
+        for strings in self.data:
+            if strings == " ":
+                break
+            
+            else:
+                name += strings
+                
+        last = self.data.replace(name,"")
+        
+        return [name,last]
+        
+        
