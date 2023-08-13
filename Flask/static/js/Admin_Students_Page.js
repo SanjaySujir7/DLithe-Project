@@ -208,8 +208,13 @@ Export_Modal_button.addEventListener('click',function(){
     Export_Modal_button.style.display = 'block';
 });
 
+
 function Create_Table (First , Last , Phone , Email ,Register , Inst , Course , Mode , Entry, Total, Payment ){
     let Table_row = document.createElement('tr');
+
+    Table_row.onclick = function(){
+        Edit_STudents_Dialog_Popup(this.children)
+    }
 
     let Row_no = document.createElement('th');
     Row_no.scope = 'row';
@@ -647,3 +652,107 @@ Log_out_Btn.addEventListener('click',function(){
     }
 })
 
+
+const Edit_Input = document.querySelectorAll('.edit-input'),
+      Edit_Save_Btn = document.getElementById('Edit_Save_Btn');
+
+let Change_Table = null;    
+
+function Edit_STudents_Dialog_Popup (details){
+
+    Change_Table = details;
+
+    let Phone = details[3].innerHTML,
+        Email = details[4].innerHTML,
+        Inst = details[6].innerHTML,
+        Course = details[7].innerHTML,
+        Mode  = details[8].innerHTML,
+        Total = details[10].innerHTML,
+        Payment_Status = details[11].innerHTML;
+
+        $("#EditStudentModal").modal('show')
+        
+    Edit_Input[1].value =  Phone;
+    Edit_Input[2].value =  Email;
+    Edit_Input[3].value =  Inst;
+    Edit_Input[4].value =  Course;
+    Edit_Input[5].value =  Total;
+    Edit_Input[6].value =  Mode;
+
+    if(Payment_Status == "Paid"){
+        Edit_Input[7].checked = true
+    }
+    else{
+        Edit_Input[8].checked = true;
+    }
+   
+    if(Edit_Input[4].value.trim().length === 0){
+
+       let course_op = document.createElement('option');
+       course_op.innerText = Course;
+       Edit_Input[4].appendChild(course_op);
+       Edit_Input[4].value = Course;
+    }
+}
+
+Edit_Save_Btn.addEventListener('click',function(){
+
+    Update_Object = {
+        First : Change_Table[1].innerHTML,
+        Last : Change_Table[2].innerHTML,
+        Reg : Change_Table[5].innerHTML,
+        Phone : Edit_Input[1].value,
+        Email : Edit_Input[2].value,
+        Inst : Edit_Input[3].value,
+        Course : Edit_Input[4].value,
+        Total : Edit_Input[5].value,
+        Mode : Edit_Input[6].value,
+        Payment : Edit_Input[7].checked ? "Paid" : "Not paid"
+    }
+
+    $("#EditStudentModal").modal('hide');
+
+    fetch("/update-student-data",{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(Update_Object)
+    })
+
+    .then(response => {
+        if(response.ok){
+            return response.json();
+        }
+        else{
+            Result_Popup("Something went Wrong!",false,3000);
+        }
+    })
+
+    .then(data => {
+    
+        if(data['res']){
+            Result_Popup("Changes Saved.",true,2000);
+            Change_Table[3].innerHTML = Update_Object.Phone;
+            Change_Table[4].innerHTML = Update_Object.Email;
+            Change_Table[6].innerHTML = Update_Object.Inst;
+            Change_Table[7].innerHTML = Update_Object.Course;
+            Change_Table[10].innerHTML = Update_Object.Total;
+            Change_Table[8].innerHTML = Update_Object.Mode;
+            Change_Table[11].innerHTML = Update_Object.Payment
+
+            if(Update_Object.Payment == "Paid"){
+                Change_Table[11].style.color = "white";
+                Change_Table[11].className = "bg-success";
+            }
+            else{
+                Change_Table[11].style.color = "white";
+                Change_Table[11].className = "bg-danger";
+            }
+
+        }
+        else{
+            Result_Popup("Something went Wrong!",false,3000);
+        }
+    })
+})

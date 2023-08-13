@@ -12,6 +12,46 @@ from Sideoper import Hash_Password,Clean_Data
 app = Flask(__name__)
 
 
+@app.route('/update-student-data',methods=['POST'])
+def Student_Data_Update ():
+    data = request.get_json()
+    
+    if data:
+    
+        Name = data['First']
+        Last = data['Last']
+        Phone = data['Phone']
+        Email = data['Email']
+        Reg = data['Reg']
+        Inst = data['Inst']
+        Course = data['Course']
+        Total = data['Total']
+        Mode = data['Mode']
+        Payment = data['Payment']
+
+        Mydb = mysql.connector.connect(
+                host = "localhost",
+                user = "root",
+                password = "admin",
+                database = 'sis'
+                
+                )
+                
+        cursor = Mydb.cursor()
+        
+        cursor.execute("""UPDATE students SET Phone = %s,Email = %s,Institution_Name =%s,Course_Name =%s,Total =%s,Mode =%s,Payment_Status =%s WHERE
+        First_Name = %s AND Last_Name = %s AND Register_Number = %s """,(Phone,Email,Inst,Course,Total,Mode,Payment,Name,Last,Reg,))
+        
+        Mydb.commit()
+        cursor.close()
+        Mydb.close()
+        
+        return jsonify({"res" : True})
+        
+    else:
+        return jsonify({'res' : False})
+        
+
 @app.route('/bulk-action',methods= ['POST'])
 def Admin_Bulk_Action ():
     
@@ -712,7 +752,7 @@ def Export_Data ():
     
     if 'Csv' in Export_Format:
         Headings = ['First_Name', 'Last_Name', 'Phone', 'Email','Register_Number', 'Institution_Name','Mode','Course_Name','Total','Entry_Date',
-                    'Payment_Status','Inst_Key','Password','Certificate','End_Date','Payment_Date']
+                    'Payment_Status','Inst_Key','Password','Certificate','End_Date','Payment_Date','Department']
         
         New_Heading = []
         New_Export_List = []
@@ -853,6 +893,7 @@ def Get_Csv_Data ():
             Certificate_Number = Each_User[13]
             End_Date = Each_User[14]
             Payment_Date = Each_User[15]
+            Department = Each_User[18]
             
             Students.append(
                 {
@@ -871,7 +912,8 @@ def Get_Csv_Data ():
                     'Password' : Password,
                     'Certificate' : Certificate_Number,
                     'End_Date' : End_Date,
-                    'Payment_Date':Payment_Date
+                    'Payment_Date':Payment_Date,
+                    'Department' : Department
                 }
                 
             )

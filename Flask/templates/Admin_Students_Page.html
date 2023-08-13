@@ -511,6 +511,14 @@
                     </div>
                     <div class="col">
                         <div class="form-check mb3">
+                            <input class="form-check-input export-check" type="checkbox" id="Depart-check">
+                            <label class="form-check-label" for="Depart-check">
+                                Department
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check mb3">
                             <input class="form-check-input" type="checkbox"  id="All-checkbox">
                             <label class="form-check-label" for="All-checkbox">
                                 All
@@ -651,6 +659,106 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="End-Date-Set-btn">Set</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" tabindex="-1" id="EditStudentModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header" style="border: 0;">
+                <div style="margin-top: 10px;">
+                    <i class="fi fi-rr-user" style="font-size: 2rem; margin-right:10px;"></i>
+                </div>
+              <h5 class="modal-title edit-input">
+                Edit 
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" >
+                <form>
+                    <div class="row">
+                        <div class="col input-group has-validation">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control edit-input"  placeholder="Phone">
+                                <label for="Phone_Add">Phone</label>
+                            </div>
+                        </div>
+                        <div class="col input-group has-validation">
+                            <div class="form-floating">
+                                <input type="Email" class="form-control edit-input"  placeholder="Email">
+                                <label for="Email_Add">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col input-group has-validation">
+                            <div class="form-floating">
+                                <input type="text" class="form-control edit-input"  placeholder="Last Name">
+                                <label for="Inst_Add">Institution</label>
+                            </div>
+                        </div>
+                        <div class="col input-group has-validation">
+                            <div class="form-floating mb-3">
+                                <select class="form-select mb-3 edit-input" aria-label=".form-select-lg example">
+                                    <option  value="Select" selected>Select</option>
+                                    <option>Cyber Security</option>
+                                    <option>Web Development</option>
+                                    <option>Internet of Things (IoT)</option>
+                                    <option>Artificial Inteligence & Data Science</option>
+                                    <option>AIML</option>
+                                    <option>embedded systems and IoT - Advanced</option>
+                                    <option>IOT</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col input-group has-validation">
+                            <div class="form-floating">
+                                <input type="text" class="form-control edit-input" placeholder="total">
+                                <label for="Total_Add">Total</label>
+                            </div>
+                        </div>
+                        <div class="col input-group has-validation">
+                            <div class="form-floating mb-3">
+                                <select class="form-select mb-3 edit-input" aria-label=".form-select-lg example">
+                                    <option selected value="Offline">Offline</option>
+                                    <option>Online</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col input-group has-validation">
+                                    <div class="form-check mb3">
+                                        <input class="form-check-input edit-input" type="radio" name="payment_radio_edit">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                          Paid
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group has-validation">
+                                    <div class="form-check mb3">
+                                        <input class="form-check-input edit-input" type="radio"  name="payment_radio_edit" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                          Not paid
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border: 0; display:block">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="button" id="Edit_Save_Btn">Save</button>
+                </div>
             </div>
           </div>
         </div>
