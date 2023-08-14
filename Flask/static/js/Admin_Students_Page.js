@@ -193,7 +193,7 @@ Export_Modal_button.addEventListener('click',function(){
         headers : {
             'Content-Type' : 'application/json'
         },
-        body : JSON.stringify({'Export_List' : Export_List,'Export_Limit' : Export_Limit_List,'Export_Format' : Export_File_Format.value})
+        body : JSON.stringify({'Export_List' : Export_List,'Export_Limit' : Export_Limit_List,'Export_Format' : Export_File_Format.value, 'pass' : "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG"})
     })
 
     .then(response => response.blob())
@@ -271,6 +271,11 @@ function Create_Table (First , Last , Phone , Email ,Register , Inst , Course , 
 
     else if (Payment == "Not paid"){
         Tr11.className = "bg-danger";
+        Tr11.style.color = "white";
+    }
+
+    else if(Payment.includes("Paid")){
+        Tr11.className = "bg-success";
         Tr11.style.color = "white";
     }
 
@@ -368,7 +373,7 @@ function Fetch_Data (){
         headers : {
             'Content-Type' : 'application/json'
         },
-        body : JSON.stringify(Filter_List)
+        body : JSON.stringify({'pass' : "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG",'data' : Filter_List})
     })
         .then(response => response.json())
     
@@ -679,7 +684,7 @@ function Edit_STudents_Dialog_Popup (details){
     Edit_Input[5].value =  Total;
     Edit_Input[6].value =  Mode;
 
-    if(Payment_Status == "Paid"){
+    if(Payment_Status.includes("Paid")){
         Edit_Input[7].checked = true
     }
     else{

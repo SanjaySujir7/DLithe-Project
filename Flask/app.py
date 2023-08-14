@@ -335,6 +335,7 @@ def Check_Account_Exists ():
         
         if data:
             return jsonify({"res" : True})
+        
         else:
             return jsonify({"res" : False})
     
@@ -746,6 +747,19 @@ def Export_Data ():
     
     Data = request.get_json()
     
+    if 'pass' in Data:
+        
+        if not Data['pass'] == "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG":
+            return "Unauthorized!"
+        
+        else:
+            if not "Name" in session and not "Password" in session:
+                return "Unauthorized!"
+        
+    else:
+        return "Unauthorized!"
+
+
     Export_List = Data['Export_List']
     Export_Limit = Data['Export_Limit']
     Export_Format = Data['Export_Format']
@@ -799,7 +813,20 @@ def Log_out (Pass):
 @app.route('/get-data-csv',methods=['GET','POST'])
 def Get_Csv_Data ():
 
-    filters = request.get_json()    
+    filters = request.get_json()
+    
+    if 'pass' in filters:
+        if not filters['pass'] == "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG":
+            return "Unauthorized!"
+        
+        else:
+            if not "Name" in session and not "Password" in session:
+                return "Unauthorized!"
+        
+    else:
+        return "Unauthorized!"
+    
+    filters = filters['data']
     College = filters[0]
     Course  = filters[1]
     Year_From  = filters[2]
