@@ -76,7 +76,7 @@ function Certificate_Tab_Filter (){
                     Error_Table.style.display = "table";
                     
                     credential = credential['data']
-                    Generate_List = credential['data']
+                    Generate_List = credential
 
                     for(let i = 0; i < credential.length ; i++) {
                 
@@ -95,7 +95,7 @@ function Certificate_Tab_Filter (){
                 else{
                     Table_gener_non_gener.style.display = "table";
                     credential = credential['data']
-                    Generate_List = credential['data']
+                    Generate_List = credential
 
                     for(let i = 0; i < credential.length ; i++) {
                 
@@ -140,7 +140,10 @@ function generate_Certificate_process (){
     }
 
     if(Generate_Module_type.value == "Download"){
+        let Result = [0,0]
+        Generate_List = [Generate_List[0]]
         Generate_List.forEach(item => {
+            let Sucess = true;
             fetch('/bulk-certificate',{
                 method : 'POST',
                 headers : {
@@ -148,14 +151,27 @@ function generate_Certificate_process (){
                 },
                 body : JSON.stringify({method : Generate_Module_type.value, data : item, Error :Error})
             })
-                .then(response => response.blob())
+
+                .then(response => {
+                    if(!response.ok || response.status == 204){
+                        Sucess = false;
+                        return null
+                    }
+                    
+                    console.log(response);
+                    return response.blob()
+                })
                 .then(file => {
-                    const file_url = URL.createObjectURL(file);
-            
-                    Certificate_Download_Link.href = file_url;
-                    Certificate_Download_Link.download = item['First_Name'] + item['USN'] + '.pdf';
+                    if(Sucess){
+                        const file_url = URL.createObjectURL(file);
+                        Certificate_Download_Link.href = file_url;
+                        Certificate_Download_Link.download = item['First_Name'] + item['USN'] + '.pdf';
+                        Certificate_Download_Link.click();
+                    }
                 });
         })
+        $('#Spinner-Modal').modal('hide');
+        
     }
 
 };

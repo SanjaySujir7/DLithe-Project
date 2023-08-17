@@ -42,13 +42,13 @@ class Pdf_Certificate :
             fontName='Times-Roman',
             fontSize=12,
             leading=35,
-            alignment=0,
+            alignment=4,
             )
             
             p1=Paragraph(f"This is to certify &nbsp<b>{self.Name}</b>&nbsp , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from  &nbsp<b>{str(self.Date_From).split()[0]} Start date Add</b>&nbsp  to  &nbsp<b>{str(self.Date_Two).split()[0]}</b>&nbsp   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
             
             p1.wrapOn(Can,450,300)
-            p1.drawOn(Can,70,460)
+            p1.drawOn(Can,71,445)
             img = utils.ImageReader("Qr_Certificate.png")
             Can.drawImage(img, 350, 180, 100, 100)
             Can.save()
@@ -85,4 +85,4 @@ class Pdf_Certificate :
         img.save(file_name)
         
         
-# Pdf_Certificate('FirstName LastName','Register Number',"Collage Name","2023-8-12 00:00:00",'2023-9-12 00:00:00',"Certificate_Number").Print()
+Pdf_Certificate('Test Test','1tt12345678',"Test Test","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456").Print()

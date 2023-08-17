@@ -124,33 +124,9 @@ def Admin_Bulk_Action ():
 def Bulk_Certificate ():
     data = request.get_json()
     
-    if data['method'] == "Download":
-        
-        First_Name = data['First_Name']
-        Email = data['Email']
-        Register_Number = data['Usn']
-        Course_Name = data['Course_Name']
-        
-        if data['data']:
-            Mydb = mysql.connector.connect(
-            host = "localhost",
-            user = "root",
-            password = "admin",
-            database = 'sis'
-            
-            )
-            
-            cursor = Mydb.cursor()
-            
-            cursor.execute("SELECT * FROM students WHERE First_Name = %s , Email = %s , Register_Number = %s , Course_Name = %s",(First_Name,Email,Register_Number,Course_Name,))
-            data = cursor.fetchall()
-            
-            if data:
-                if data['Error'] is None or data['Error '] == False:
-                    pass
-                
-                else:
-                    pass
+    print(data)
+    
+    return send_file('output.pdf'),200
     
     
 @app.route('/admin-certificate-fetch-data',methods =['POST'])
