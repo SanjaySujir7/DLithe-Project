@@ -12,6 +12,44 @@ from Sideoper import Hash_Password,Clean_Data
 app = Flask(__name__)
 
 
+@app.route("/students-certicate-verify-id",methods=['POST'])
+def Students_Certificate_verify_id ():
+    Data = request.get_json()
+    
+    Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "admin",
+            database = 'sis'
+            
+            )
+            
+    cursor = Mydb.cursor()
+    
+    cursor.execute("SELECT First_Name , Last_Name , Register_Number, Institution_Name, Start_Date , End_Date , Certificate_Number FROM students  WHERE Certificate_Number = %s",(Data['data'],))
+    data = cursor.fetchall()
+    
+    if data:
+        Name = data[0][0] + " " + data[0][1]
+        Register = data[0][2]
+        Collage = data[0][3]
+        Start = data[0][4]
+        End = data[0][5]
+        Certificate_Id = data[0][6]
+        
+        Certifcate = Pdf_Certificate(Name,Register,Collage,Start,End,Certificate_Id).Print()
+        
+        return send_file('output.pdf',as_attachment=True)
+    
+    else:
+        return jsonify({'res' : False}),401
+
+
+@app.route('/students-certificate-download')
+def Student_Certificate_Download():
+    return render_template("student_confirm_certificate.html")
+
+
 @app.route('/update-student-data',methods=['POST'])
 def Student_Data_Update ():
     data = request.get_json()
@@ -118,16 +156,66 @@ def Admin_Bulk_Action ():
     else:
         return jsonify({'res' : False})
     
+    
+    
+@app.route('/admin-certificate-generate-id',methods=['POST'])
+def Admin_Certificate_Generate_Id ():
+    Data = request.get_json()
+    
+    if Data['data']:
+        
+        Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "admin",
+            database = 'sis'
+            
+            )
+            
+        cursor = Mydb.cursor()
+        
+        
+        for students in Data['data']:
+            First = students['First_Name']
+            Phone = students['Phone']
+            Email = students['Email']
+            Usn = students['Usn']
+            Course_Name = students['Course_Name']
+            
+            cursor.execute("SELECT End_Date,Certificate_Number FROM students WHERE First_Name =%s AND Phone = %s AND Email = %s AND Register_Number = %s AND Course_Name = %s",
+                           (First,Phone,Email,Usn,Course_Name,))
+            
+            data = cursor.fetchall()
+            End_Date = data[0][0]
+            Certificate_Id = data[0][1]
+            
+            if not End_Date:
+                cursor.close()
+                Mydb.close()
+                return jsonify({"res" : False}),406
+            
+            if Certificate_Id:
+                pass
+                
+            else:
+                Certificate_Id = Certificat_Number_Generator(Course_Name,End_Date).Generate()
+                
+                cursor.execute("UPDATE students SET Certificate_Number = %s WHERE First_Name = %s AND Phone = %s AND Email = %s AND Register_Number = %s AND Course_Name = %s", (Certificate_Id, First, Phone, Email, Usn, Course_Name))
+                
+                
+        Mydb.commit()
+        cursor.close()
+        Mydb.close()
+                
+            
+        return jsonify({'res' : True})
+    
+    else:
+        return jsonify({'res' : False})
+            
+        
+    
 
-
-@app.route('/bulk-certificate',methods = ['POST'])
-def Bulk_Certificate ():
-    data = request.get_json()
-    
-    print(data)
-    
-    return send_file('output.pdf'),200
-    
     
 @app.route('/admin-certificate-fetch-data',methods =['POST'])
 def Admin_Certificate_Fetch_Data ():
@@ -211,31 +299,7 @@ def Admin_Certificate_Fetch_Data ():
                 return jsonify({'exists' : False})
             
         elif value == "errror-selec":
-            cursor.execute("SELECT First_Name, Last_Name, Phone, Email, Error, Usn,Course_Name FROM  Certificate_Error WHERE  Batch = %s;",(Batch,))
-            data = cursor.fetchall()
-    
-            if data:
-                for cred in data:
-                    send_data = {
-                        'First_Name' : cred[0],
-                        'Last_Name' : cred[1],
-                        'Phone' : cred[2],
-                        'Email' : cred[3],
-                        'Error' : cred[4],
-                        'Usn' : cred[5],
-                        'Course_Name' : cred[6]
-                    }
-                    
-                    Send_List.append(send_data)
-                    
-                cursor.close()
-                Mydb.close()
-
-                return jsonify({'exists' : True , 'data' : Send_List})
-                
-            else:
-                cursor.close()
-                Mydb.close()
+            
                 return jsonify({'exists' : False})
             
         else:

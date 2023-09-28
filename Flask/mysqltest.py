@@ -35,6 +35,7 @@ c = mydb.cursor()
 # c.execute("CREATE TABLE Certificate_Error (First_Name varchar(50), Last_Name varchar(50), Phone char(20),Email varchar(100), Error varchar(300), Batch varchar(100), Usn varchar(100), Course_Name varchar(100));")
 # c.execute("INSERT INTO Certificate_Error(First_Name , Last_Name , Phone , Email , Error , Batch, Usn , Course_Name) VALUES(%s ,%s , %s, %s , %s ,%s, %s,%s)",("test",'test','1234567890','testtest@test.com','email is not found. try with other email','Aug-Sep-2023','1tt7654456789','Web Development'))
 
+# c.execute("CREATE TABLE Certificate_Limit (Id varchar(100))")
 # mydb.commit()
 
 c.execute("SELECT * FROM students;")

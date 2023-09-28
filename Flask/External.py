@@ -85,4 +85,4 @@ class Pdf_Certificate :
         img.save(file_name)
         
         
-Pdf_Certificate('Test Test','1tt12345678',"Test Test","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456").Print()
+# Pdf_Certificate('Test Test','1tt12345678',"Test Test","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456").Print()

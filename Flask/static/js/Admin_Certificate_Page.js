@@ -121,60 +121,49 @@ function Certificate_Tab_Filter (){
         })
 }
 
-const Generate_Module_btn = document.getElementById('generate_Module_btn'),
+const Generate_Module_btn = document.getElementById('Generate_Certificate_Id'),
       Generate_Module_type = document.getElementById('generate_modla_select'),
       Certificate_Download_Link = document.getElementById('Certificate-file-link');
 
+
 function generate_Certificate_process (){
+    $("#Spinner-Modal").modal('show');
 
-    $('#Generate_Modal').modal('hide');
-    $('#Spinner-Modal').modal('show');
+    fetch('/admin-certificate-generate-id',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({'data' : Generate_List})
+    })
 
-    let Error = null;
-
-    if(Tab_Filter.value == "errror-selec"){
-        Error = true;
-    }
-    else{
-        Error = false;
-    }
-
-    if(Generate_Module_type.value == "Download"){
-        let Result = [0,0]
-        Generate_List = [Generate_List[0]]
-        Generate_List.forEach(item => {
-            let Sucess = true;
-            fetch('/bulk-certificate',{
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json'
-                },
-                body : JSON.stringify({method : Generate_Module_type.value, data : item, Error :Error})
-            })
-
-                .then(response => {
-                    if(!response.ok || response.status == 204){
-                        Sucess = false;
-                        return null
-                    }
-                    
-                    console.log(response);
-                    return response.blob()
-                })
-                .then(file => {
-                    if(Sucess){
-                        const file_url = URL.createObjectURL(file);
-                        Certificate_Download_Link.href = file_url;
-                        Certificate_Download_Link.download = item['First_Name'] + item['USN'] + '.pdf';
-                        Certificate_Download_Link.click();
-                    }
-                });
-        })
-        $('#Spinner-Modal').modal('hide');
+    .then(res => {
+        if(res.ok){
+            return res.json();
+        }
+        else if(res.status == 406){
+            alert("End date is not generated!")
+            $("#Spinner-Modal").modal('hide');
+        }
+        else{
+            alert("Something went wrong!");
+            $("#Spinner-Modal").modal('hide');
+        }
         
-    }
+    })
+    .then(data => {
+        if(!data['res']){
+            alert("Something went wrong!");
+        }
+        else{
+            alert("student certificate id sucessfully generated!")
+        }
 
-};
+    })
+
+    $("#Spinner-Modal").modal('hide');
+    document.getElementById("Spinner-Modal").style.display = "none";
+}
 
 Generate_Module_btn.addEventListener('click',generate_Certificate_process);
 

@@ -1,0 +1,66 @@
+body,html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    box-sizing: border-box;
+    background-color: rgb(238, 238, 238);
+}
+
+header{
+    height: 20%;
+    width: 100%;
+}
+
+header img {
+    width: 150px;
+}
+
+.Main_Page{
+    height: 60%;
+    width: 100%;
+}
+
+.Content-wraper{
+    width: 50%;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.Button-div{
+    padding-top: 20px;
+}
+
+.Note-div p{
+    color: rgba(46, 45, 45, 0.795);
+    font-weight: 600;
+    text-align: justify;
+}
+
+#Loading_Button{
+    display: none;
+}
+
+#download_link{
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+    display: none;
+}
+
+#download_link:hover{
+    opacity: 0.8;
+}
+
+#download_link:active{
+    opacity: 0.6;
+}
+
+@media (max-width:500px) {
+    .Content-wraper{
+        width: 90%;
+    }
+}
