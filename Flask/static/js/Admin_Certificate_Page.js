@@ -34,6 +34,7 @@ let Tab_Filter = {
 }
 
 function Batch_Process (value){
+
     Tab_Filter.batch = value;
 
     Table_Body.innerHTML = "";
@@ -44,6 +45,7 @@ function Batch_Process (value){
     Empty_Place_Holder.style.display = 'none';
 
     Certificate_Tab_Filter();
+
 }
 
 const Batch = document.querySelectorAll('.Batch-selection-a');
@@ -58,6 +60,12 @@ Batch.forEach(item => {
 const Empty_Place_Holder = document.getElementById('Empty-Place-Holder');
 
 function Certificate_Tab_Filter (){
+    if(Tab_Filter.value == "generat-selec"){
+        Generate_Module_btn.disabled = true;
+    }
+    else{
+        Generate_Module_btn.disabled = false;
+    }
 
     fetch('/admin-certificate-fetch-data',{
         method : 'POST',
@@ -128,6 +136,9 @@ const Generate_Module_btn = document.getElementById('Generate_Certificate_Id'),
 
 function generate_Certificate_process (){
     $("#Spinner-Modal").modal('show');
+    if(Tab_Filter.value == "generat-selec"){
+        alert("Cant't generate certificate id for alredy generated students!")
+    }
 
     fetch('/admin-certificate-generate-id',{
         method : 'POST',
@@ -142,26 +153,27 @@ function generate_Certificate_process (){
             return res.json();
         }
         else if(res.status == 406){
-            alert("End date is not generated!")
             $("#Spinner-Modal").modal('hide');
+            alert("End date is not generated!")
         }
         else{
-            alert("Something went wrong!");
             $("#Spinner-Modal").modal('hide');
+            alert("Something went wrong!");
         }
         
     })
     .then(data => {
         if(!data['res']){
+            $("#Spinner-Modal").modal('hide');
             alert("Something went wrong!");
         }
         else{
+            $("#Spinner-Modal").modal('hide');
             alert("student certificate id sucessfully generated!")
         }
 
     })
 
-    $("#Spinner-Modal").modal('hide');
     document.getElementById("Spinner-Modal").style.display = "none";
 }
 
@@ -249,10 +261,6 @@ function Create_Table (First,Last,Phone,Email,CertiNumber,Certistatus){
     Row_Number ++;
 };
 
-// for(let i = 0; i < 10; i ++){
-//     Create_Table('sanjay','sujir','123456789','sujirsanjay@gmail.com','23456789','False')
-// }
-
 function Create_Error_Table (First,Last,Phone,Email,Error){
     let Table_Row = document.createElement('tr');
 
@@ -288,6 +296,5 @@ function Create_Error_Table (First,Last,Phone,Email,Error){
     Error_Table_Body.appendChild(Table_Row);
     Row_Number ++;
 };
-
 
 Certificate_Tab_Filter();

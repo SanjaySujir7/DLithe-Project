@@ -162,6 +162,9 @@ def Admin_Bulk_Action ():
 def Admin_Certificate_Generate_Id ():
     Data = request.get_json()
     
+    if not "Name" in session and not "Password" in session:
+        return "Unauthorized!"
+    
     if Data['data']:
         
         Mydb = mysql.connector.connect(
