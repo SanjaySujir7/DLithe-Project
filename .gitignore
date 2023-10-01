@@ -3,6 +3,7 @@ __pycache__/
 
 #virtual Enviroment 
 venv/
+.venv/
 
 
 #Csv

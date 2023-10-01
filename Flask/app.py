@@ -737,7 +737,7 @@ def Add_Student ():
             
             cursor = Mydb.cursor()
             
-            cursor.execute('SELECT * FROM key_Dictionary')
+            cursor.execute('SELECT * FROM Key_Dictionary')
             Key_List = cursor.fetchall()
             
             Key_Process = Inst_Process(Register_Number,Institution_Name,Key_List).Process()
@@ -1062,7 +1062,7 @@ def Import_File ():
             
             cursor = Mydb.cursor()
             
-            cursor.execute('SELECT * FROM key_Dictionary')
+            cursor.execute('SELECT * FROM Key_Dictionary')
             Key_List = cursor.fetchall()
             
             
