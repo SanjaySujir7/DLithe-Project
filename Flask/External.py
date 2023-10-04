@@ -9,6 +9,8 @@ import io
 import qrcode
 import os
 from Process import Date_Time
+from datetime import datetime
+
 
 
 class Pdf_Certificate :
@@ -45,10 +47,23 @@ class Pdf_Certificate :
             alignment=4,
             )
             
-            p1=Paragraph(f"This is to certify &nbsp<b>{self.Name}</b>&nbsp , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from  &nbsp<b>{str(self.Date_From).split()[0]} Start date Add</b>&nbsp  to  &nbsp<b>{str(self.Date_Two).split()[0]}</b>&nbsp   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on Cybersecurity domain, performed password cracking, exploiting Metasploit, network scanning, SQL injection and malware attack task.",my_Style)
+            p1=Paragraph(f"This is to certify &nbsp<b>{self.Name}</b>&nbsp , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from  &nbsp<b>{str(self.Date_From).split()[0]}</b>&nbsp  to  &nbsp<b>{str(self.Date_Two).split()[0]}</b>&nbsp   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on HTML, CSS, JavaScript, React JS, Server side Scripting and Deployment.  <br></br>The domain & agile development process exposure was given along with usage of GitHub tool. During the internship, <b>{self.Name}</b> demonstrated good coding skills with good design thoughts.<br></br>We wish all the best for future endeavours!  ",my_Style)
             
-            p1.wrapOn(Can,450,300)
-            p1.drawOn(Can,71,445)
+            p1.wrapOn(Can,450,200)
+            p1.drawOn(Can,71,290)
+            
+            font_name = "Times-Italic"
+            font_size = 12
+            Can.setFont(font_name, font_size)
+            Can.drawString(380,155, self.Certificate_Id)
+            
+            font_name = "Times-Roman"
+            font_size = 14
+            Can.setFont(font_name, font_size)
+            current_date = datetime.now()
+            formatted_date = current_date.strftime("%d %B %Y")
+            Can.drawString(450,730, formatted_date)
+            
             img = utils.ImageReader("Qr_Certificate.png")
             Can.drawImage(img, 350, 180, 100, 100)
             Can.save()
@@ -84,5 +99,9 @@ class Pdf_Certificate :
         img = qr.make_image(fill_color="black", back_color="white")
         img.save(file_name)
         
+    def Certificate_Course_Input (self):
         
-# Pdf_Certificate('Test Test','1tt12345678',"Test Test","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456").Print()
+        return 
+        
+   
+Pdf_Certificate('Sanjay sujir','1tt12345678',"Sri Davala universtity collage moodubidri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456").Print()
