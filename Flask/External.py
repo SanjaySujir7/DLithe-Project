@@ -15,14 +15,14 @@ from datetime import datetime
 
 class Pdf_Certificate :
     
-    def __init__(self,Name,Usn,Collage,Date_From,Date_To,Certificate_Id):
+    def __init__(self,Name,Usn,Collage,Date_From,Date_To,Certificate_Id,Course_Name):
         self.Name = Name
         self.Usn = Usn
         self.Collage = Collage
         self.Date_From = Date_Time(Date_From).Re_Format()
         self.Date_Two = Date_Time(Date_To).Re_Format()
         self.Certificate_Id = Certificate_Id
-        
+        self.Course_Name = Course_Name
         
     def Print (self):
         Input_Pdf = "Certificate_Input.pdf"
@@ -40,22 +40,24 @@ class Pdf_Certificate :
             
             Can = canvas.Canvas(Packet,pagesize=A4)
             
+            Course_Paragraph = self.Certificate_Course_Input()
+            
             my_Style=ParagraphStyle('My Para style',
             fontName='Times-Roman',
             fontSize=12,
             leading=35,
             alignment=4,
             )
+           
+            p1=Paragraph(f"This is to certify <b>{self.Name}</b>, bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from  <b>{str(self.Date_From).split()[0]}</b>  to  <b>{str(self.Date_Two).split()[0]}</b> under the mentorship of DLithe's development team. <b>{self.Name}</b> {Course_Paragraph[0]} {Course_Paragraph[2]}The domain & agile development process exposure was given along with usage of GitHub tool. During the internship, <b>{self.Name}</b> demonstrated good coding skills with good design thoughts.<br></br>We wish all the best for future endeavours!  ",my_Style)
             
-            p1=Paragraph(f"This is to certify &nbsp<b>{self.Name}</b>&nbsp , bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from  &nbsp<b>{str(self.Date_From).split()[0]}</b>&nbsp  to  &nbsp<b>{str(self.Date_Two).split()[0]}</b>&nbsp   under the mentorship of DLithe's development team. <b>{self.Name}</b> has worked on HTML, CSS, JavaScript, React JS, Server side Scripting and Deployment.  <br></br>The domain & agile development process exposure was given along with usage of GitHub tool. During the internship, <b>{self.Name}</b> demonstrated good coding skills with good design thoughts.<br></br>We wish all the best for future endeavours!  ",my_Style)
-            
-            p1.wrapOn(Can,450,200)
-            p1.drawOn(Can,71,290)
+            p1.wrapOn(Can,450,120)
+            p1.drawOn(Can,71,Course_Paragraph[1])
             
             font_name = "Times-Italic"
             font_size = 12
             Can.setFont(font_name, font_size)
-            Can.drawString(380,155, self.Certificate_Id)
+            Can.drawString(380,157, self.Certificate_Id)
             
             font_name = "Times-Roman"
             font_size = 14
@@ -100,8 +102,22 @@ class Pdf_Certificate :
         img.save(file_name)
         
     def Certificate_Course_Input (self):
+        Course_Pargraph = {
+            'cyber security' : ["has worked on Cybersecurity domain, exploiting Metasploit, Network scanning, SQL injection and Malware attack task.",310,"<br></br>"],
+            'aiml' : ["has worked on Data analytics for various types of data sets using Machine Learning models and Neural Networks for classification.",310,"<br></br>"],
+            'embedded systems and iot - advanced' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
+            'web development' : ["has worked on HTML, CSS, JavaScript, React JS, Server side Scripting and Deployment.",340,"<br></br>"],
+            'iot' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
+        }
         
-        return 
+        Para = Course_Pargraph.get(self.Course_Name.lower())
+        
+        if Course_Pargraph:
+            return Para
+        
+        else:
+            raise KeyError(f"Key is not found for {self.Course_Name}")
         
    
-Pdf_Certificate('Sanjay sujir','1tt12345678',"Sri Davala universtity collage moodubidri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456").Print()
+# if __name__ =="__main__":
+#     Pdf_Certificate('Sanjay sujir','1tt12345678',"Dhavala university collage, moodubidiri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","iot").Print()
