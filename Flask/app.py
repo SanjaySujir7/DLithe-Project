@@ -26,7 +26,7 @@ def Students_Certificate_verify_id ():
             
     cursor = Mydb.cursor()
     
-    cursor.execute("SELECT First_Name , Last_Name , Register_Number, Institution_Name, Start_Date , End_Date , Certificate_Number FROM students  WHERE Certificate_Number = %s",(Data['data'],))
+    cursor.execute("SELECT First_Name , Last_Name , Register_Number, Institution_Name, Start_Date , End_Date , Certificate_Number, Course_Name FROM students  WHERE Certificate_Number = %s",(Data['data'],))
     data = cursor.fetchall()
     
     if data:
@@ -36,8 +36,9 @@ def Students_Certificate_verify_id ():
         Start = data[0][4]
         End = data[0][5]
         Certificate_Id = data[0][6]
+        Course_Name = data[0][7]
         
-        Certifcate = Pdf_Certificate(Name,Register,Collage,Start,End,Certificate_Id).Print()
+        Pdf_Certificate(Name,Register,Collage,Start,End,Certificate_Id,Course_Name).Print()
         
         return send_file('output.pdf',as_attachment=True)
     
