@@ -108,6 +108,7 @@ class Pdf_Certificate :
             'embedded systems and iot - advanced' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
             'web development' : ["has worked on HTML, CSS, JavaScript, React JS, Server side Scripting and Deployment.",340,"<br></br>"],
             'iot' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
+            'data science' : ["has worked on Data analytics for various types of data sets using Machine Learning models and Neural Networks for classification.",310,"<br></br>"] 
         }
         
         Para = Course_Pargraph.get(self.Course_Name.lower())
@@ -119,5 +120,5 @@ class Pdf_Certificate :
             raise KeyError(f"Key is not found for {self.Course_Name}")
         
    
-# if __name__ =="__main__":
-#     Pdf_Certificate('Sanjay sujir','1tt12345678',"Dhavala university collage, moodubidiri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","iot").Print()
+if __name__ =="__main__":
+    Pdf_Certificate('Sanjay sujir','1tt12345678',"Dhavala university collage, moodubidiri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","DATA SCIENCE").Print()
