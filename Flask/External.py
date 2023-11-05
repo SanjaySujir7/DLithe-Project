@@ -120,5 +120,5 @@ class Pdf_Certificate :
             raise KeyError(f"Key is not found for {self.Course_Name}")
         
    
-if __name__ =="__main__":
-    Pdf_Certificate('Sanjay sujir','1tt12345678',"Dhavala university collage, moodubidiri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","DATA SCIENCE").Print()
+# if __name__ =="__main__":
+#     Pdf_Certificate('Sanjay sujir','1tt12345678',"Dhavala university collage, moodubidiri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","DATA SCIENCE").Print()
