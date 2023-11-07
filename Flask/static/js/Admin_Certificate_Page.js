@@ -8,6 +8,8 @@ const Table_Spinner = document.getElementById('spinner-table');
 const Error_Table = document.getElementById('error-table'),
       Error_Table_Body = document.getElementById('error-table-body');
 
+const Email_Certificate_Send = document.getElementById("Email_certificate");
+
 let Side_Nav_State = true;
 Side_Nav_Button.addEventListener('click',function(){
     if(Side_Nav_State){
@@ -29,7 +31,7 @@ let Generate_List = null;
 
 let Tab_Filter = {
     value : "generat-selec",
-    batch : "Aug-Sep-2023",
+    batch : "Oct-Nov-2023",
     pass : "!#@1234q:{)324++@9926xcvbn"
 }
 
@@ -62,9 +64,11 @@ const Empty_Place_Holder = document.getElementById('Empty-Place-Holder');
 function Certificate_Tab_Filter (){
     if(Tab_Filter.value == "generat-selec"){
         Generate_Module_btn.disabled = true;
+        Email_Certificate_Send.disabled = false;
     }
     else{
         Generate_Module_btn.disabled = false;
+        Email_Certificate_Send.disabled = true;
     }
 
     fetch('/admin-certificate-fetch-data',{
@@ -133,6 +137,30 @@ const Generate_Module_btn = document.getElementById('Generate_Certificate_Id'),
       Generate_Module_type = document.getElementById('generate_modla_select'),
       Certificate_Download_Link = document.getElementById('Certificate-file-link');
 
+
+function Send_Certificate_Through_Email (){
+
+    fetch('/admin-certificate-email-send',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({'data' : Tab_Filter.batch,'pass' : "*tggwhw$gwg@#(0hjwjwjwj??53773&**(#$#"})
+    })
+
+    .then(res => res.json())
+    .then(data => {
+        if(data['res']){
+            alert("Email sending process completed!");
+        }
+        else{
+            alert("Something went wrong!");
+        }
+    })
+
+    alert("Process started!")
+}
+Email_Certificate_Send.addEventListener('click',Send_Certificate_Through_Email);
 
 function generate_Certificate_process (){
     $("#Spinner-Modal").modal('show');

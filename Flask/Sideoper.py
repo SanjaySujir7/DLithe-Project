@@ -67,3 +67,6 @@ class Clean_Data :
         return [name,last]
         
         
+class Mysql_Credentials :
+    USER = "root"
+    PASS = "admin"

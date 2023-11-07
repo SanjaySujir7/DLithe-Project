@@ -7,9 +7,63 @@ from External import Pdf_Certificate
 from time import time
 from datetime import datetime,date
 from Sideoper import Hash_Password,Clean_Data
-
+from Sideoper import Mysql_Credentials
+from Email import Certificate_Email
 
 app = Flask(__name__)
+app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%&83y3fsgsh$5378288@#*&"
+
+
+@app.errorhandler(500)
+def Internal_Server_Error_Handler (error):
+    with open('internal_server.txt','a') as file:
+        file.write(str(error))
+    
+    return jsonify({'res' : False,'reason':"Something went wrong!"})
+    
+    
+    
+@app.route("/admin-certificate-email-send",methods=['POST'])
+def Admin_Certificate_Email_Send ():
+    
+    cred = request.get_json()
+    print(cred)
+        
+    if not cred['pass'] == "*tggwhw$gwg@#(0hjwjwjwj??53773&**(#$#":
+        return jsonify({"res" : False})
+    
+    
+    
+    Mydb = mysql.connector.connect(
+            host = "localhost",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
+            database = 'sis'
+            
+            )
+            
+    cursor = Mydb.cursor()
+    
+    cursor.execute("""SELECT First_Name,Last_Name,Register_Number,Institution_Name,Start_Date,End_Date,Certificate_Number,Course_Name,
+                   Email FROM students WHERE Batch = %s""",(cred['data'],))
+    
+    Data = cursor.fetchall()
+    
+    cursor.close()
+    Mydb.close()
+    print(Data)
+    if Data:
+        
+        if not Data[0][6]:
+            return jsonify({'res' : False})
+        
+        Certificate_Email(Data).Send()
+        
+    else:
+        return jsonify({"res" : False})
+    
+
+    return jsonify({'res':True})
 
 
 @app.route("/students-certicate-verify-id",methods=['POST'])
@@ -18,8 +72,8 @@ def Students_Certificate_verify_id ():
     
     Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
             
             )
@@ -70,8 +124,8 @@ def Student_Data_Update ():
 
         Mydb = mysql.connector.connect(
                 host = "localhost",
-                user = "root",
-                password = "admin",
+                user = Mysql_Credentials.USER,
+                password = Mysql_Credentials.PASS,
                 database = 'sis'
                 
                 )
@@ -105,8 +159,8 @@ def Admin_Bulk_Action ():
             
             Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
             
             )
@@ -134,8 +188,8 @@ def Admin_Bulk_Action ():
             
             Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
             
             )
@@ -170,8 +224,8 @@ def Admin_Certificate_Generate_Id ():
         
         Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
             
             )
@@ -231,8 +285,8 @@ def Admin_Certificate_Fetch_Data ():
         
         Mydb = mysql.connector.connect(
         host = "localhost",
-        user = "root",
-        password = "admin",
+        user = Mysql_Credentials.USER,
+        password = Mysql_Credentials.PASS,
         database = 'sis'
         
         )
@@ -326,8 +380,8 @@ def Admin_Certificate_Page ():
         
         Mydb = mysql.connector.connect(
         host = "localhost",
-        user = "root",
-        password = "admin",
+        user = Mysql_Credentials.USER,
+        password = Mysql_Credentials.PASS,
         database = 'sis'
         
         )
@@ -364,8 +418,8 @@ def Check_Account_Exists ():
         
         mydb = mysql.connector.connect(
                 host = 'localhost',
-                user = 'root',
-                password = 'admin',
+                user = Mysql_Credentials.USER,
+                password = Mysql_Credentials.PASS,
                 database = 'sis'
             )
             
@@ -397,8 +451,8 @@ def Verify_Certificate ():
     if Certificate_Id:
         mydb = mysql.connector.connect(
             host = 'localhost',
-            user = 'root',
-            password = 'admin',
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
         )
         
@@ -445,8 +499,8 @@ def Generate_Certificate ():
             
             mydb = mysql.connector.connect(
                 host = "localhost",
-                user = "root",
-                password = "admin",
+                user = Mysql_Credentials.USER,
+                password = Mysql_Credentials.PASS,
                 database = "sis"
             )
             
@@ -536,8 +590,8 @@ def Students_Info_Dashboard ():
         
         Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
         )
         
@@ -625,8 +679,8 @@ def Student_Login_Data_Handle ():
         
         Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
         )
         
@@ -730,8 +784,8 @@ def Add_Student ():
             
             Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
             
             )
@@ -757,7 +811,7 @@ def Add_Student ():
                 return jsonify({'res' : True,'date' : if_data_exist[0][0],'Inst' : if_data_exist[0][1]})
             
             else:
-                Batch = "Aug-Sep-2023"
+                Batch = "Oct-Nov-2023"
                 Password = Random_Password(10).Generate()
                 Payment_date = datetime.now()
                 
@@ -882,8 +936,8 @@ def Get_Csv_Data ():
     
     Mydb = mysql.connector.connect(
         host = "localhost",
-        user = "root",
-        password = "admin",
+        user = Mysql_Credentials.USER,
+        password = Mysql_Credentials.PASS,
         database = 'sis'
         )
         
@@ -1010,8 +1064,8 @@ def Students_DashBoard():
         
         Mydb = mysql.connector.connect(
         host = "localhost",
-        user = "root",
-        password = "admin",
+        user = Mysql_Credentials.USER,
+        password = Mysql_Credentials.PASS,
         database = 'sis'
         
         )
@@ -1055,8 +1109,8 @@ def Import_File ():
             
             Mydb = mysql.connector.connect(
             host = "localhost",
-            user = "root",
-            password = "admin",
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
             
             )
@@ -1085,7 +1139,7 @@ def Import_File ():
                 Institution_Name = each_user['Institution_Name']
                 Course_Name = Clean_Data(each_user['Course_Name']).Course_Clean()
                 Total = each_user['Total']
-                Entry_Date = "2023-08-16 00:00:00"
+                Entry_Date = "2023-10-16 00:00:00"
                 Payment_Status = each_user['Payment_Status']
                 Mode = ""
                 Payment_Date = Entry_Date
@@ -1111,7 +1165,7 @@ def Import_File ():
                     # Entry_Date = DateTimeProcess(Entry_Date).Get()
                     # Payment_Date = DateTimeProcess(Payment_Date).Get()
                     Password = Random_Password(10).Generate()
-                    Batch = "Aug-Sep-2023"
+                    Batch = "Oct-Nov-2023"
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
@@ -1169,8 +1223,8 @@ def Login_process():
 
         mydb = mysql.connector.connect(
             host = 'localhost',
-            user = "root",
-            password = 'admin',
+            user = Mysql_Credentials.USER,
+            password = Mysql_Credentials.PASS,
             database = 'sis'
         )
         
@@ -1239,6 +1293,5 @@ def Login_process():
        
        
 if __name__ == "__main__":
-    app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%"
     app.run(debug=True)
     

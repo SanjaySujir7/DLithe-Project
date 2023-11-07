@@ -35,7 +35,7 @@ const Result_Modal_Text = document.getElementById('Result-modal-text'),
 
 const Working_Indicator = document.getElementById('working-indicator');
 
-let  Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All',"Aug-Sep-2023"]
+let  Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All',"Oct-Nov-2023"]
 
 let Export_List = []
 
@@ -62,7 +62,7 @@ function Apply_Filter (){
 
 
 function Remove_Filter (){
-    Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All','Aug-Sep-2023']
+    Filter_List = ['All', 'All', 'yyyy-MM-dd','yyyy-MM-dd','All','All','Oct-Nov-2023']
 
     Collage_Filter.value = "All";
     Course_Filter.value = "All";
@@ -70,7 +70,7 @@ function Remove_Filter (){
     Date_Filter_To.value = "";
     Payment_Filter.value = "All";
     Mode_Filter.value = "All";
-    Batch_Filter.value = "Aug-Sep-2023";
+    Batch_Filter.value = "Oct-Nov-2023";
 };
 
 let Existing_Filter = [];

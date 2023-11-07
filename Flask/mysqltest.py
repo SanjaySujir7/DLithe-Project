@@ -1,10 +1,11 @@
-
 import mysql.connector
+from Sideoper import Mysql_Credentials
+
 
 mydb = mysql.connector.connect(
       host="localhost",
-      user='root',
-      password="admin",
+      user = Mysql_Credentials.USER,
+      password = Mysql_Credentials.PASS,
       database = "sis"
 )
 
