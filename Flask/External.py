@@ -28,7 +28,7 @@ class Pdf_Certificate :
         Input_Pdf = "Certificate_Input.pdf"
         Out_Put_File = "output.pdf"
         
-        self.Qr_Code(self.Certificate_Id,file_name="Qr_Certificate.png",)
+        # self.Qr_Code(self.Certificate_Id,file_name="Qr_Certificate.png",)
         
         with open(Input_Pdf,'rb') as file:
         
@@ -66,8 +66,8 @@ class Pdf_Certificate :
             formatted_date = current_date.strftime("%d %B %Y")
             Can.drawString(450,730, formatted_date)
             
-            img = utils.ImageReader("Qr_Certificate.png")
-            Can.drawImage(img, 350, 180, 100, 100)
+            # img = utils.ImageReader("Qr_Certificate.png")
+            # Can.drawImage(img, 350, 180, 100, 100)
             Can.save()
             
             Packet.seek(0)
@@ -103,7 +103,7 @@ class Pdf_Certificate :
     def Certificate_Course_Input (self):
         Course_Pargraph = {
             'cyber security' : ["has worked on Cybersecurity domain, exploiting Metasploit, Network scanning, SQL injection and Malware attack task.",310,"<br></br>"],
-            'aiml' : ["has worked on Data analytics for various types of data sets using Machine Learning models and Neural Networks for classification.",310,"<br></br>"],
+            'aiml' : ["has worked on Fundamentals of Artificial Intelligence and Machine Learning in Data Science, Deep Learning, and Natural Language Processing to Model building and deployment",290,"<br></br>"],
             'embedded systems and iot - advanced' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
             'web development' : ["has worked on HTML, CSS, JavaScript, React JS, Server side Scripting and Deployment.",340,"<br></br>"],
             'iot' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
@@ -119,5 +119,5 @@ class Pdf_Certificate :
             raise KeyError(f"Key is not found for {self.Course_Name}")
         
    
-# if __name__ =="__main__":
-#     Pdf_Certificate('Sanjay sujir','1tt12345678',"Dhavala university collage, moodubidiri","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","DATA SCIENCE").Print()
+if __name__ =="__main__":
+    Pdf_Certificate('Niha Kauser','4MT20IS024',"Mangalore Institute of Technology and Engineering, Moodabidre","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","aiml").Print()

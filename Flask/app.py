@@ -1132,18 +1132,23 @@ def Import_File ():
                     
                     First_Name = Name_Split[0]
                     Last_Name = Name_Split[1]
-    
-                Phone = Clean_Data(each_user['Phone']).Phone_Num_Clean()
-                Email = each_user['Email']
-                Register_Number= each_user['Register_Number']
-                Institution_Name = each_user['Institution_Name']
-                Course_Name = Clean_Data(each_user['Course_Name']).Course_Clean()
-                Total = each_user['Total']
-                Entry_Date = "2023-10-16 00:00:00"
-                Payment_Status = each_user['Payment_Status']
+                    
+
+                datetime_object = datetime.strptime("", "%B %d %Y")
+                string = datetime_object.strftime("%Y-%m-%d %H:%M:%S")
+                    
+                dt = datetime.datetime.now()
+                Phone = Clean_Data(each_user.get("Phone","None")).Phone_Num_Clean()
+                Email = each_user.get("Email","None")
+                Register_Number= each_user.get("Register_Number","None")
+                Institution_Name = each_user.get("Institution_Name","None")
+                Course_Name = Clean_Data(each_user.get("Course_Name","None")).Course_Clean()
+                Total = each_user.get("Total","None")
+                Entry_Date = each_user.get("Entry_Date",str(dt.strftime("%Y-%m-%d")))
+                Payment_Status = each_user.get("Payment_Status","None")
                 Mode = ""
                 Payment_Date = Entry_Date
-                Department = each_user['Department']
+                Department = each_user.get("Department","None")
                 
                 # cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
                 # if_data_exist = cursor.fetchall()
