@@ -55,14 +55,14 @@ www.dlithe.com
                     Collage = "Mangalore Institute of Technology and Engineering, Moodabidre"
                     Start = "2023-08-21 00:00:00"
                     End = "2023-09-21 00:00:00"
-                    Certificate_Id = Certificat_Number_Generator("aiml","2023-09-21 00:00:00").Generate()
-                    Course_Name = "aiml"
+                    Certificate_Id = Certificat_Number_Generator("web development","2023-09-21 00:00:00").Generate()
+                    Course_Name = "web development"
                     User_Email = datas['Email']
                     
                     Email = EmailMessage()
                     Email['From'] = Sender_Email
                     Email['To'] = User_Email
-                    Email['Subject'] = "DLithe Certificate"
+                    Email['Subject'] = "DLithe Internship Certificate"
                     Email.set_content(Body.replace("<Name>",Name)) 
                     Pdf_Certificate(Name,Register,Collage,Start,End,Certificate_Id,Course_Name).Print()
                     
@@ -70,29 +70,30 @@ www.dlithe.com
                     file_path = "output.pdf" 
                     with open(file_path, "rb") as file:
                         file_data = file.read()
-                        Email.add_attachment(file_data, filename=f"DLithe_{Certificate_Id}.pdf", maintype="application", subtype="octet-stream")
+                        Email.add_attachment(file_data, filename=f"{Name.split()[0]}_DLithe_Internship_Certificate.pdf", maintype="application", subtype="octet-stream")
 
 
                     smtp.sendmail(Sender_Email,User_Email,Email.as_string())
                     
-                    with open("Email_output.txt","a") as file:
+                    with open("Email_output_web.txt","a") as file:
                         file.write("\n")
                         file.write(f"{count} Email sent to {User_Email} successfully!")
+                    print(f"{count} Email sent to {User_Email} successfully!")
                         
-                    with open("Certificate_Id.txt",'a') as file:
+                    with open("Certificate_Id_web.txt",'a') as file:
                         file.write("\n")
-                        file.write(Certificate_Id)
+                        file.write(f"{Name} = {Certificate_Id}")
                         
                     count+=1
                     
                     
                 except Exception as e:
                     print(e)
-                    with open('Email_Errors.txt','a') as file:
+                    with open('Email_Errors_web.txt','a') as file:
                         file.write('\n')
                         file.write(f"{str(e)} occured to {Name}")
                         
                 sleep(60)
          
             
-# Certificate_Email([['Sanjay sujir','UD78399220200202',"Test test test","2023-10-16 00:00:00","2023-11-16 00:00:00","nov202316626277","aiml",'sujirsanjay@gmail.com']]).Send()
+# Certificate_Email([{'First_Name' :'Dhanya Bangera','Register_Number':'UD78399220200202','Email':'dhanyabangera5@gmail.com'}]).Send()

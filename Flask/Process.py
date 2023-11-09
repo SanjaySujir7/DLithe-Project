@@ -111,7 +111,8 @@ class Certificat_Number_Generator:
             'internet of things (iot)' : "iot",
             'web development' : 'web',
             'artificial inteligence & data science' : 'aiml',
-            'cyber security' : 'cybs'
+            'cyber security' : 'cybs',
+            'aiml':'aiml'
         }
         
         date_obj = datetime.strptime(str(self.End_Date).split()[0], '%Y-%m-%d')
