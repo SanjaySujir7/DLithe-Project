@@ -69,4 +69,4 @@ class Clean_Data :
         
 class Mysql_Credentials :
     USER = "root"
-    PASS = "dlithe_admin_777"
+    PASS = "admin"

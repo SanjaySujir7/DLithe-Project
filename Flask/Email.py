@@ -3,7 +3,6 @@ import ssl
 import smtplib
 from time import sleep
 from External import Pdf_Certificate
-from datetime import datetime
 from Process import Certificat_Number_Generator
     
 class Certificate_Email:
@@ -50,13 +49,13 @@ www.dlithe.com
             for datas in self.Data:
     
                 try:
-                    Name = datas['First_Name']
-                    Register = datas['Register_Number']
-                    Collage = "Mangalore Institute of Technology and Engineering, Moodabidre"
-                    Start = "2023-08-21 00:00:00"
-                    End = "2023-09-21 00:00:00"
-                    Certificate_Id = Certificat_Number_Generator("web development","2023-09-21 00:00:00").Generate()
-                    Course_Name = "web development"
+                    Name = datas['Name'].title()
+                    Register = datas['Usn'].upper()
+                    Collage = datas['College']
+                    Start = "2023-10-27 00:00:00"
+                    End = "2023-11-27 00:00:00"
+                    Certificate_Id = Certificat_Number_Generator("iot","2023-11-27 00:00:00").Generate()
+                    Course_Name = "iot"
                     User_Email = datas['Email']
                     
                     Email = EmailMessage()
@@ -75,12 +74,12 @@ www.dlithe.com
 
                     smtp.sendmail(Sender_Email,User_Email,Email.as_string())
                     
-                    with open("Email_output_web.txt","a") as file:
+                    with open("Email_output.txt","a") as file:
                         file.write("\n")
                         file.write(f"{count} Email sent to {User_Email} successfully!")
                     print(f"{count} Email sent to {User_Email} successfully!")
                         
-                    with open("Certificate_Id_web.txt",'a') as file:
+                    with open("Certificate_Id_Cybersecurity.txt",'a') as file:
                         file.write("\n")
                         file.write(f"{Name} = {Certificate_Id}")
                         
@@ -89,11 +88,12 @@ www.dlithe.com
                     
                 except Exception as e:
                     print(e)
-                    with open('Email_Errors_web.txt','a') as file:
+                    with open('Email_Errors','a') as file:
                         file.write('\n')
                         file.write(f"{str(e)} occured to {Name}")
                         
                 sleep(60)
          
-            
-# Certificate_Email([{'First_Name' :'Dhanya Bangera','Register_Number':'UD78399220200202','Email':'dhanyabangera5@gmail.com'}]).Send()
+        
+if __name__ == "__main__":   
+    Certificate_Email([{'Name' :'Rohit Arvind Bakale','Usn':'2JR21CS072','Email':'rohitkumar@gmail.com','College':"Jain College of Engineering & Research, Belagavi"}]).Send()

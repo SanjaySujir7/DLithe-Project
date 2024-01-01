@@ -9,6 +9,7 @@ from datetime import datetime,date
 from Sideoper import Hash_Password,Clean_Data
 from Sideoper import Mysql_Credentials
 from Email import Certificate_Email
+import Credentials
 
 app = Flask(__name__)
 app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%&83y3fsgsh$5378288@#*&"
@@ -17,7 +18,7 @@ app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%&83y3fsgsh$5378288@#*&"
 @app.errorhandler(500)
 def Internal_Server_Error_Handler (error):
     with open('internal_server.txt','a') as file:
-        file.write(str(error))
+        file.write(f"{str(error)}\n")
     
     return jsonify({'res' : False,'reason':"Something went wrong!"})
     
@@ -488,268 +489,6 @@ def Landing_Page ():
 
 
 
-@app.route('/certificate-generate',methods=['POST'])
-def Generate_Certificate ():
-
-    Pass = request.get_json()
-    
-    if 'Student_First_Name' in session and "Student_Password" in session:
-    
-        if Pass['pass']== "bDr*^1t4t_@fj<lDda24Cz9*BM)I@u":
-            
-            mydb = mysql.connector.connect(
-                host = "localhost",
-                user = Mysql_Credentials.USER,
-                password = Mysql_Credentials.PASS,
-                database = "sis"
-            )
-            
-            Name =  session["Student_First_Name"]
-            Last = session["Student_Last_Name"]
-            Email = session['Student_Email']
-            Phone =  session['Student_Phone']
-            
-            cursor = mydb.cursor()
-            
-            cursor.execute("SELECT * FROM Students WHERE First_Name = %s AND Email = %s AND Phone = %s;",(Name,Email,Phone,))
-            
-            data = cursor.fetchall()
-           
-           
-            if data :
-                Certificate_Number = data[0][13]
-
-                if Certificate_Number == None:
-    
-                    Certificate_Number = Certificat_Number_Generator(data[0][7],data[0][14]).Generate()
-                    
-                    cursor.execute("UPDATE students SET Certificate_Number = %s WHERE First_Name = %s AND Email = %s AND Phone = %s;",
-                                   (Certificate_Number,Name,Email,Phone))
-                    
-                    mydb.commit()
-                    
-                else:
-                    pass
-                
-                cursor.close()
-                mydb.close()
-    
-            
-                Certificate = Pdf_Certificate(data[0][0] + " " + data[0][1],data[0][4], data[0][5],data[0][9],data[0][14],Certificate_Number)
-                Certificate.Print()
-                
-                Output_File = "output.pdf"
-
-                return send_file(Output_File,as_attachment=True)
-            
-            else:
-                return "something went wrong",400
-    
-    else:
-
-        return redirect('/student-login')
-
-
-@app.route('/certificate')
-def Certificate ():
-    if 'Student_First_Name' in session and "Student_Password" in session:
-    
-        return render_template('Certificate.html')
-    
-    else:
-        return redirect('/student-login')
-    
-    
-
-@app.route('/student-page-logout',methods=['POST'])
-def Students_Page_Log_out():
-    session.clear()
-    
-    return redirect('/')
-    
-
-@app.route('/student',methods = ['POST',"GET"])
-def Students_Info_Dashboard ():
-
-    if request.method == "GET":
-        Course = None
-    
-    else:
-        Course = request.get_json()
-        
-        
-    if not 'Student_First_Name' in session and not "Student_Password" in session:
-    
-        return redirect('/student-login')
-    
-    else:
-        First_Name = session["Student_First_Name"]
-        Phone = session['Student_Phone']
-        Email = session['Student_Email']
-        Password = session['Student_Password']
-        
-        Mydb = mysql.connector.connect(
-            host = "localhost",
-            user = Mysql_Credentials.USER,
-            password = Mysql_Credentials.PASS,
-            database = 'sis'
-        )
-        
-        cursor = Mydb.cursor()
-        
-        cursor.execute("SELECT * FROM students WHERE First_Name = %s AND Phone =  %s AND Email = %s AND Password = %s ;",(First_Name,Phone,Email,Password,))
-        Credential = cursor.fetchall()
-            
-        
-        if Credential:
-            data = {
-                'Name' : Credential[0][0],
-                'Last' : Credential[0][1],
-                'Phone' : Credential[0][2],
-                'Email' : Credential[0][3],
-                'Reg' : Credential[0][4],
-                'Inst' : Credential[0][5],
-                'Mode' :  Credential[0][6],
-                'Course' : Credential[0][7],
-                'Total' : Credential[0][8],
-                'Entry' : str(Credential[0][9]).split()[0].split('-'),
-                'End' : str(Credential[0][14]).split()[0].split('-'),
-                'Payment' : Credential[0][10],
-                'Days' : None,
-                'Days_Left' : None
-            }
-            
-            start = [str(i) for i in data['Entry']]
-            end = data['End']
-            
-            start = [int(i) for i in start]
-            end = [int(i) for i in end]
-
-            start = date(start[0],start[1],start[2])
-            end = date(end[0],end[1],end[2])
-            
-            Days = end - start
-            
-            Total_Days = Days.days
-            
-            Today = str(datetime.now()).split()[0]
-            Today = Today.split('-')
-            Today = [int(i) for i in Today]
-            Today = date(Today[0],Today[1],Today[2])
-            
-            Days = end - Today
-            print(Days.days)
-            if Days.days <= 0:
-                data['Days'] = 0
-                
-            else:
-                data['Days'] = Days.days
-                
-            percentage = Total_Days - Days.days
-            percentage = percentage / Total_Days * 100
-        
-            if percentage >= 100:
-                data['Days_Left'] = 100
-                
-            else:
-                data['Days_Left'] = round(percentage)
-                
-            print(data['Days_Left'])
-            
-            Icon = Icon_Process().Process(data['Course'],data['Payment'])
-            
-            cursor.close()
-            Mydb.close()
-            
-            return render_template('Students_Page.html',data = data,Icon = Icon)
-        
-        else:
-            return redirect('/student-login')
-    
-    
-
-@app.route('/student-login-data',methods=['POST'])
-def Student_Login_Data_Handle ():
-    Name_Email = request.form['Name_Email']
-    Password = request.form['Password']
-
-    if Name_Email and Password :
-        
-        Name_Email_Password_Found = False
-        
-        Mydb = mysql.connector.connect(
-            host = "localhost",
-            user = Mysql_Credentials.USER,
-            password = Mysql_Credentials.PASS,
-            database = 'sis'
-        )
-        
-        cursor = Mydb.cursor()
-        
-        if '@' in Name_Email:
-            
-            if ".in" in Name_Email or ".com" in Name_Email:
-
-                cursor.execute("SELECT Password, Phone,Email,First_Name, Last_Name  FROM students WHERE Email = %s",(Name_Email,))
-                data = cursor.fetchall()
-                cursor.close()
-                Mydb.close()
-                
-                if data:
-                    if Password == data[0][0]:
-                        Name_Email_Password_Found = True
-                        
-                    else:
-                        flash("Invalid Password",'error')
-                        return redirect('/student-login')
-                else:
-                    flash("Account Does not Exists For This Email",'error')
-                    return redirect('/student-login')
-            else:
-                flash("Invalid Email!",'error')
-                return redirect('/student-login')
-            
-        else:
-
-            cursor.execute("SELECT Password, Phone,Email, First_Name,Last_Name  FROM students WHERE First_Name = %s;",(Name_Email,))
-            data = cursor.fetchall()
-            
-            cursor.close()
-            Mydb.close()
-            
-            if data:
-                if Password == data[0][0]:
-                    Name_Email_Password_Found = True
-                    
-                else:
-                    flash("Invalid Password",'error')
-                    return redirect('/student-login')
-            else:
-                flash("Account Does not Exists For This Name",'error')
-                return redirect('/student-login')
-            
-        
-        if Name_Email_Password_Found == True :
-            session.clear()
-            session.permanent = True
-            session['Student_Password'] = data[0][0]
-            session['Student_Phone'] = data[0][1]
-            session['Student_Email'] = data[0][2]
-            session['Student_First_Name'] = data[0][3]
-            session['Student_Last_Name'] = data[0][4]
-            
-            return redirect('/student')
-        
-    else:
-        flash("Data is Not valid!. seems like javascript is manuplated !",'error')
-        return redirect('/student-login')
-
-
-@app.route('/student-login')
-def Studets_Login ():
-    return render_template('Students_Login.html')
-
-
 
 @app.route('/add-student',methods = ['POST'])
 def Add_Student ():
@@ -913,6 +652,7 @@ def Get_Csv_Data ():
 
     filters = request.get_json()
     
+    
     if 'pass' in filters:
         if not filters['pass'] == "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG":
             return "Unauthorized!"
@@ -945,14 +685,16 @@ def Get_Csv_Data ():
     
     query = "SELECT * FROM students"
     First = True
+    College_Trigger = False
     
     if not "All" in College :
         if First:
-            query = f"{query} WHERE Inst_Key = '{College}'"
+            query = f"{query} WHERE Inst_Key = %s"
             First = False
         else:
-            query = f"{query} AND Inst_Key = '{College}'"
+            query = f"{query} AND Inst_Key = %s"
             
+        College_Trigger = True
             
     if not "All" in Course :
         if First:
@@ -972,10 +714,10 @@ def Get_Csv_Data ():
             
     if not 'yyyy-MM-dd' in Year_From and not 'yyyy-MM-dd' in Year_To:
         if First:
-            query = f"{query} WHERE DATE(Entry_Date) BETWEEN '{Year_From}' AND '{Year_To}'"
+            query = f"{query} WHERE DATE(Start_Date) BETWEEN '{Year_From}' AND '{Year_To}'"
             
         else:
-            query = f"{query} AND DATE(Entry_Date) BETWEEN '{Year_From}' AND '{Year_To}'"
+            query = f"{query} AND DATE(Start_Date) BETWEEN '{Year_From}' AND '{Year_To}'"
               
     if not "All" in Mode:
         if First:
@@ -994,8 +736,12 @@ def Get_Csv_Data ():
             
     query = f"{query};"
 
-    cursor.execute(query) 
+    if College_Trigger:
+        cursor.execute(query,(College,))
     
+    else:
+        cursor.execute(query) 
+         
     data = cursor.fetchall()
     
     if data:
@@ -1022,8 +768,8 @@ def Get_Csv_Data ():
             
             Students.append(
                 {
-                    'First_Name' : Name.capitalize(),
-                    'Last_Name' : Last,
+                    'First_Name' : Name.title(),
+                    'Last_Name' : Last.title(),
                     'Phone' :  Phone,   
                     'Email' : Email,
                     'Register_Number' :  Register_Number,
@@ -1083,10 +829,10 @@ def Students_DashBoard():
             return render_template("Admin_Students_Page.html")
         
         else:
-            return redirect('/login')
+            return redirect('/admin-login')
          
     else:
-        return redirect('/login')
+        return redirect('/admin-login')
 
 
 
@@ -1124,29 +870,29 @@ def Import_File ():
             for each_user in data:
                 
                 if "Last_Name" in each_user:
-                    First_Name = each_user['First_Name']
-                    Last_Name = each_user['Last_Name']
+                    First_Name = each_user['Name'].lower()
+                    Last_Name = each_user['Last_Name'].lower()
                     
                 else:
-                    Name_Split = Clean_Data(each_user['First_Name']).Name_Split()
+                    Name_Split = Clean_Data(each_user['Name']).Name_Split()
                     
-                    First_Name = Name_Split[0]
-                    Last_Name = Name_Split[1]
+                    First_Name = Name_Split[0].lower()
+                    Last_Name = Name_Split[1].lower()
                     
 
-                datetime_object = datetime.strptime("", "%B %d %Y")
-                string = datetime_object.strftime("%Y-%m-%d %H:%M:%S")
+                # datetime_object = datetime.strptime("", "%B %d %Y")
+                # string = datetime_object.strftime("%Y-%m-%d %H:%M:%S")
                     
-                dt = datetime.datetime.now()
+                dt = datetime.now()
                 Phone = Clean_Data(each_user.get("Phone","None")).Phone_Num_Clean()
                 Email = each_user.get("Email","None")
-                Register_Number= each_user.get("Register_Number","None")
-                Institution_Name = each_user.get("Institution_Name","None")
-                Course_Name = Clean_Data(each_user.get("Course_Name","None")).Course_Clean()
+                Register_Number= each_user.get("Usn","None")
+                Institution_Name = each_user.get("College","None")
+                Course_Name = Clean_Data(each_user.get("Course","None")).Course_Clean()
                 Total = each_user.get("Total","None")
                 Entry_Date = each_user.get("Entry_Date",str(dt.strftime("%Y-%m-%d")))
                 Payment_Status = each_user.get("Payment_Status","None")
-                Mode = ""
+                Mode = each_user.get('Mode','None')
                 Payment_Date = Entry_Date
                 Department = each_user.get("Department","None")
                 
@@ -1170,7 +916,7 @@ def Import_File ():
                     # Entry_Date = DateTimeProcess(Entry_Date).Get()
                     # Payment_Date = DateTimeProcess(Payment_Date).Get()
                     Password = Random_Password(10).Generate()
-                    Batch = "Oct-Nov-2023"
+                    Batch = Credentials.Batch
                     
                     cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
                         Email , Register_Number, Institution_Name, Mode,Course_Name,
@@ -1196,18 +942,13 @@ def Import_File ():
     
 
 
-@app.route('/admin/<url_Password>')
-def Admin_Page (url_Password):
-    
-    if url_Password == "777":
-    
-        return redirect('/admin-students')
-    
-    else:
-        return "<h1 style='text-align:center; color:red;'>Access Denied!</h1>"
+@app.route('/admin')
+def Admin_Page ():
+
+    return redirect('/admin-login')
     
 
-@app.route('/login')
+@app.route('/admin-login')
 def index ():
 
     return render_template("Admin_Login.html")
@@ -1255,11 +996,11 @@ def Login_process():
                     
                 else:
                     flash("Incorrect Password !",'error')
-                    return redirect('/login')
+                    return redirect('/admin-login')
             
             else:
               flash("Email does't exists!")
-              return redirect('/login')
+              return redirect('/admin-login')
               
         else:
             cursor.execute("SELECT Email, Password , First_Name FROM admin WHERE First_Name = %s",(Name_Email.lower(),))
@@ -1277,14 +1018,16 @@ def Login_process():
                     session['Name'] = data[0][2]
                     session['Email'] = data[0][0]
                     session['Password'] = data[0][1]
+                    with open("Ips.txt",'a') as file:
+                        file.write(f"Time :{datetime.now()}, Ip : {request.remote_addr}")
                     
                 else:
                     flash("Incorrect Password !",'error')
-                    return redirect('/login')
+                    return redirect('/admin-login')
             
             else:
               flash("Name does't exists!")
-              return redirect('/login')
+              return redirect('/admin-login')
               
         if Name_Email_found:
             return redirect('/admin-students')
@@ -1294,7 +1037,7 @@ def Login_process():
         
     else:
         flash("Invalid Input!",'error')
-        return redirect('/login')
+        return redirect('/admin-login')
        
        
 if __name__ == "__main__":

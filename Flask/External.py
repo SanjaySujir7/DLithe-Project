@@ -1,13 +1,11 @@
 
 from reportlab.lib.pagesizes import A4
-from reportlab.lib import utils
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader,PdfWriter
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
 import io
 import qrcode
-import os
 from Process import Date_Time
 from datetime import datetime
 
@@ -17,7 +15,7 @@ class Pdf_Certificate :
     
     def __init__(self,Name,Usn,Collage,Date_From,Date_To,Certificate_Id,Course_Name):
         self.Name = Name
-        self.Usn = Usn
+        self.Usn = Usn.upper()
         self.Collage = Collage
         self.Date_From = Date_Time(Date_From).Re_Format()
         self.Date_Two = Date_Time(Date_To).Re_Format()
@@ -46,12 +44,12 @@ class Pdf_Certificate :
             
             my_Style=ParagraphStyle('My Para style',
             fontName='Times-Roman',
-            fontSize=12,
-            leading=35,
+            fontSize=11,
+            leading=29,
             alignment=4,
             )
            
-            p1=Paragraph(f"This is to certify <b>{self.Name}</b>, bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>   has successfully completed one-month internship starting from  <b>{str(self.Date_From).split()[0]}</b>  to  <b>{str(self.Date_Two).split()[0]}</b> under the mentorship of DLithe's development team. <b>{self.Name}</b> {Course_Paragraph[0]} {Course_Paragraph[2]}The domain & agile development process exposure was given along with usage of GitHub tool. During the internship, <b>{self.Name}</b> demonstrated good coding skills with good design thoughts.<br></br>We wish all the best for future endeavours!  ",my_Style)
+            p1=Paragraph(f"This is to certify <b>{self.Name}</b>, bearing USN No:  <b>{self.Usn}</b>  from  <b>{self.Collage}</b>  has successfully completed one-month internship starting from  <b>{str(self.Date_From).split()[0]}</b>  to  <b>{str(self.Date_Two).split()[0]}</b> under the mentorship of DLithe's development team. <b>{self.Name}</b> {Course_Paragraph[0]} {Course_Paragraph[2]}The domain & agile development process exposure was given along with usage of GitHub tool. During the internship, <b>{self.Name}</b> demonstrated good coding skills with good design thoughts.<br></br>We wish all the best for future endeavours!",my_Style)
             
             p1.wrapOn(Can,450,120)
             p1.drawOn(Can,71,Course_Paragraph[1])
@@ -59,14 +57,14 @@ class Pdf_Certificate :
             font_name = "Times-Italic"
             font_size = 9
             Can.setFont(font_name, font_size)
-            Can.drawString(380,157, self.Certificate_Id.upper())
+            Can.drawString(390,119, self.Certificate_Id.upper())
             
             font_name = "Times-Roman"
             font_size = 14
             Can.setFont(font_name, font_size)
             formatted_date = datetime.strptime(self.End_date,"%Y-%m-%d %H:%M:%S")
             formatted_date = formatted_date.strftime("%d %B %Y")
-            Can.drawString(448,700, formatted_date)
+            Can.drawString(415,670, formatted_date)
             
             # img = utils.ImageReader("Qr_Certificate.png")
             # Can.drawImage(img, 350, 180, 100, 100)
@@ -104,12 +102,13 @@ class Pdf_Certificate :
         
     def Certificate_Course_Input (self):
         Course_Pargraph = {
-            'cyber security' : ["has worked on Cybersecurity domain, exploiting Metasploit, Network scanning, SQL injection and Malware attack task.",310,"<br></br>"],
-            'aiml' : ["has worked on Fundamentals of Artificial Intelligence and Machine Learning in Data Science, Deep Learning, and Natural Language Processing to Model building and deployment.",290,"<br></br>"],
-            'embedded systems and iot - advanced' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
-            'web development' : ["has worked on HTML, CSS, JavaScript, React JS, Server side Scripting.",310,"<br></br>"],
-            'iot' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",300,""],
-            'data science' : ["has worked on Data analytics for various types of data sets using Machine Learning models and Neural Networks for classification.",310,"<br></br>"] 
+            'cyber security' : ["has worked on Network scanning, threats and vulnerabilities, security controls, penetration testing and SQL Injection.",380,"<br></br>"],
+            'aiml' : ["has worked on Fundamentals of Python, Introduction to Data Science and Machine learning, Building the Supervised learning models for real-world scenario and deployment, Classification and Regression model implementation, exposer to Artificial Nueral network working, architecture and network parameters",352,"<br></br>"],
+            'embedded systems and iot - advanced' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",350,""],
+            'web development' : ["has worked on HTML, CSS, Bootstrap, JavaScript, jQuery and MySQL.",360,"<br></br>"],
+            'iot' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development activities using C, C++ programming. Exposure on various communication protocols TWI, SPI and UART was also provided. ",310,"<br></br>"],
+            'data science' : ["has worked on Data analytics for various types of data sets using Machine Learning models and Neural Networks for classification.",310,"<br></br>"],
+            'python' : ["exhibited exceptional dedication and proficiency in the following key areas such as Python Programming, Data Structures and Algorithms, Version Control Systems, Unit Testing.",330,"<br></br>"]
         }
         
         Para = Course_Pargraph.get(self.Course_Name.lower())
@@ -121,5 +120,5 @@ class Pdf_Certificate :
             raise KeyError(f"Key is not found for {self.Course_Name}")
         
    
-# if __name__ =="__main__":
-#     Pdf_Certificate('Niha Kauser','4MT20IS024',"Mangalore Institute of Technology and Engineering, Moodabidre","2023-8-12 00:00:00",'2023-9-12 00:00:00',"sep2023web23456","web development").Print()
+if __name__ =="__main__":
+    Pdf_Certificate('Bharadwaj Simha V','1DS22MC085',"Dayananda Sagar College Of Engineering, Bengaluru","2023-10-27 00:00:00",'2023-11-27 00:00:00',"Nov2023aiml23456","iot").Print()

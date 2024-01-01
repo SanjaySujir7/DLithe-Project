@@ -112,7 +112,9 @@ class Certificat_Number_Generator:
             'web development' : 'web',
             'artificial inteligence & data science' : 'aiml',
             'cyber security' : 'cybs',
-            'aiml':'aiml'
+            'aiml':'aiml',
+            'iot' : 'iot',
+            'python' : 'py'
         }
         
         date_obj = datetime.strptime(str(self.End_Date).split()[0], '%Y-%m-%d')
