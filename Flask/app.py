@@ -640,7 +640,7 @@ def Log_out (Pass):
     if Pass == "bDr*^1t4t_@fj<lDda24Cz9*BM)I@u":
         session.clear()
     
-        return redirect('/login')
+        return redirect('/admin-login')
     
     else:
         return "<h3>Access Denied !</h3>"
@@ -826,7 +826,7 @@ def Students_DashBoard():
         
         if data:
             
-            return render_template("Admin_Students_Page.html")
+            return render_template("Admin_Students_Page.html",IP=request.headers.get('X-Real-IP'))
         
         else:
             return redirect('/admin-login')
@@ -1019,7 +1019,7 @@ def Login_process():
                     session['Email'] = data[0][0]
                     session['Password'] = data[0][1]
                     with open("Ips.txt",'a') as file:
-                        file.write(f"Time :{datetime.now()}, Ip : {request.remote_addr}")
+                        file.write(f"Time :{datetime.now()}, Ip : {request.headers.get('X-Real-IP')}\n")
                     
                 else:
                     flash("Incorrect Password !",'error')

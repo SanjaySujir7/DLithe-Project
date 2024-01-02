@@ -219,3 +219,9 @@ html{
 tr{
     cursor: pointer;
 }
+
+#User_IP{
+    position: absolute;
+    bottom: 100px;
+    width: 100%;
+}
