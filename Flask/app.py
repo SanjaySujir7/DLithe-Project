@@ -13,14 +13,6 @@ import Credentials
 
 app = Flask(__name__)
 app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%&83y3fsgsh$5378288@#*&"
-
-
-@app.errorhandler(500)
-def Internal_Server_Error_Handler (error):
-    with open('internal_server.txt','a') as file:
-        file.write(f"{str(error)}\n")
-    
-    return jsonify({'res' : False,'reason':"Something went wrong!"})
     
     
     

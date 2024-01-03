@@ -52,6 +52,9 @@ function Apply_Filter (){
     }
 
     Table_Body.innerHTML = "";
+    Course_Filter.innerHTML = "";
+    Collage_Filter.innerHTML = "";
+    Existing_Filter = [];
     $('#FilterModal').modal('hide')
     Result_Popup("Filter Applied .",true,1500);
 
