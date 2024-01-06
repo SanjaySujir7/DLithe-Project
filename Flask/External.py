@@ -103,10 +103,10 @@ class Pdf_Certificate :
     def Certificate_Course_Input (self):
         Course_Pargraph = {
             'cyber security' : ["has worked on Network scanning, threats and vulnerabilities, security controls, penetration testing and SQL Injection.",380,"<br></br>"],
-            'aiml' : ["has worked on Fundamentals of Python, Introduction to Data Science and Machine learning, Building the Supervised learning models for real-world scenario and deployment, Classification and Regression model implementation, exposer to Artificial Nueral network working, architecture and network parameters",352,"<br></br>"],
+            'aiml' : ["has worked on Fundamentals of Python, Introduction to Data Science and Machine learning, Building the Supervised learning models for real-world scenario and deployment, Classification and Regression model implementation, exposer to Artificial Nueral network working, architecture and network parameters.",310,"<br></br>"],
             'embedded systems and iot - advanced' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development  activities  using  C,  C++  programming. Exposure  on  various  communication protocols TWI, SPI and UART was also provided.",350,""],
             'web development' : ["has worked on HTML, CSS, Bootstrap, JavaScript, jQuery and MySQL.",360,"<br></br>"],
-            'iot' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development activities using C, C++ programming. Exposure on various communication protocols TWI, SPI and UART was also provided. ",310,"<br></br>"],
+            'iot' : ["has worked on various microcontrollers, SoC, sensors, actuators with real time web server development activities using C, C++ programming. Exposure on various communication protocols TWI, SPI and UART was also provided. ",330,"<br></br>"],
             'data science' : ["has worked on Data analytics for various types of data sets using Machine Learning models and Neural Networks for classification.",310,"<br></br>"],
             'python' : ["exhibited exceptional dedication and proficiency in the following key areas such as Python Programming, Data Structures and Algorithms, Version Control Systems, Unit Testing.",330,"<br></br>"]
         }
@@ -121,4 +121,4 @@ class Pdf_Certificate :
         
    
 if __name__ =="__main__":
-    Pdf_Certificate('Bharadwaj Simha V','1DS22MC085',"Dayananda Sagar College Of Engineering, Bengaluru","2023-10-27 00:00:00",'2023-11-27 00:00:00',"Nov2023aiml23456","iot").Print()
+    Pdf_Certificate('Nisarga M K Bakale','1DS22MC085',"Jain College of Engineering & Research, Belagavi","2023-10-27 00:00:00",'2023-11-27 00:00:00',"Nov2023aiml23456","iot").Print()

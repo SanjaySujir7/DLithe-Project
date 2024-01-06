@@ -2,7 +2,7 @@
 from flask import Flask, jsonify,render_template,request, send_file,session,redirect,flash
 import mysql.connector
 import csv
-from Process import DateTimeProcess,Inst_Process,Random_Password,Certificat_Number_Generator,Icon_Process
+from Process import Inst_Process,Random_Password,Certificat_Number_Generator
 from External import Pdf_Certificate
 from time import time
 from datetime import datetime,date
@@ -393,10 +393,10 @@ def Admin_Certificate_Page ():
         else:
             cursor.close()
             Mydb.close()
-            return redirect('/login')
+            return redirect('/admin-login')
          
     else:
-        return redirect('/login')
+        return redirect('/admin-login')
           
 
 @app.route('/Student-Account-check',methods=["POST"])
@@ -542,7 +542,7 @@ def Add_Student ():
                 return jsonify({'res' : True,'date' : if_data_exist[0][0],'Inst' : if_data_exist[0][1]})
             
             else:
-                Batch = "Oct-Nov-2023"
+                Batch = Credentials.Batch
                 Password = Random_Password(10).Generate()
                 Payment_date = datetime.now()
                 

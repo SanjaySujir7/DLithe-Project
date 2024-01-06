@@ -6,7 +6,7 @@ Students_Data = []
 index = 0
 Data_Len = None
 
-with open("aimlonlinectnov2023new.csv", "r") as file:
+with open("iotonlineoctnovDLithe.csv", "r") as file:
     File = csv.DictReader(file)
 
     for row in File:

@@ -53,8 +53,11 @@ function Apply_Filter (){
 
     Table_Body.innerHTML = "";
     Course_Filter.innerHTML = "";
+    Course_Filter.innerHTML = "<option>All</option>";
     Collage_Filter.innerHTML = "";
+    Collage_Filter.innerHTML = "<option>All</option>";
     Existing_Filter = [];
+
     $('#FilterModal').modal('hide')
     Result_Popup("Filter Applied .",true,1500);
 
@@ -256,9 +259,9 @@ function Create_Table (First , Last , Phone , Email ,Register , Inst , Course , 
     Tr8.innerText = Mode;
     Table_row.appendChild(Tr8);
 
-    let Tr9 = document.createElement('td');
-    Tr9.innerText = Entry;
-    Table_row.appendChild(Tr9);
+    // let Tr9 = document.createElement('td');
+    // Tr9.innerText = Entry;
+    // Table_row.appendChild(Tr9);
 
     let Tr10 = document.createElement('td');
     Tr10.innerText = Total;
@@ -383,6 +386,7 @@ function Fetch_Data (){
         .then(Each_User => {
 
             Export_List = Each_User;
+            
     
         for(let i = 0 ; i < Each_User.length ; i++){
     
@@ -675,8 +679,8 @@ function Edit_STudents_Dialog_Popup (details){
         Inst = details[6].innerHTML,
         Course = details[7].innerHTML,
         Mode  = details[8].innerHTML,
-        Total = details[10].innerHTML,
-        Payment_Status = details[11].innerHTML;
+        Total = details[9].innerHTML,
+        Payment_Status = details[10].innerHTML;
 
         $("#EditStudentModal").modal('show')
         
@@ -745,9 +749,9 @@ Edit_Save_Btn.addEventListener('click',function(){
             Change_Table[4].innerHTML = Update_Object.Email;
             Change_Table[6].innerHTML = Update_Object.Inst;
             Change_Table[7].innerHTML = Update_Object.Course;
-            Change_Table[10].innerHTML = Update_Object.Total;
+            Change_Table[9].innerHTML = Update_Object.Total;
             Change_Table[8].innerHTML = Update_Object.Mode;
-            Change_Table[11].innerHTML = Update_Object.Payment
+            Change_Table[10].innerHTML = Update_Object.Payment
 
             if(Update_Object.Payment == "Paid"){
                 Change_Table[11].style.color = "white";
