@@ -206,7 +206,13 @@ Export_Modal_button.addEventListener('click',function(){
     .then(file => {
         const file_url = URL.createObjectURL(file);
         Export_Download_Link.href = file_url;
-        Export_Download_Link.download = "Students_Info.csv"
+        
+        if(file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+            Export_Download_Link.download = "Students_Info.xlsx"
+        }
+        else{
+            Export_Download_Link.download = "Students_Info.csv"
+        }
         Export_Download_Btn.removeAttribute('disabled');
     })
 

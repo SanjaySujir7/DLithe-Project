@@ -10,6 +10,10 @@ from Sideoper import Hash_Password,Clean_Data
 from Sideoper import Mysql_Credentials
 from Email import Certificate_Email
 import Credentials
+from openpyxl import load_workbook
+
+
+
 
 app = Flask(__name__)
 app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%&83y3fsgsh$5378288@#*&"
@@ -593,28 +597,29 @@ def Export_Data ():
     Export_Limit = Data['Export_Limit']
     Export_Format = Data['Export_Format']
     
+    Headings = ['First_Name', 'Last_Name', 'Phone', 'Email','Register_Number', 'Institution_Name','Mode','Course_Name','Total','Entry_Date',
+                'Payment_Status','Inst_Key','Password','Certificate','End_Date','Payment_Date','Department']
+    
+    New_Heading = []
+    New_Export_List = []
+    
+    for i in range(17):
+        if i in Export_Limit:
+            New_Heading.append(Headings[i])
+    
+    
+            
+    for all in Export_List:
+        temp_list = []
+        
+        for all_heding in New_Heading:
+            temp_list.append(all[all_heding])
+        
+        New_Export_List.append(temp_list)
+        
+    
     if 'Csv' in Export_Format:
-        Headings = ['First_Name', 'Last_Name', 'Phone', 'Email','Register_Number', 'Institution_Name','Mode','Course_Name','Total','Entry_Date',
-                    'Payment_Status','Inst_Key','Password','Certificate','End_Date','Payment_Date','Department']
-        
-        New_Heading = []
-        New_Export_List = []
-        
-        for i in range(17):
-            if i in Export_Limit:
-                New_Heading.append(Headings[i])
-        
-        
-                
-        for all in Export_List:
-            temp_list = []
-            
-            for all_heding in New_Heading:
-                temp_list.append(all[all_heding])
-            
-            New_Export_List.append(temp_list)
-            
-            
+
         filename = 'Students_info.csv'
         
         with open(filename,'w',newline='') as file:
@@ -622,8 +627,28 @@ def Export_Data ():
             
             csv_write.writerow(New_Heading)
             csv_write.writerows(New_Export_List)
-                    
+        
         return send_file(filename,as_attachment=True)
+            
+    
+    elif 'Excel' in Export_Format:
+        
+        filename = 'Export_Data.xlsx'
+        Book = load_workbook('Export_File_Input_Format.xlsx')
+        Sheet = Book.active
+
+        for col_num, heading in enumerate(New_Heading, 1):
+            Sheet.cell(row=1, column=col_num, value=heading)
+            
+        for rows in New_Export_List:
+            Sheet.append(rows)
+
+        Book.save('Export_Data.xlsx')
+        
+        return send_file(filename,as_attachment=True)
+    
+    else:
+        return jsonify({"res" : "Something Went Wrong!"})
         
 
 @app.route('/log-out / <Pass>',methods = ['POST'])
@@ -831,106 +856,123 @@ def Students_DashBoard():
 @app.route('/import-file',methods=['POST'])
 def Import_File ():
     filename = request.files["File"]
+    data = []
     
     if '.csv' in filename.filename:
-        start_time = time()
         
         file_text = filename.read().decode('utf-8')
         Reader = csv.DictReader(file_text.splitlines())
         
-        data = []
 
         for each_user in Reader:
             data.append(each_user)
-
-        if data:
             
-            Mydb = mysql.connector.connect(
-            host = "localhost",
-            user = Mysql_Credentials.USER,
-            password = Mysql_Credentials.PASS,
-            database = 'sis'
-            
-            )
-            
-            cursor = Mydb.cursor()
-            
-            cursor.execute('SELECT * FROM Key_Dictionary')
-            Key_List = cursor.fetchall()
-            
-            
-            for each_user in data:
-                
-                if "Last_Name" in each_user:
-                    First_Name = each_user['Name'].lower()
-                    Last_Name = each_user['Last_Name'].lower()
-                    
-                else:
-                    Name_Split = Clean_Data(each_user['Name']).Name_Split()
-                    
-                    First_Name = Name_Split[0].lower()
-                    Last_Name = Name_Split[1].lower()
-                    
-
-                # datetime_object = datetime.strptime("", "%B %d %Y")
-                # string = datetime_object.strftime("%Y-%m-%d %H:%M:%S")
-                    
-                dt = datetime.now()
-                Phone = Clean_Data(each_user.get("Phone","None")).Phone_Num_Clean()
-                Email = each_user.get("Email","None")
-                Register_Number= each_user.get("Usn","None")
-                Institution_Name = each_user.get("College","None")
-                Course_Name = Clean_Data(each_user.get("Course","None")).Course_Clean()
-                Total = each_user.get("Total","None")
-                Entry_Date = each_user.get("Entry_Date",str(dt.strftime("%Y-%m-%d")))
-                Payment_Status = each_user.get("Payment_Status","None")
-                Mode = each_user.get('Mode','None')
-                Payment_Date = Entry_Date
-                Department = each_user.get("Department","None")
-                
-                # cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
-                # if_data_exist = cursor.fetchall()
-                
-                # if if_data_exist :
-                #     pass
-                
-                if True:
-                    
-                    Key_Process = Inst_Process(Register_Number,Institution_Name,Key_List).Process()
-            
-                    Inst_Key = Key_Process['inst_key']
-                    
-                    if not Key_Process['got']:
-                        cursor.execute("INSERT INTO Key_Dictionary (Reg_key, Inst) VALUES (%s , %s)",Key_Process['keys'])
-                        Key_List.append(Key_Process['keys'])
-                        
-                    
-                    # Entry_Date = DateTimeProcess(Entry_Date).Get()
-                    # Payment_Date = DateTimeProcess(Payment_Date).Get()
-                    Password = Random_Password(10).Generate()
-                    Batch = Credentials.Batch
-                    
-                    cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
-                        Email , Register_Number, Institution_Name, Mode,Course_Name,
-                        Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department) 
-                        VALUES(IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"));"""
-                        ,(First_Name,Last_Name,Phone,Email,Register_Number,Institution_Name,
-                        Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department))
-            
-            
-            Mydb.commit()
-            cursor.close()
-            Mydb.close()
-            
-            print("end Time : ",time()-start_time)
-            return redirect('/admin-students')
+    elif '.xlsx' in filename.filename:
         
-        else:
-            return redirect("/admin-students")
+        Book = load_workbook(filename)
+        Sheet = Book.active
+
+        Rows = Sheet.rows
+
+        Headers = [cell.value for cell in next(Rows)]
+
+        for rows in Rows:
+            Temp_data = {}
+            
+            for title,cell in zip(Headers,rows):
+                Temp_data[title] = cell.value
+                
+            data.append(Temp_data)
+            
         
     else:
+        return redirect('/admin-students')
+    
+    
+    if data:
+        
+        Mydb = mysql.connector.connect(
+        host = "localhost",
+        user = Mysql_Credentials.USER,
+        password = Mysql_Credentials.PASS,
+        database = 'sis'
+        
+        )
+        
+        cursor = Mydb.cursor()
+        
+        cursor.execute('SELECT * FROM Key_Dictionary')
+        Key_List = cursor.fetchall()
+        
+        
+        for each_user in data:
+            
+            if "Last_Name" in each_user:
+                First_Name = each_user['Name'].lower()
+                Last_Name = each_user['Last_Name'].lower()
+                
+            else:
+                Name_Split = Clean_Data(each_user['Name']).Name_Split()
+                
+                First_Name = Name_Split[0].lower()
+                Last_Name = Name_Split[1].lower()
+                
+
+            # datetime_object = datetime.strptime("", "%B %d %Y")
+            # string = datetime_object.strftime("%Y-%m-%d %H:%M:%S")
+                
+            dt = datetime.now()
+            Phone = Clean_Data(each_user.get("Phone","None")).Phone_Num_Clean()
+            Email = each_user.get("Email","None")
+            Register_Number= each_user.get("Usn","None")
+            Institution_Name = each_user.get("College","None")
+            Course_Name = Clean_Data(each_user.get("Domain","None")).Course_Clean()
+            Total = each_user.get("Total","None")
+            Entry_Date = each_user.get("Entry_Date",str(dt.strftime("%Y-%m-%d")))
+            Payment_Status = each_user.get("Payment_Status","None")
+            Mode = each_user.get('Mode','None')
+            Payment_Date = Entry_Date
+            Department = each_user.get("Branch","None")
+            
+            # cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
+            # if_data_exist = cursor.fetchall()
+            
+            # if if_data_exist :
+            #     pass
+            
+            if True:
+                
+                Key_Process = Inst_Process(Register_Number,Institution_Name,Key_List).Process()
+        
+                Inst_Key = Key_Process['inst_key']
+                
+                if not Key_Process['got']:
+                    cursor.execute("INSERT INTO Key_Dictionary (Reg_key, Inst) VALUES (%s , %s)",Key_Process['keys'])
+                    Key_List.append(Key_Process['keys'])
+                    
+                
+                # Entry_Date = DateTimeProcess(Entry_Date).Get()
+                # Payment_Date = DateTimeProcess(Payment_Date).Get()
+                Password = Random_Password(10).Generate()
+                Batch = Credentials.Batch
+                
+                cursor.execute("""INSERT INTO students (First_Name, Last_Name, Phone,
+                    Email , Register_Number, Institution_Name, Mode,Course_Name,
+                    Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department) 
+                    VALUES(IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"));"""
+                    ,(First_Name,Last_Name,Phone,Email,Register_Number,Institution_Name,
+                    Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department))
+        
+        
+        Mydb.commit()
+        cursor.close()
+        Mydb.close()
         
         return redirect('/admin-students')
+    
+    else:
+        return redirect("/admin-students")
+        
     
 
 
