@@ -5,26 +5,57 @@ import csv
 from Process import Inst_Process,Random_Password,Certificat_Number_Generator
 from External import Pdf_Certificate
 from time import time
-from datetime import datetime,date
+from datetime import datetime,timedelta
 from Sideoper import Hash_Password,Clean_Data
 from Sideoper import Mysql_Credentials
 from Email import Certificate_Email
 import Credentials
 from openpyxl import load_workbook
-
+from functools import wraps
+import jwt
 
 
 
 app = Flask(__name__)
 app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%&83y3fsgsh$5378288@#*&"
-    
+
+
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.cookies.get('sat')
+
+        if not token:
+            return redirect('/admin-login')
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
+
+        except jwt.ExpiredSignatureError:
+            Res = redirect('/admin-login')
+            Res.delete_cookie('sat')
+            return Res 
+        
+        except jwt.InvalidTokenError:
+            return redirect('/admin-login')
+        
+        if not data['user'] == request.headers.get('X-Real-IP'):
+        
+            Res = redirect('/admin-login')
+            Res.delete_cookie('sat')
+            return Res 
+            
+        return f(data)
+
+    return decorated
+
     
     
 @app.route("/admin-certificate-email-send",methods=['POST'])
-def Admin_Certificate_Email_Send ():
+def Admin_Certificate_Email_Send (data):
     
     cred = request.get_json()
-    print(cred)
         
     if not cred['pass'] == "*tggwhw$gwg@#(0hjwjwjwj??53773&**(#$#":
         return jsonify({"res" : False})
@@ -103,7 +134,8 @@ def Student_Certificate_Download():
 
 
 @app.route('/update-student-data',methods=['POST'])
-def Student_Data_Update ():
+@token_required
+def Student_Data_Update (admin):
     data = request.get_json()
     
     if data:
@@ -142,8 +174,10 @@ def Student_Data_Update ():
         return jsonify({'res' : False})
         
 
+
 @app.route('/bulk-action',methods= ['POST'])
-def Admin_Bulk_Action ():
+@token_required
+def Admin_Bulk_Action (admin):
     
     data = request.get_json()
     
@@ -209,13 +243,12 @@ def Admin_Bulk_Action ():
         return jsonify({'res' : False})
     
     
-    
+
 @app.route('/admin-certificate-generate-id',methods=['POST'])
-def Admin_Certificate_Generate_Id ():
+@token_required
+def Admin_Certificate_Generate_Id (admin):
     Data = request.get_json()
     
-    if not "Name" in session and not "Password" in session:
-        return "Unauthorized!"
     
     if Data['data']:
         
@@ -271,9 +304,9 @@ def Admin_Certificate_Generate_Id ():
         
     
 
-    
 @app.route('/admin-certificate-fetch-data',methods =['POST'])
-def Admin_Certificate_Fetch_Data ():
+@token_required
+def Admin_Certificate_Fetch_Data (admin):
     
     data = request.get_json()
     
@@ -368,43 +401,16 @@ def Admin_Certificate_Fetch_Data ():
 
 
 @app.route('/admin-certificate')
-def Admin_Certificate_Page ():
+@token_required
+def Admin_Certificate_Page (data):
     
-    if 'Name' in session and 'Email' in session:
-        Name = session['Name']
-        Email = session['Email']
-        Password = session['Password']
-        
-        Mydb = mysql.connector.connect(
-        host = "localhost",
-        user = Mysql_Credentials.USER,
-        password = Mysql_Credentials.PASS,
-        database = 'sis'
-        
-        )
-        
-        cursor = Mydb.cursor()
-        
-        cursor.execute('SELECT First_Name FROM admin WHERE First_Name = %s AND Email = %s AND Password = %s',(Name,Email,Password))
-        data = cursor.fetchall()
-        
-        if data:
-            
-            cursor.close()
-            Mydb.close()
-            return render_template("Admin_Certificate_Page.html")
-        
-        else:
-            cursor.close()
-            Mydb.close()
-            return redirect('/admin-login')
-         
-    else:
-        return redirect('/admin-login')
-          
+    return render_template("Admin_Certificate_Page.html")
+    
+    
 
 @app.route('/Student-Account-check',methods=["POST"])
-def Check_Account_Exists ():
+@token_required
+def Check_Account_Exists (admin):
     data = request.get_json()
     
     if data:
@@ -487,7 +493,8 @@ def Landing_Page ():
 
 
 @app.route('/add-student',methods = ['POST'])
-def Add_Student ():
+@token_required
+def Add_Student (admin):
     data = request.get_json()
     
     if data :
@@ -575,8 +582,11 @@ def Add_Student ():
         return jsonify({'res' : False})
 
 
+
+
 @app.route('/export-list',methods = ['POST'])
-def Export_Data ():
+@token_required
+def Export_Data (data):
     
     Data = request.get_json()
     
@@ -584,10 +594,6 @@ def Export_Data ():
         
         if not Data['pass'] == "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG":
             return "Unauthorized!"
-        
-        else:
-            if not "Name" in session and not "Password" in session:
-                return "Unauthorized!"
         
     else:
         return "Unauthorized!"
@@ -649,15 +655,17 @@ def Export_Data ():
     
     else:
         return jsonify({"res" : "Something Went Wrong!"})
+    
         
-
+        
 @app.route('/log-out / <Pass>',methods = ['POST'])
 def Log_out (Pass):
     
     if Pass == "bDr*^1t4t_@fj<lDda24Cz9*BM)I@u":
-        session.clear()
-    
-        return redirect('/admin-login')
+        
+        Res = redirect('/admin-login')
+        Res.delete_cookie('sat')
+        return Res
     
     else:
         return "<h3>Access Denied !</h3>"
@@ -665,7 +673,8 @@ def Log_out (Pass):
     
 
 @app.route('/get-data-csv',methods=['GET','POST'])
-def Get_Csv_Data ():
+@token_required
+def Get_Csv_Data (admin):
 
     filters = request.get_json()
     
@@ -673,10 +682,6 @@ def Get_Csv_Data ():
     if 'pass' in filters:
         if not filters['pass'] == "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG":
             return "Unauthorized!"
-        
-        else:
-            if not "Name" in session and not "Password" in session:
-                return "Unauthorized!"
         
     else:
         return "Unauthorized!"
@@ -817,44 +822,16 @@ def Get_Csv_Data ():
 
 
 @app.route('/admin-students')
-def Students_DashBoard():
+@token_required
+def Students_DashBoard(data):
 
-    if 'Name' in session and 'Email' in session:
-
-        Name = session['Name']
-        Email = session['Email']
-        Password = session['Password']
-        
-        Mydb = mysql.connector.connect(
-        host = "localhost",
-        user = Mysql_Credentials.USER,
-        password = Mysql_Credentials.PASS,
-        database = 'sis'
-        
-        )
-        
-        cursor = Mydb.cursor()
-        
-        cursor.execute('SELECT First_Name FROM admin WHERE First_Name = %s AND Email = %s AND Password = %s',(Name,Email,Password))
-        data = cursor.fetchall()
-        
-        cursor.close()
-        Mydb.close()
-        
-        if data:
-            
-            return render_template("Admin_Students_Page.html",IP=request.headers.get('X-Real-IP'))
-        
-        else:
-            return redirect('/admin-login')
-         
-    else:
-        return redirect('/admin-login')
+    return render_template("Admin_Students_Page.html",IP=request.headers.get('X-Real-IP'))
 
 
 
 @app.route('/import-file',methods=['POST'])
-def Import_File ():
+@token_required
+def Import_File (admin):
     filename = request.files["File"]
     data = []
     
@@ -982,10 +959,22 @@ def Admin_Page ():
     return redirect('/admin-login')
     
 
+
 @app.route('/admin-login')
 def index ():
-
-    return render_template("Admin_Login.html")
+    token = request.cookies.get('sat')
+    
+    if token:
+    
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
+            
+        except:
+            return render_template("Admin_Login.html")
+        
+    else:
+        return render_template("Admin_Login.html")
+    
 
 
 @app.route('/login-data',methods = ['POST'])
@@ -1049,9 +1038,9 @@ def Login_process():
                 if Name == Name_Email and Hash_P.Validate(data[0][1]):
         
                     Name_Email_found = True
-                    session['Name'] = data[0][2]
-                    session['Email'] = data[0][0]
-                    session['Password'] = data[0][1]
+                    
+                    token = jwt.encode({'user': request.headers.get('X-Real-IP'),'exp': datetime.utcnow() + timedelta(minutes=30)}, app.config['SECRET_KEY'])
+                    
                     with open("Ips.txt",'a') as file:
                         file.write(f"Time :{datetime.now()}, Ip : {request.headers.get('X-Real-IP')}\n")
                     
@@ -1064,8 +1053,9 @@ def Login_process():
               return redirect('/admin-login')
               
         if Name_Email_found:
-            return redirect('/admin-students')
-        
+            Res = redirect('/admin-students')
+            Res.set_cookie('sat',token,httponly=True)
+            return Res
         else:
             return "Some thing wrong Happend!"
         

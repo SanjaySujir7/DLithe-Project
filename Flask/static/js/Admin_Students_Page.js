@@ -41,6 +41,8 @@ let Export_List = []
 
 let RN = 1;
 
+let Previous_Batch = Filter_List[6]
+
 function Apply_Filter (){
 
     if(Date_Filter_From.value =="" || Date_Filter_To.value == ""){
@@ -52,11 +54,16 @@ function Apply_Filter (){
     }
 
     Table_Body.innerHTML = "";
-    Course_Filter.innerHTML = "";
-    Course_Filter.innerHTML = "<option>All</option>";
-    Collage_Filter.innerHTML = "";
-    Collage_Filter.innerHTML = "<option>All</option>";
-    Existing_Filter = [];
+    
+    if(Filter_List[6] != Previous_Batch){
+        Course_Filter.innerHTML = "";
+        Course_Filter.innerHTML = "<option>All</option>";
+        Collage_Filter.innerHTML = "";
+        Collage_Filter.innerHTML = "<option>All</option>";
+        Existing_Filter = [];
+    }
+
+    Previous_Batch = Filter_List[6]
 
     $('#FilterModal').modal('hide')
     Result_Popup("Filter Applied .",true,1500);
@@ -387,7 +394,11 @@ function Fetch_Data (){
         },
         body : JSON.stringify({'pass' : "$2b$12$MAguwgtdDIGg3JAC9xKlcQC8EEinQsAfhtfs2Z7I8DAp9aG",'data' : Filter_List})
     })
-        .then(response => response.json())
+        .then(response => {
+            if(response.ok){
+                return response.json()
+            }
+        })
     
         .then(Each_User => {
 
@@ -416,6 +427,10 @@ function Fetch_Data (){
             Create_Filter(Inst_Key,Course_Name);
         }
         
+    })
+
+    .catch(error => {
+        window.location.href = '/admin-login'
     })
 
 }
