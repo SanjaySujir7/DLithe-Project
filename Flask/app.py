@@ -1,10 +1,9 @@
 
-from flask import Flask, jsonify,render_template,request, send_file,session,redirect,flash
+from flask import Flask, jsonify,render_template,request, send_file,redirect,flash,session
 import mysql.connector
 import csv
 from Process import Inst_Process,Random_Password,Certificat_Number_Generator
 from External import Pdf_Certificate
-from time import time
 from datetime import datetime,timedelta
 from Sideoper import Hash_Password,Clean_Data
 from Sideoper import Mysql_Credentials
@@ -17,7 +16,7 @@ import jwt
 
 
 app = Flask(__name__)
-app.secret_key = "!1@2fdgabb-qmz&*aa:m_+&T%&83y3fsgsh$5378288@#*&"
+app.secret_key = "$2b$12$VraDT1QPplopUfEiM9Gkgz2t7yXhrlK28apuN1o6ILQHEZC9yM12"
 
 
 
@@ -27,17 +26,21 @@ def token_required(f):
         token = request.cookies.get('sat')
 
         if not token:
+            session['redirect_url'] = request.url.replace(request.url_root,'/')
+    
             return redirect('/admin-login')
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
 
         except jwt.ExpiredSignatureError:
+            session['redirect_url'] = request.endpoint
             Res = redirect('/admin-login')
             Res.delete_cookie('sat')
             return Res 
         
         except jwt.InvalidTokenError:
+            session['redirect_url'] = request.endpoint
             return redirect('/admin-login')
         
         if not data['user'] == request.headers.get('X-Real-IP'):
@@ -79,7 +82,7 @@ def Admin_Certificate_Email_Send (data):
     
     cursor.close()
     Mydb.close()
-    print(Data)
+    
     if Data:
         
         if not Data[0][6]:
@@ -483,11 +486,7 @@ def Verify_Certificate ():
 @app.route('/')
 def Landing_Page ():
     
-    if 'Student_First_Name' in session and "Student_Last_Name" in session:
-        return redirect('/student')
-    
-    else:
-        return render_template('Landing_Page.html')
+    return render_template('Landing_Page.html')
 
 
 
@@ -503,9 +502,9 @@ def Add_Student (admin):
         Last = data['Last'].lower()
         Phone = data['Phone']
         Email = data['Email']
-        Register_Number= data['Reg']
+        Register_Number= data['Reg'].upper()
         Institution_Name = data['Inst']
-        Course_Name = data['Course']
+        Course_Name = data['Course'].lower()
         Total = data['Total']
         Payment_Status = data['Payment'].lower()
         Mode = data['Mode']
@@ -602,28 +601,32 @@ def Export_Data (data):
     Export_List = Data['Export_List']
     Export_Limit = Data['Export_Limit']
     Export_Format = Data['Export_Format']
-    
+
     Headings = ['First_Name', 'Last_Name', 'Phone', 'Email','Register_Number', 'Institution_Name','Mode','Course_Name','Total','Entry_Date',
-                'Payment_Status','Inst_Key','Password','Certificate','End_Date','Payment_Date','Department']
+                'Payment_Status','Inst_Key','Password','Certificate','Start_Date','End_Date','Payment_Date','Department','Batch']
+    
+    Export_Headings = ['First Name', 'Last Name', 'Phone', 'Email','Usn', 'College','Mode','Domain','Total','Entry Date',
+                'Payment Status','Inst Key','Password','Certificate ID','Start Date','End Date','Payment Date','Branch','Batch']
     
     New_Heading = []
+    New_Export_Heading = []
     New_Export_List = []
     
-    for i in range(17):
+    for i in range(19):
         if i in Export_Limit:
             New_Heading.append(Headings[i])
-    
+            New_Export_Heading.append(Export_Headings[i])
     
             
     for all in Export_List:
         temp_list = []
         
-        for all_heding in New_Heading:
-            temp_list.append(all[all_heding])
+        for all_heading in New_Heading:
+            temp_list.append(all[all_heading])
         
         New_Export_List.append(temp_list)
         
-    
+        
     if 'Csv' in Export_Format:
 
         filename = 'Students_info.csv'
@@ -631,7 +634,7 @@ def Export_Data (data):
         with open(filename,'w',newline='') as file:
             csv_write = csv.writer(file)
             
-            csv_write.writerow(New_Heading)
+            csv_write.writerow(New_Export_Heading)
             csv_write.writerows(New_Export_List)
         
         return send_file(filename,as_attachment=True)
@@ -643,7 +646,7 @@ def Export_Data (data):
         Book = load_workbook('Export_File_Input_Format.xlsx')
         Sheet = Book.active
 
-        for col_num, heading in enumerate(New_Heading, 1):
+        for col_num, heading in enumerate(New_Export_Heading, 1):
             Sheet.cell(row=1, column=col_num, value=heading)
             
         for rows in New_Export_List:
@@ -786,6 +789,8 @@ def Get_Csv_Data (admin):
             Certificate_Number = Each_User[13]
             End_Date = Each_User[14]
             Payment_Date = Each_User[15]
+            Batch = Each_User[16]
+            Start_Date = Each_User[17]
             Department = Each_User[18]
             
             Students.append(
@@ -804,9 +809,11 @@ def Get_Csv_Data (admin):
                     'Inst_Key' : Inst_Key,
                     'Password' : Password,
                     'Certificate' : Certificate_Number,
+                    'Start_Date' : Start_Date,
                     'End_Date' : End_Date,
                     'Payment_Date':Payment_Date,
-                    'Department' : Department
+                    'Department' : Department,
+                    'Batch' : Batch
                 }
                 
             )
@@ -903,7 +910,7 @@ def Import_File (admin):
             Email = each_user.get("Email","None")
             Register_Number= each_user.get("Usn","None")
             Institution_Name = each_user.get("College","None")
-            Course_Name = Clean_Data(each_user.get("Domain","None")).Course_Clean()
+            Course_Name = each_user.get("Domain","None")
             Total = each_user.get("Total","None")
             Entry_Date = each_user.get("Entry_Date",str(dt.strftime("%Y-%m-%d")))
             Payment_Status = each_user.get("Payment_Status","None")
@@ -937,8 +944,8 @@ def Import_File (admin):
                     Email , Register_Number, Institution_Name, Mode,Course_Name,
                     Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department) 
                     VALUES(IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"));"""
-                    ,(First_Name,Last_Name,Phone,Email,Register_Number,Institution_Name,
-                    Mode,Course_Name,Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department))
+                    ,(First_Name,Last_Name,Phone,Email,Register_Number.upper(),Institution_Name,
+                    Mode,Course_Name.lower(),Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department))
         
         
         Mydb.commit()
@@ -967,7 +974,8 @@ def index ():
     if token:
     
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
+            jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
+            return redirect('/admin-students')
             
         except:
             return render_template("Admin_Login.html")
@@ -980,15 +988,12 @@ def index ():
 @app.route('/login-data',methods = ['POST'])
 def Login_process():
     
-    app.config['PERMANENT_SESSION_LIFETIME'] = 1140
-    
     Name_Email = request.form['Name_Email']
     Password = request.form['Password']
     
     if Name_Email and Password:
         
         Name_Email_found = False
-        session.clear()
 
         mydb = mysql.connector.connect(
             host = 'localhost',
@@ -1013,9 +1018,11 @@ def Login_process():
                 if Email == Name_Email and Hash_P.Validate(data[0][1]):
         
                     Name_Email_found = True
-                    session['Name'] = data[0][2]
-                    session['Email'] = data[0][0]
-                    session['Password'] = data[0][1]
+
+                    token = jwt.encode({'user': request.headers.get('X-Real-IP'),'exp': datetime.utcnow() + timedelta(minutes=30)}, app.config['SECRET_KEY'])
+                    
+                    with open("Ips.txt",'a') as file:
+                        file.write(f"Time :{datetime.now()}, Ip : {request.headers.get('X-Real-IP')}\n")
                     
                 else:
                     flash("Incorrect Password !",'error')
@@ -1053,9 +1060,17 @@ def Login_process():
               return redirect('/admin-login')
               
         if Name_Email_found:
-            Res = redirect('/admin-students')
+            if session.get('redirect_url'):
+                Res = session.get('redirect_url')
+                session.pop('redirect_url')
+                
+            else:
+                Res = '/admin-students'
+                
+            Res = redirect(Res)
             Res.set_cookie('sat',token,httponly=True)
             return Res
+            
         else:
             return "Some thing wrong Happend!"
         

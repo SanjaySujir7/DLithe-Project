@@ -430,7 +430,7 @@ function Fetch_Data (){
     })
 
     .catch(error => {
-        window.location.href = '/admin-login'
+        window.location.reload()
     })
 
 }
