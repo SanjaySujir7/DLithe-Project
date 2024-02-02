@@ -36,12 +36,14 @@ class DateTimeProcess:
 
 class Inst_Process:
     def __init__ (self,reg,inst,key_dictionary):
-        self.reg = reg 
+        self.reg = reg
         self.inst = inst
         self.key_dictionary = key_dictionary
         
     def Process (self): 
-        
+        if isinstance(self.reg,int):
+             return {'got' : True , 'keys' : ('None',self.inst) , 'inst_key' : self.inst}
+
         if not self.reg.strip() == "":
             
             new_reg = self.reg[1] + self.reg[2]

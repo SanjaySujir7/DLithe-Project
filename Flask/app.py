@@ -14,7 +14,6 @@ from functools import wraps
 import jwt
 
 
-
 app = Flask(__name__)
 app.secret_key = "$2b$12$VraDT1QPplopUfEiM9Gkgz2t7yXhrlK28apuN1o6ILQHEZC9yM12"
 
@@ -26,7 +25,7 @@ def token_required(f):
         token = request.cookies.get('sat')
 
         if not token:
-            session['redirect_url'] = request.url.replace(request.url_root,'/')
+            session['redirect_url'] = request.path
     
             return redirect('/admin-login')
 
@@ -34,13 +33,13 @@ def token_required(f):
             data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=['HS256'])
 
         except jwt.ExpiredSignatureError:
-            session['redirect_url'] = request.endpoint
+            session['redirect_url'] = request.path
             Res = redirect('/admin-login')
             Res.delete_cookie('sat')
             return Res 
         
         except jwt.InvalidTokenError:
-            session['redirect_url'] = request.endpoint
+            session['redirect_url'] = request.path
             return redirect('/admin-login')
         
         if not data['user'] == request.headers.get('X-Real-IP'):
@@ -861,6 +860,8 @@ def Import_File (admin):
         Headers = [cell.value for cell in next(Rows)]
 
         for rows in Rows:
+            if all(value.value is None for value in rows):
+                break
             Temp_data = {}
             
             for title,cell in zip(Headers,rows):
@@ -868,7 +869,7 @@ def Import_File (admin):
                 
             data.append(Temp_data)
             
-        
+
     else:
         return redirect('/admin-students')
     
@@ -904,7 +905,7 @@ def Import_File (admin):
 
             # datetime_object = datetime.strptime("", "%B %d %Y")
             # string = datetime_object.strftime("%Y-%m-%d %H:%M:%S")
-                
+            
             dt = datetime.now()
             Phone = Clean_Data(each_user.get("Phone","None")).Phone_Num_Clean()
             Email = each_user.get("Email","None")
@@ -917,6 +918,9 @@ def Import_File (admin):
             Mode = each_user.get('Mode','None')
             Payment_Date = Entry_Date
             Department = each_user.get("Branch","None")
+            
+            if First_Name and Register_Number == None:
+                continue
             
             # cursor.execute("SELECT First_Name FROM students WHERE Phone = %s AND Register_Number = %s AND Course_Name = %s;",(Phone,Register_Number,Course_Name,))
             # if_data_exist = cursor.fetchall()
@@ -944,7 +948,7 @@ def Import_File (admin):
                     Email , Register_Number, Institution_Name, Mode,Course_Name,
                     Total, Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department) 
                     VALUES(IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"),IFNULL(%s,"Not defined"));"""
-                    ,(First_Name,Last_Name,Phone,Email,Register_Number.upper(),Institution_Name,
+                    ,(First_Name,Last_Name,Phone,Email,str(Register_Number).upper(),Institution_Name,
                     Mode,Course_Name.lower(),Total,Entry_Date,Payment_Status,Inst_Key,Password,Payment_Date,Batch,Department))
         
         

@@ -1,16 +1,33 @@
 # from Email import Certificate_Email
-import csv
+# import csv
+from openpyxl import load_workbook
 from time import sleep
 
 Students_Data = []
 index = 0
 Data_Len = None
 
-with open("iotonlineoctnovDLithe.csv", "r") as file:
-    File = csv.DictReader(file)
+# with open("iotonlineoctnovDLithe.csv", "r") as file:
+#     File = csv.DictReader(file)
 
-    for row in File:
-        Students_Data.append(row)
+#     for row in File:
+#         Students_Data.append(row)
+
+Book = load_workbook('NitteIot2024.xlsx')
+Sheet = Book.active
+
+Rows = Sheet.rows
+
+Headers = [cell.value for cell in next(Rows)]
+
+for rows in Rows:
+    Temp_data = {}
+    
+    for title,cell in zip(Headers,rows):
+        Temp_data[title] = cell.value
+        
+    Students_Data.append(Temp_data)
+    
         
 Data_Len = len(Students_Data)
 

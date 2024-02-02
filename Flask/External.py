@@ -121,4 +121,4 @@ class Pdf_Certificate :
         
    
 if __name__ =="__main__":
-    Pdf_Certificate('Nisarga M K Bakale','1DS22MC085',"Jain College of Engineering & Research, Belagavi","2023-10-27 00:00:00",'2023-11-27 00:00:00',"Nov2023aiml23456","iot").Print()
+    Pdf_Certificate('Krishna Pareek','1DT22MC023',"Dayananda Sagar Academy Of Technology & Management, Banglore","2023-10-27 00:00:00",'2023-11-27 00:00:00',"Nov2023aiml23456","aiml").Print()

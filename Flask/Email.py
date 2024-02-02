@@ -54,8 +54,8 @@ www.dlithe.com
                     Collage = datas['College']
                     Start = "2023-10-27 00:00:00"
                     End = "2023-11-27 00:00:00"
-                    Certificate_Id = Certificat_Number_Generator("iot","2023-11-27 00:00:00").Generate()
-                    Course_Name = "iot"
+                    Certificate_Id = Certificat_Number_Generator("aiml","2023-11-27 00:00:00").Generate()
+                    Course_Name = "aiml"
                     User_Email = datas['Email']
                     
                     Email = EmailMessage()
@@ -96,4 +96,4 @@ www.dlithe.com
          
         
 if __name__ == "__main__":   
-    Certificate_Email([{'Name' :'Rohit Arvind Bakale','Usn':'2JR21CS072','Email':'rohitkumar@gmail.com','College':"Jain College of Engineering & Research, Belagavi"}]).Send()
+    Certificate_Email([{'Name' :'Umar Shariff','Usn':'1DT22MC053','Email':'umarshariff91@gmail.com','College':"Dayananda Sagar Academy Of Technology & Management, Bangalore"}]).Send()
